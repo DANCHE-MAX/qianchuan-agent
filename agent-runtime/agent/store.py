@@ -120,26 +120,50 @@ class Store:
         return {r["state"]: r["n"] for r in cur.fetchall()}
 
     def apply_feedback(self, rows):
-        """把人工填写的反馈回填到 decision 表。"""
-        count = 0
-        for r in rows:
-            if not r.get("decision_id"):
-                continue
-            self.conn.execute(
-                """UPDATE decision SET adopted = ?, adopt_note = ?,
-                   final_budget = ?, result_2h = ?, result_24h = ?
-                   WHERE decision_id = ?""",
-                (
-                    r.get("adopted"), r.get("adopt_note"),
-                    _to_float(r.get("final_budget")),
-                    _to_float(r.get("result_2h")),
-                    _to_float(r.get("result_24h")),
-                    r["decision_id"],
-                ),
-            )
-            count += 1
-        self.conn.commit()
-        return count
+        """Partial CSV updates with per-row validation and append-only change audit."""
+        import json, math
+        from datetime import datetime, timezone
+        fields = ('adopted', 'adopt_note', 'final_budget', 'result_2h', 'result_24h')
+        result = dict(updated=0, unmatched=0, invalid=0, unchanged=0, details=[])
+        with self.conn:
+            self.conn.execute("""CREATE TABLE IF NOT EXISTS feedback_import_audit (
+                id INTEGER PRIMARY KEY, decision_id TEXT NOT NULL, at TEXT NOT NULL,
+                before_json TEXT NOT NULL, after_json TEXT NOT NULL)""")
+            for index, row in enumerate(rows, 2):
+                identity = str(row.get('decision_id') or '').strip()
+                detail = {'row': index, 'decision_id': identity}
+                changes = {}
+                try:
+                    if not identity: raise ValueError('缺少decision_id')
+                    for field in fields:
+                        value = row.get(field)
+                        if value is None or str(value).strip() == '': continue
+                        value = str(value).strip()
+                        if field == 'adopted' and value not in ('adopted', 'modified', 'rejected'):
+                            raise ValueError('采纳状态无效')
+                        if field in ('final_budget', 'result_2h', 'result_24h'):
+                            try: value = float(value)
+                            except (ValueError, OverflowError): raise ValueError('金额或结果不是有效数字') from None
+                            if not math.isfinite(value) or (field == 'final_budget' and value < 0):
+                                raise ValueError('金额或结果超出有效范围')
+                        changes[field] = value
+                    found = self.conn.execute('SELECT * FROM decision WHERE decision_id=?', (identity,)).fetchone()
+                    if found is None:
+                        status = 'unmatched'
+                    else:
+                        before = {key: found[key] for key in fields}
+                        changes = {k:v for k,v in changes.items() if before[k] != v}
+                        status = 'updated' if changes else 'unchanged'
+                        if changes:
+                            self.conn.execute('UPDATE decision SET '+', '.join(k+'=?' for k in changes)+' WHERE decision_id=?',
+                                              (*changes.values(), identity))
+                            self.conn.execute('INSERT INTO feedback_import_audit(decision_id,at,before_json,after_json) VALUES (?,?,?,?)',
+                                              (identity, datetime.now(timezone.utc).isoformat(), json.dumps(before,ensure_ascii=False),
+                                               json.dumps(dict(before,**changes),ensure_ascii=False)))
+                except ValueError as exc:
+                    status = 'invalid'; detail['reason'] = str(exc)
+                result[status] += 1; detail['status'] = status; result['details'].append(detail)
+        return result
 
     # ---------- 余额 ----------
     def save_balance(self, account, balance, updated_at):

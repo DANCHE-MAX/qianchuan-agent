@@ -173,6 +173,10 @@ def answer_chat(notifier, command, env, context, knowledge=None):
 
 def reply_command(notifier, message_id, command, outdir=None, env=None, context=None, memory=None):
     context = context or {}
+    from . import feedback
+    if feedback.matches(command):
+        root = Path(outdir).parent if outdir else BASE
+        return feedback.reply(notifier, message_id, command, root, env if env is not None else load_env(), context)
     from . import collection_rates
     if collection_rates.matches(command):
         root = Path(outdir).parent if outdir else BASE

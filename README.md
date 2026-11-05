@@ -25,3 +25,10 @@ PYTHONPATH=src python -m unittest discover -s tests
 安装 Gitleaks 后运行 `gitleaks dir . --redact=100`；提交前核对 `git diff --cached`。`.gitignore` 不会清除已跟踪文件，也不能替代密钥扫描。
 
 本地提交防护：`git config core.hooksPath .githooks`。推送前会检查已跟踪文件并扫描整个提交历史；若没有安装 Gitleaks，推送会停止。可通过 `GITLEAKS_BIN` 指定安装位置。
+
+
+## 投手反馈闭环（第一期）
+
+新增建议编号、群内身份核验、采纳/暂缓/拒绝/自报执行记录、只读预算核验和查询复盘。复用已有群与投手配置；独立数据库，不接入预算写入链路。默认登记预览，不主动发群。
+
+使用方法、数据边界及CSV修复：[投手反馈闭环第一期](docs/feedback-phase1.md)。本期代码未自动部署到生产。

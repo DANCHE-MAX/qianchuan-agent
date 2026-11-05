@@ -436,10 +436,11 @@ def cmd_feedback(args):
         print("反馈表为空（%s）" % (args.file or "data/feedback.csv"))
         print("表头：decision_id,adopted,adopt_note,final_budget,result_2h,result_24h")
         return 1
-    count = store.apply_feedback(rows)
-    print("已回填 %d 条反馈到 decision 表" % count)
-    print("adopted 取值：adopted / modified / rejected")
-    return 0
+    import json
+    result = store.apply_feedback(rows)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    print("adopted 取值：adopted / modified / rejected；空白字段保留原值")
+    return 1 if result["unmatched"] or result["invalid"] else 0
 
 
 def cmd_listen(args):
