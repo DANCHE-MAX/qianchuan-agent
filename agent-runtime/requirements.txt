@@ -1,2 +1,4 @@
 # Tested Feishu SDK. Optional PDF ingestion: install pypdf separately.
 lark-oapi==1.7.5
+# Media upload/download for verified daily-report delivery.
+requests==2.34.2

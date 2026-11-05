@@ -27,6 +27,8 @@ def options(root):
     path = Path(root)/'config/daily_brief.json'
     value = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {}
     cfg = dict(DEFAULTS, **value)
+    if type(cfg.get('profit_report', False)) is not bool:
+        raise ValueError('利润日报开关须为布尔值')
     for name, low, high in (('hour', 0, 23), ('minute', 0, 59), ('catch_up_minutes', 1, 720),
                            ('retry_seconds', 10, 3600), ('max_plans', 1, 5), ('failure_notice_after', 1, 20), ('max_operations', 1, 10)):
         if type(cfg[name]) is not int or not low <= cfg[name] <= high:
@@ -87,6 +89,9 @@ def render(report, max_plans=2, max_operations=3):
 
 
 def prepare(root, env, now, cfg, opts):
+    if opts.get('profit_report', False):
+        from . import profit_daily
+        return profit_daily.prepare(root, env, now, cfg, opts)
     account = hourly.account_id(env)
     end = (now.date()-timedelta(days=1)).isoformat()
     # Shares the existing generator lock to avoid concurrent writes to source snapshots.
@@ -151,7 +156,11 @@ class Engine:
                         cfg = settings.load_config(self.root/'config/rules.json')
                         rendered = prepare(self.root, self.env, now, cfg, opts)
                         db.execute('UPDATE jobs SET payload=? WHERE account=? AND day=?', (json.dumps(rendered,ensure_ascii=False),account,end)); db.commit()
-                    self.notifier_factory(chat).send_card(rendered, request_uuid=uuid)
+                    if rendered.get('type') == 'profit_bundle':
+                        from .profit_delivery import deliver
+                        deliver(rendered, self.notifier_factory(chat), uuid)
+                    else:
+                        self.notifier_factory(chat).send_card(rendered, request_uuid=uuid)
                     db.execute('UPDATE jobs SET sent=1,last_error=NULL WHERE account=? AND day=?', (account,end)); db.commit()
                     return True
                 except Exception as exc:

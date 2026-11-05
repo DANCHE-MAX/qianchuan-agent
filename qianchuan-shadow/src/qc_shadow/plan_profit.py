@@ -83,7 +83,7 @@ def report(inventory, daily, no_spend, policy, *, date):
                          evidence=zeros.get(pid) or (raw or {}).get('source')))
     rows.sort(key=lambda r: (r['profit'] is None, -Decimal(r['profit'] or '0'), r['name']))
     valid = [r for r in rows if r['profit'] is not None]
-    totals = {key: str(sum((Decimal(r[key]) for r in valid), Decimal(0)))
+    totals = {key: str(sum((Decimal(r[key]) for r in valid), Decimal(0))) if valid else None
               for key in ('gmv', 'spend', 'profit')}
     return dict(version=VERSION, date=date, rows=rows, totals_calculable_only=totals,
                 calculable=len(valid), missing_profit=len(rows)-len(valid),

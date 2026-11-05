@@ -4,7 +4,7 @@ names=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
 blocked=[]
 for name in filter(None,names):
  p=pathlib.PurePosixPath(name)
- private_dirs={'data','evidence','reports','out','outputs','_update_backups','.venv'}
+ private_dirs={'data','evidence','reports','out','outputs','_update_backups','.venv','node_modules'}
  bad=(bool(private_dirs.intersection(p.parts)) or
       (p.name.startswith('.env') and p.name!='.env.example') or
       ('config' in p.parts and p.name!='.env.example') or
