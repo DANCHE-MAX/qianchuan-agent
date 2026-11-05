@@ -1,0 +1,84 @@
+"""Versioned, explicit evidence contract; unknown is never zero."""
+from datetime import date, datetime
+from decimal import Decimal
+from typing import Literal
+from pydantic import BaseModel, ConfigDict, Field, AwareDatetime
+
+class Contract(BaseModel):
+    model_config=ConfigDict(extra='forbid',allow_inf_nan=False)
+class Daily(Contract):
+    day: date
+    spend: Decimal|None=Field(default=None,ge=0)
+    gmv: Decimal|None=Field(default=None,ge=0)
+    orders: int|None=Field(default=None,ge=0,strict=True)
+    complete: bool=False
+    evidence: str=''
+class Budget(Contract):
+    baseline: Decimal|None=Field(default=None,gt=0)
+    current: Decimal|None=Field(default=None,ge=0)
+    mode: str|None=None
+    baseline_evidence: str=''
+    verified: bool=False
+    quantum: Decimal|None=Field(default=None,gt=0)
+    precision_verified: bool=False
+    last_changed_at: AwareDatetime|None=None
+    manual_changed: bool=False
+class Balance(Contract):
+    available: Decimal|None=None
+    verified: bool=False
+class State(Contract):
+    stage: Literal['initial','to7','to15','to30','passed']='initial'
+    qualified_before: bool=False
+    protected_until: date|None=None
+    protection_evidence: str=''
+    protection_granted_at: AwareDatetime|None=None
+    evaluated_nodes: list[int]=Field(default_factory=list)
+    recovery_until: date|None=None
+    recovery_evidence: str=''
+    exempt_rules: list[str]=Field(default_factory=list)
+    assistant_increases: int=Field(default=0,ge=0)
+    pending_request_id: str|None=None
+    rejected_at: AwareDatetime|None=None
+    last_weekly_reminder_at: AwareDatetime|None=None
+class Approval(Contract):
+    request_id: str
+    account_id: str
+    plan_id: str
+    before: Decimal
+    after: Decimal
+    rule_version: str
+    issued_at: AwareDatetime
+    expires_at: AwareDatetime
+    status: Literal['pending','approved','rejected','invalidated']='pending'
+    actor_id: str|None=None
+    expected_actor_id: str
+    identity_verified: bool=False
+    evidence: str=''
+class Evaluation(Contract):
+    account_id: str
+    plan_id: str
+    scope: str
+    as_of: AwareDatetime
+    simulation: bool=False
+    evaluation_kind: Literal['daily','intraday']='daily'
+    daily_assessment_evidence: str=''
+    daily_assessed_through: date|None=None
+    rule_live_on: date|None=None
+    first_enabled_on: date|None=None
+    first_enabled_evidence: str=''
+    daily: list[Daily]=Field(default_factory=list)
+    refund_rate: Decimal|None=Field(default=None,ge=0,le=1)
+    refund_band: str|None=None
+    refund_verified: bool=False
+    model_version: str|None=None
+    state: State=Field(default_factory=State)
+    budget: Budget=Field(default_factory=Budget)
+    balance: Balance=Field(default_factory=Balance)
+    platform_active: bool|None=None
+    platform_verified: bool=False
+    today_spend: Decimal|None=Field(default=None,ge=0)
+    platform_budget_limited: bool=False
+    intraday_verified: bool=False
+    approval: Approval|None=None
+    waiver_approved: bool=False
+    waiver_evidence: str=''

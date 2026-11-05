@@ -1,0 +1,36 @@
+# Runtime credentials and all backups
+.env
+.env.*
+!.env.example
+**/config/*
+!**/config/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.bak
+*.bak*
+*_backups/
+_update_backups/
+# Private business data, imports, reports and archives
+**/data/
+**/evidence/
+**/reports/
+**/out/
+**/outputs/
+*.db
+*.db-*
+*.sqlite*
+*.log
+*.xlsx
+*.xls
+*.csv
+*.zip
+*.tar*
+# Local tooling
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.DS_Store
+.pytest_cache/

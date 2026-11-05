@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "qianchuan-shadow"
+version = "0.2.0"
+requires-python = ">=3.12"
+dependencies = ["fastapi==0.162.0", "uvicorn==0.54.0"]
+[project.optional-dependencies]
+test = ["httpx==0.28.1"]
+[tool.setuptools.packages.find]
+where = ["src"]
