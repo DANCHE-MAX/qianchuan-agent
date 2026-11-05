@@ -167,6 +167,8 @@ def matches(command):
 
 
 def publish(service,identity,notifier):
+    if (service.ledger.path.parent.parent/'config/feedback.paused').exists():
+        return {'status':'paused','id':identity}
     p=service.scoped(identity)
     state=service.ledger.delivery_state(identity)
     if state!='draft':return {'status':state,'id':identity}
@@ -205,6 +207,7 @@ def authorized_message(notifier,mid,service,now):
 def reply(notifier,message_id,command,root,env,context):
     from .settings import load_config
     root=Path(root);context=context or {}
+    if (root/'config/feedback.paused').exists():return None
     cfg=load_config(root/'config/rules.json')
     account=str(env.get('QC_ADVERTISER_IDS','')).strip()
     chat=env.get('FEISHU_ALERT_CHAT_ID') or env.get('FEISHU_CHAT_ID')
