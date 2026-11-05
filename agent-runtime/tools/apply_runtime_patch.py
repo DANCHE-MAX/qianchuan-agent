@@ -218,7 +218,9 @@ def rollback(project, bundle, backup):
     bundle, manifest, manifest_hash = load_bundle(bundle)
     backup_parent = inside(project, '_update_backups')
     backup = Path(backup).absolute()
-    if backup.parent != backup_parent or redirected(backup):
+    # Canonicalize ancestor aliases (e.g. macOS /var -> /private/var),
+    # but never accept a redirected backup directory or backup parent itself.
+    if redirected(backup) or redirected(backup.parent) or backup.parent.resolve() != backup_parent:
         raise PatchError('Backup must be a real direct child of project/_update_backups')
     backup = root_path(backup)
     journal = json.loads(inside(backup, 'journal.json').read_bytes())

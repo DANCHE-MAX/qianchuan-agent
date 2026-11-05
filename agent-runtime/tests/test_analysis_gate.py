@@ -240,14 +240,32 @@ class Tests(unittest.TestCase):
         self.assertEqual(info['数据完整性检查']['components']['snapshot'],'stale')
 
     def test_status_send_timeout_retry_reuses_uuid(self):
+        # This test exercises enabled notifications, independently of live quiet mode.
+        cfg=copy.deepcopy(self.cfg);cfg['monitoring']['observation_notices_enabled']=True
+        (self.root/'config/rules.json').write_text(json.dumps(cfg),encoding='utf-8')
         nf=Mock();nf.send_card.side_effect=[TimeoutError(),None]
         balance={'advertiser_id':'999','fetched_at':NOW.isoformat(),'amounts_yuan':{'account_total':'1000','account_valid':'1000','account_frozen':'0'}}
         def fetch(env,kind,at):return series()[-1] if kind=='plan' else snapshot(at,[],kind)
         with patch.object(m,'fetch_snapshot',side_effect=fetch),patch.object(m.account_balance,'fetch',return_value=balance):
             with self.assertRaises(TimeoutError):m.Engine(self.root,ENV,lambda chat:nf).tick(NOW)
             first=nf.send_card.call_args.kwargs['request_uuid']
+            self.assertEqual(len(self.store.pending('999')),1)
             m.Engine(self.root,ENV,lambda chat:nf).tick(NOW+timedelta(minutes=1))
         self.assertEqual(nf.send_card.call_count,2);self.assertEqual(nf.send_card.call_args.kwargs['request_uuid'],first)
+        self.assertEqual(self.store.pending('999'),[])
+
+    def test_quiet_tick_records_status_without_sending_observation(self):
+        cfg=copy.deepcopy(self.cfg);cfg['monitoring']['observation_notices_enabled']=False
+        (self.root/'config/rules.json').write_text(json.dumps(cfg),encoding='utf-8')
+        nf=Mock()
+        balance={'advertiser_id':'999','fetched_at':NOW.isoformat(),'amounts_yuan':{'account_total':'1000','account_valid':'1000','account_frozen':'0'}}
+        def fetch(env,kind,at):return series()[-1] if kind=='plan' else snapshot(at,[],kind)
+        with patch.object(m,'fetch_snapshot',side_effect=fetch),patch.object(m.account_balance,'fetch',return_value=balance):
+            m.Engine(self.root,ENV,lambda chat:nf).tick(NOW)
+        nf.send_card.assert_not_called()
+        self.assertEqual(self.store.pending('999'),[])
+        with self.store.db() as db:
+            self.assertGreater(db.execute('SELECT count(*) FROM analysis_history').fetchone()[0],0)
 
     def test_llm_false_all_clear_is_replaced_with_grounded_totals(self):
         self.store.save_snapshot(series()[-1]);info=json.loads(m.today_context(self.root,ENV,'目前',NOW))

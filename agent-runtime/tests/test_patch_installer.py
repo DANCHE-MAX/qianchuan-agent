@@ -22,7 +22,7 @@ class InstallerTests(unittest.TestCase):
         self.updater = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.updater)
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         self.project = self.root/'cloud'; self.bundle = self.root/'bundle'
         for group in ('agent', 'tests', 'tools', 'config', 'data', 'out'):
             (self.project/group).mkdir(parents=True)
@@ -76,6 +76,37 @@ class InstallerTests(unittest.TestCase):
         for path, data in original.items(): self.assertEqual((self.project/path).read_bytes(), data)
         self.assertFalse((self.project/'agent/new.py').exists())
         self.assertEqual(self.command('rollback', '--services-stopped', '--backup', backups[0]).returncode, 0)
+
+    def test_rollback_accepts_ancestor_alias_for_same_backup(self):
+        # macOS /var -> /private/var is one real-world ancestor alias.
+        self.assertEqual(self.command('apply', '--services-stopped').returncode, 0)
+        backup = next((self.project/'_update_backups').glob('runtime-test-*'))
+        alias = self.root/'ancestor-alias'
+        try: alias.symlink_to(self.root, target_is_directory=True)
+        except OSError: self.skipTest('Host cannot create symlinks')
+        aliased_backup = alias/'cloud'/'_update_backups'/backup.name
+        result = self.command('rollback', '--services-stopped', '--backup', aliased_backup)
+        self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
+        self.assertEqual((self.project/'agent/a.py').read_bytes(), b'old-a\n')
+        self.assertFalse((self.project/'agent/new.py').exists())
+        self.assertEqual((self.project/'config/.env').read_bytes(), b'private-credential')
+        self.assertEqual((self.project/'data/runtime.db').read_bytes(), b'live-database-sentinel')
+
+    def test_rollback_rejects_redirected_backup_or_parent_without_writes(self):
+        self.assertEqual(self.command('apply', '--services-stopped').returncode, 0)
+        backup = next((self.project/'_update_backups').glob('runtime-test-*'))
+        link = backup.parent/'backup-link'
+        parent_link = self.root/'backups-link'
+        try:
+            link.symlink_to(backup, target_is_directory=True)
+            parent_link.symlink_to(backup.parent, target_is_directory=True)
+        except OSError: self.skipTest('Host cannot create symlinks')
+        before = self.tree()
+        for candidate in (link, parent_link/backup.name):
+            with self.subTest(candidate=candidate):
+                result = self.command('rollback', '--services-stopped', '--backup', candidate)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(self.tree(), before)
 
     def test_source_conflict_does_not_write_any_other_target(self):
         (self.project/'agent/b.py').write_bytes(b'cloud-hotfix\n')
