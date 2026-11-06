@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
   d=data('2026-01-02');t.reconcile_main(d,{'rows':[{'plan_id':'1','gmv':'100','spend':'999'}]})
   self.assertFalse(d['complete']);self.assertIn('日报',str(d['warnings']))
  def test_daily_prepare_attaches_only_for_scheduled_new_bundle(self):
-  with tempfile.TemporaryDirectory() as root,patch('agent.profit_daily.prepare',return_value={'type':'profit_bundle'}) as prep,patch.object(t,'attach',return_value={'type':'profit_bundle','extra':True}) as attach:
+  with tempfile.TemporaryDirectory() as root,patch('agent.profit_daily.prepare',return_value={'type':'profit_bundle'}) as prep,patch.object(t,'attach',return_value={'type':'profit_bundle','extra':True}) as attach,patch('agent.daily_guide.attach',side_effect=lambda root,env,now,bundle:bundle):
    v=daily_brief.prepare(root,{},datetime(2026,1,3,10,tzinfo=timezone(timedelta(hours=8))),{}, {'profit_report':True})
    self.assertTrue(v['extra']);attach.assert_called_once()
  def test_midnight_sender_retired(self):
@@ -56,7 +56,7 @@ class Tests(unittest.TestCase):
   import hashlib
   with tempfile.TemporaryDirectory() as tmp:
    root=Path(tmp);files=[]
-   for name,kind in [('main.png','image'),('main.xlsx','file'),('stack.png','image'),('pies.png','image')]:
+   for name,kind in [('guide.png','image'),('main.png','image'),('main.xlsx','file'),('stack.png','image'),('pies.png','image')]:
     path=root/name;path.write_bytes(name.encode());files.append({'kind':kind,'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
    bundle={'directory':tmp,'date':'2026-01-02','text':'2026-01-02 daily','actors':['ou_synthetic'],'files':files}
    api=Mock();api.chat_id='oc_synthetic';api.BASE='https://example.invalid';api._tenant_token.return_value='synthetic';messages={}
@@ -70,6 +70,8 @@ class Tests(unittest.TestCase):
    with patch.object(profit_delivery.requests,'get',return_value=Mock(status_code=200,content=b'main.xlsx')):
     self.assertTrue(profit_delivery.deliver(bundle,api,'fixed',upload_fn=upload)['complete'])
     self.assertTrue(profit_delivery.deliver(bundle,api,'fixed',upload_fn=upload)['complete'])
-   self.assertEqual(api._send.call_count,5)
-   self.assertEqual(len({c.kwargs['request_uuid'] for c in api._send.call_args_list}),5)
+   self.assertEqual(api._send.call_count,6)
+   self.assertEqual(sum('<at user_id=' in json.dumps(c.args[1]) for c in api._send.call_args_list),1)
+   self.assertEqual(api._send.call_args_list[1].args[1]['image_key'],'guide.png')
+   self.assertEqual(len({c.kwargs['request_uuid'] for c in api._send.call_args_list}),6)
 if __name__=='__main__':unittest.main()

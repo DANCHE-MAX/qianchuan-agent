@@ -53,7 +53,7 @@ class Tests(unittest.TestCase):
  def test_both_balance_categories_use_only_existing_operator(self):
   cfg={'notify':{'roles':{'投手':['ou_synthetic'],'老板':[]}},'monitoring':{'at_roles':{'balance_check':['投手'],'balance_alert':['投手']}}}
   for category in ['balance_check','balance_alert']:
-   card=monitor.add_mentions({'elements':[]},cfg,category)
+   card=monitor.add_mentions({'elements':[]},cfg,category,now=datetime(2026,1,3,16,tzinfo=generation.CHINA))
    self.assertIn('<at id="ou_synthetic">',json.dumps(card,ensure_ascii=False).replace('\\"','"'))
 
 if __name__=='__main__':unittest.main()
