@@ -285,11 +285,15 @@ class Engine:
                     rate=balance_rate(samples,latest)
                     rendered=balance_notice(latest,rate)
                     category='balance_alert' if rendered['header']['template']=='red' else 'balance_check'
+                    from . import balance_comparison
+                    rendered=balance_comparison.attach(self.root,self.store,account,now,latest,rendered)
                     self.store.enqueue(key,account,now,add_mentions(rendered,config,category))
                     if rendered['header']['template']=='red':covered_notice=key
                 elif not self.store.exists(key) and latest is None:
                     rendered=card('千川余额｜检查失败',[
                         text_element('%s（北京时间）｜当前余额读取失败，暂无法估算可用时长。请核对资金，系统将重试。'%now.strftime('%H:%M'))],template='red')
+                    from . import balance_comparison
+                    rendered=balance_comparison.attach(self.root,self.store,account,now,None,rendered)
                     self.store.enqueue(key+':unavailable',account,now,add_mentions(rendered,config,'balance_alert'))
             if latest:
                 from . import balance_watch
@@ -311,7 +315,12 @@ class Engine:
                     continue
                 if key.startswith('anomaly26:') and not gate.allow_pending(self.store,key,account,admissions):continue
                 uuid=hashlib.sha256((chat+':'+key).encode()).hexdigest()[:40]
-                notifier.send_card(json.loads(payload),request_uuid=uuid)
+                rendered=json.loads(payload)
+                if '_balance_comparison' in rendered:
+                    from . import balance_comparison
+                    balance_comparison.deliver(self.root,notifier,key,rendered,uuid)
+                else:
+                    notifier.send_card(rendered,request_uuid=uuid)
                 self.store.mark_sent(key)
             if errors:raise RuntimeError('部分监测采集未完成，将重试')
 
