@@ -332,6 +332,12 @@ class Engine:
                 problem=type(exc).__name__
                 if problem!=self.last_problem:print('半小时监测/余额检查暂未完成，将重试（%s）。'%problem,flush=True)
                 self.last_problem=problem
+            try:
+                from . import product_spend_daily
+                product_spend_daily.tick(self)
+            except Exception as exc:
+                # Separate report ledger; do not interfere with monitoring or resend uncertain messages.
+                print('凌晨商品消耗对比待核验（%s）。'%type(exc).__name__,flush=True)
             self.stopping.wait(60)
 
     def start(self):

@@ -154,6 +154,7 @@ class Tests(unittest.TestCase):
     def test_alert_mentions_are_native_deduplicated_and_category_specific(self):
         cfg=copy.deepcopy(self.cfg)
         cfg['notify']['roles']={'投手':['ou_trader','ou_trader','bad<id>','all'],'老板':['owner@example.com']}
+        cfg['monitoring']['at_roles']={'anomaly':['投手'],'balance_alert':['老板'],'balance_check':[]}  # Synthetic policy, independent of local production roles.
         abnormal=m.add_mentions(m.card('异常',[]),cfg,'anomaly')
         content=abnormal['elements'][-1]['text']
         self.assertEqual(content['tag'],'lark_md')
