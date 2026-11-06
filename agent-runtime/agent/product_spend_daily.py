@@ -29,27 +29,32 @@ def parse(rows,day,metric,mapping):
     return result
 
 
-def collect(env,days,evidence):
+def collect(env,days,evidence,*,include_gmv=False):
     result=[]
     for day in days:
         common={'advertiser_id':hourly.account_id(env),'start_time':day+' 00:00:00','end_time':day+' 23:59:59'}
-        allrows=[];warnings=[];complete=True;seen_plans=set()
+        allrows=[];warnings=[];complete=True;seen_plans=set();inventory=set();inventory_complete=True
         for scene,topic,metric,hourdim in [('OVERALL_PROJECT','OVERALL_ROI_PRODUCT_PROJECT','stat_cost_for_roi2','range_stat_time_hour'),('UNI_PROJECT','SITE_PROMOTION_PRODUCT_AD','stat_cost','stat_time_hour')]:
             mapping={}
             try:
                 ads,_=p.pages(env,p.LIST,dict(common,marketing_goal='VIDEO_PROM_GOODS',adlab_scene=scene,filtering={'status':'ALL'}),evidence,day+'-'+scene+'-inventory')
                 for ad in ads:
+                    inventory.add(str(ad['ad_info']['id']))
                     products=ad.get('product_info') or []
                     if len(products)==1 and products[0].get('product_id') and products[0].get('product_name'):
                         mapping[str(ad['ad_info']['id'])]={'id':str(products[0]['product_id']),'name':products[0]['product_name']}
-            except Exception:warnings.append(scene+'商品关联待核验')
-            args=dict(common,data_topic=topic,metrics=[metric],filters=[],order_by=[])
+            except Exception:
+                inventory_complete=False;warnings.append(scene+'商品关联待核验')
+            args=dict(common,data_topic=topic,metrics=[metric,p.GMV] if include_gmv else [metric],filters=[],order_by=[])
             try:
                 rows,_=p.pages(env,p.REPORT,dict(args,dimensions=['ad_id','stat_time_day',hourdim]),evidence,day+'-'+scene+'-hours')
                 totals,_=p.pages(env,p.REPORT,dict(args,dimensions=[]),evidence,day+'-'+scene+'-total')
                 parsed=parse(rows,day,metric,mapping)
                 if len(totals)!=1:raise ValueError('Aggregate unavailable')
                 if sum((amount(r['amount']) for r in parsed),Decimal(0))!=amount(totals[0]['metrics'][metric]['Value']):raise ValueError('Reconciliation mismatch')
+                if include_gmv:
+                    if sum((amount(r['metrics'][p.GMV]['Value']) for r in rows),Decimal(0))!=amount(totals[0]['metrics'][p.GMV]['Value']):raise ValueError('GMV reconciliation mismatch')
+                    for raw,item in zip(rows,parsed):item['gmv']=str(amount(raw['metrics'][p.GMV]['Value']))
                 ids={r['plan'] for r in parsed}
                 if ids & seen_plans:raise ValueError('Overlapping report scopes')
                 seen_plans.update(ids);allrows.extend(parsed)
@@ -59,7 +64,7 @@ def collect(env,days,evidence):
             live,_=p.pages(env,p.REPORT,dict(common,data_topic='OVERALL_ROI_LIVE_AWEME',dimensions=[],metrics=['stat_cost'],filters=[],order_by=[]),evidence,day+'-live-total')
             if len(live)!=1 or amount(live[0]['metrics']['stat_cost']['Value'])!=0:warnings.append('直播消耗未纳入，覆盖待核验')
         except Exception:warnings.append('直播消耗覆盖待核验')
-        result.append({'day':day,'rows':allrows,'complete':complete,'warnings':warnings})
+        result.append({'day':day,'rows':allrows,'complete':complete,'warnings':warnings,'inventory':sorted(inventory),'inventory_complete':inventory_complete})
     return result
 
 
@@ -97,31 +102,5 @@ def prepare(root,env,days,directory,actors):
 
 
 def tick(engine,now=None):
-    now=now or hourly.now_china()
-    if now.tzinfo is None:raise ValueError('Aware time required')
-    now=now.astimezone(hourly.CHINA);root=Path(engine.root)
-    # Only this midnight window, never replay an old day's report on daytime startup.
-    if now.hour!=0 or not (root/'config/profit_daily.json').exists():return False
-    cfg=settings.load_config(root/'config/rules.json')
-    if not cfg.get('monitoring',{}).get('enabled'):return False
-    account=hourly.account_id(engine.env);midnight=now.replace(minute=0,second=0,microsecond=0)
-    samples=engine.store.balances(account,midnight-timedelta(minutes=5))
-    from .balance_cycle import stamp
-    if not any(str(s.get('advertiser_id'))==account and midnight<=stamp(s['fetched_at'])<=midnight+timedelta(minutes=5) for s in samples):return False
-    chat=engine.env.get('FEISHU_ALERT_CHAT_ID') or engine.env.get('FEISHU_CHAT_ID')
-    allowed=feishu_allowed_chat_ids(engine.env) or [engine.env.get('FEISHU_CHAT_ID')]
-    if not chat or chat not in allowed:raise ValueError('Comparison chat not allowed')
-    actors=cfg.get('notify',{}).get('roles',{}).get('投手',[])
-    if not isinstance(actors,list) or not actors or not all(isinstance(x,str) and x.startswith('ou_') for x in actors):raise ValueError('Configured operator required')
-    days=[(now.date()-timedelta(days=i)).isoformat() for i in (2,1)]
-    directory=root/'out/product_spend_daily'/account/days[1];directory.mkdir(parents=True,exist_ok=True)
-    statefile=directory/'state.json'
-    with file_lock(directory/'job.lock'):
-        state=json.loads(statefile.read_text()) if statefile.exists() else {'account':account,'chat':chat,'days':days}
-        if (state['account'],state['chat'],state['days'])!=(account,chat,days):raise ValueError('Pinned comparison scope changed')
-        if state.get('sent'):return False
-        if not statefile.exists():p.save(statefile,state)
-        if 'bundle' not in state:
-            state['bundle']=prepare(root,engine.env,days,directory,actors);p.save(statefile,state)
-        deliver(state['bundle'],engine.notifier_factory(chat),hashlib.sha256((account+':'+days[1]+':product-spend').encode()).hexdigest())
-        state['sent']=True;p.save(statefile,state);return True
+    """Retired: both comparison images now travel with the scheduled daily bundle."""
+    return False

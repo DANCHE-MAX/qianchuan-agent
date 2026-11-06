@@ -90,8 +90,9 @@ def render(report, max_plans=2, max_operations=3):
 
 def prepare(root, env, now, cfg, opts):
     if opts.get('profit_report', False):
-        from . import profit_daily
-        return profit_daily.prepare(root, env, now, cfg, opts)
+        from . import profit_daily,two_day_daily
+        bundle=profit_daily.prepare(root, env, now, cfg, opts)
+        return two_day_daily.attach(root,env,now,bundle)
     account = hourly.account_id(env)
     end = (now.date()-timedelta(days=1)).isoformat()
     # Shares the existing generator lock to avoid concurrent writes to source snapshots.

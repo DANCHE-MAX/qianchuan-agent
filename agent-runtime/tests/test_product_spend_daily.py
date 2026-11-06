@@ -25,12 +25,7 @@ class Tests(unittest.TestCase):
   e=Mock();e.root=root;e.env={'QC_ADVERTISER_IDS':'123','FEISHU_CHAT_ID':'oc_synthetic'}
   e.store.balances.return_value=[{'advertiser_id':'123','fetched_at':'2026-01-03T00:00:05+08:00'}]
   return e
- def test_midnight_only_after_collection_reuses_bundle(self):
-  with tempfile.TemporaryDirectory() as tmp:
-   e=self.setup_engine(tmp);now=datetime(2026,1,3,0,1,tzinfo=CHINA)
-   with patch.object(s,'prepare',return_value={'date':'2026-01-02'}) as prep,patch.object(s,'deliver') as send:
-    self.assertTrue(s.tick(e,now));self.assertFalse(s.tick(e,now));self.assertEqual(prep.call_count,1);self.assertEqual(send.call_count,1)
-    self.assertEqual(prep.call_args.args[2],['2026-01-01','2026-01-02'])
+
  def test_missing_midnight_sample_or_daytime_no_send(self):
   with tempfile.TemporaryDirectory() as tmp:
    e=self.setup_engine(tmp)
@@ -38,12 +33,7 @@ class Tests(unittest.TestCase):
     self.assertFalse(s.tick(e,datetime(2026,1,3,12,tzinfo=CHINA)))
     e.store.balances.return_value=[]
     self.assertFalse(s.tick(e,datetime(2026,1,3,0,1,tzinfo=CHINA)));prep.assert_not_called()
- def test_retry_keeps_payload_and_no_wrong_chat(self):
-  with tempfile.TemporaryDirectory() as tmp:
-   e=self.setup_engine(tmp);now=datetime(2026,1,3,0,1,tzinfo=CHINA)
-   with patch.object(s,'prepare',return_value={'date':'2026-01-02'}) as prep,patch.object(s,'deliver',side_effect=[TimeoutError(),{}]) as send:
-    with self.assertRaises(TimeoutError):s.tick(e,now)
-    self.assertTrue(s.tick(e,now));self.assertEqual(prep.call_count,1)
+
  def test_collect_reconcile_failure_is_missing_not_zero(self):
   def pages(env,path,args,evidence,tag):
    if path==s.p.LIST:return [],[]
@@ -55,10 +45,5 @@ class Tests(unittest.TestCase):
    days=s.collect({'QC_ADVERTISER_IDS':'123'},['2026-01-01','2026-01-02'],Path(tmp))
    self.assertTrue(all(not d['complete'] for d in days))
    self.assertIsNone(s.build(days)['series'][0]['total']);self.assertIsNone(s.build(days)['unknown'])
- def test_changed_destination_is_rejected(self):
-  with tempfile.TemporaryDirectory() as tmp:
-   e=self.setup_engine(tmp);now=datetime(2026,1,3,0,1,tzinfo=CHINA)
-   with patch.object(s,'prepare',return_value={'date':'2026-01-02'}),patch.object(s,'deliver'):
-    s.tick(e,now);e.env['FEISHU_CHAT_ID']='oc_other'
-    with self.assertRaises(ValueError):s.tick(e,now)
+
 if __name__=='__main__':unittest.main()
