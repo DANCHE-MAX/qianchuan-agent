@@ -1,47 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="660" viewBox="0 0 960 660" role="img" aria-labelledby="title desc">
-<title id="title">两日商品贡献四宫格演示</title><desc id="desc">左侧仅为盈利商品的预计利润贡献，右侧为广告消耗占比。全部为虚构数据。</desc>
-<rect width="960" height="660" rx="16" fill="#f4f7fb"/>
-<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#203148">
-<text x="30" y="42" font-size="25" fill="#203148">两日对比｜钱花在哪里，盈利贡献来自哪里？</text>
-<text x="30" y="73" font-size="15" fill="#9b4b16">虚构演示数据 · 非真实报表 · 两天为完整自然日</text>
-<rect x="30" y="94" width="16" height="16" rx="3" fill="#3478bb"/>
-<text x="54" y="108" font-size="15" fill="#203148">商品 A</text>
-<rect x="180" y="94" width="16" height="16" rx="3" fill="#d38b36"/>
-<text x="204" y="108" font-size="15" fill="#203148">商品 B</text>
-<rect x="330" y="94" width="16" height="16" rx="3" fill="#c43d87"/>
-<text x="354" y="108" font-size="15" fill="#203148">全店托管（未拆分）</text>
-<rect x="24" y="129" width="444" height="204" rx="12" fill="#fff"/>
-<text x="42" y="158" font-size="19" fill="#203148">前天 · 盈利商品贡献</text>
-<path d="M 127 248 L 127.0 186.0 A 62 62 0 1 1 90.55731435786667 298.1590536512467 Z" fill="#3478bb" stroke="#fff" stroke-width="2"/>
-<text x="220" y="209" font-size="17" fill="#203148">商品 A  60%</text>
-<path d="M 127 248 L 90.55731435786667 298.1590536512467 A 62 62 0 0 1 126.99999999999999 186.0 Z" fill="#d38b36" stroke="#fff" stroke-width="2"/>
-<text x="220" y="241" font-size="17" fill="#203148">商品 B  40%</text>
-<text x="220" y="310" font-size="16" fill="#203148">盈利合计 ¥2,000</text>
-<rect x="492" y="129" width="444" height="204" rx="12" fill="#fff"/>
-<text x="510" y="158" font-size="19" fill="#203148">前天 · 广告消耗占比</text>
-<path d="M 595 248 L 595.0 186.0 A 62 62 0 0 1 595.0 310.0 Z" fill="#3478bb" stroke="#fff" stroke-width="2"/>
-<text x="688" y="209" font-size="17" fill="#203148">商品 A  50%</text>
-<path d="M 595 248 L 595.0 310.0 A 62 62 0 0 1 536.0344959897004 228.84094634875328 Z" fill="#d38b36" stroke="#fff" stroke-width="2"/>
-<text x="688" y="241" font-size="17" fill="#203148">商品 B  30%</text>
-<path d="M 595 248 L 536.0344959897004 228.84094634875328 A 62 62 0 0 1 595.0 186.0 Z" fill="#c43d87" stroke="#fff" stroke-width="2"/>
-<text x="688" y="273" font-size="17" fill="#203148">全店托管  20%</text>
-<text x="688" y="310" font-size="16" fill="#203148">消耗合计 ¥3,000</text>
-<rect x="24" y="349" width="444" height="204" rx="12" fill="#fff"/>
-<text x="42" y="378" font-size="19" fill="#203148">昨天 · 盈利商品贡献</text>
-<path d="M 127 468 L 127.0 406.0 A 62 62 0 0 1 163.44268564213334 518.1590536512467 Z" fill="#3478bb" stroke="#fff" stroke-width="2"/>
-<text x="220" y="429" font-size="17" fill="#203148">商品 A  40%</text>
-<path d="M 127 468 L 163.44268564213334 518.1590536512467 A 62 62 0 1 1 126.99999999999999 406.0 Z" fill="#d38b36" stroke="#fff" stroke-width="2"/>
-<text x="220" y="461" font-size="17" fill="#203148">商品 B  60%</text>
-<text x="220" y="530" font-size="16" fill="#203148">盈利合计 ¥2,500</text>
-<rect x="492" y="349" width="444" height="204" rx="12" fill="#fff"/>
-<text x="510" y="378" font-size="19" fill="#203148">昨天 · 广告消耗占比</text>
-<path d="M 595 468 L 595.0 406.0 A 62 62 0 0 1 631.4426856421334 518.1590536512467 Z" fill="#3478bb" stroke="#fff" stroke-width="2"/>
-<text x="688" y="429" font-size="17" fill="#203148">商品 A  40%</text>
-<path d="M 595 468 L 631.4426856421334 518.1590536512467 A 62 62 0 0 1 533.0 468.0 Z" fill="#d38b36" stroke="#fff" stroke-width="2"/>
-<text x="688" y="461" font-size="17" fill="#203148">商品 B  35%</text>
-<path d="M 595 468 L 533.0 468.0 A 62 62 0 0 1 595.0 406.0 Z" fill="#c43d87" stroke="#fff" stroke-width="2"/>
-<text x="688" y="493" font-size="17" fill="#203148">全店托管  25%</text>
-<text x="688" y="530" font-size="16" fill="#203148">消耗合计 ¥4,000</text>
-<text x="30" y="592" font-size="16" fill="#203148">亏损另列：前天 −¥200 / 昨天 −¥300；全店托管利润、缺失项也单独展示。</text>
-<text x="30" y="625" font-size="14" fill="#64748b">左图不是全账户净利润占比；全店托管不硬分到单品。实际报告附完整名称及核查说明。</text>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="730" viewBox="0 0 960 730" role="img" aria-label="两日对比｜钱花在哪里，盈利贡献来自哪里？">
+  <title>两日对比｜钱花在哪里，盈利贡献来自哪里？</title>
+  <rect x="0" y="0" width="960" height="730" fill="#f4f7fb" rx="16" />
+  <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#203148">
+    <text x="30" y="43" font-size="25" fill="#203148" text-anchor="start">两日对比｜钱花在哪里，盈利贡献来自哪里？</text>
+    <text x="30" y="76" font-size="15" fill="#9b4b16" text-anchor="start">统一虚构演示数据 · 非真实报表、截图或发送记录</text>
+    <rect x="30" y="96" width="14" height="14" fill="#3478bb" rx="2" />
+    <text x="52" y="109" font-size="15" fill="#203148" text-anchor="start">商品 A</text>
+    <rect x="200" y="96" width="14" height="14" fill="#d38b36" rx="2" />
+    <text x="222" y="109" font-size="15" fill="#203148" text-anchor="start">商品 B</text>
+    <rect x="370" y="96" width="14" height="14" fill="#00a67d" rx="2" />
+    <text x="392" y="109" font-size="15" fill="#203148" text-anchor="start">商品 C</text>
+    <rect x="540" y="96" width="14" height="14" fill="#c43d87" rx="2" />
+    <text x="562" y="109" font-size="15" fill="#203148" text-anchor="start">全店托管</text>
+    <rect x="24" y="130" width="444" height="233" fill="#fff" rx="8" />
+    <text x="42" y="160" font-size="19" fill="#203148" text-anchor="start">前天 · 盈利商品贡献</text>
+    <path d="M 127 257 L 127.0 195.0 A 62 62 0 1 1 90.55731435786667 307.1590536512467 Z" fill="#3478bb" stroke="#fff" stroke-width="2" />
+    <path d="M 127 257 L 90.55731435786667 307.1590536512467 A 62 62 0 0 1 126.99999999999999 195.0 Z" fill="#d38b36" stroke="#fff" stroke-width="2" />
+    <text x="219" y="200" font-size="16" fill="#203148" text-anchor="start">商品 A  60%</text>
+    <text x="219" y="228" font-size="16" fill="#203148" text-anchor="start">商品 B  40%</text>
+    <text x="219" y="341" font-size="16" fill="#203148" text-anchor="start">盈利合计 ¥2,000</text>
+    <rect x="492" y="130" width="444" height="233" fill="#fff" rx="8" />
+    <text x="510" y="160" font-size="19" fill="#203148" text-anchor="start">前天 · 广告消耗占比</text>
+    <path d="M 595 257 L 595.0 195.0 A 62 62 0 0 1 595.0 319.0 Z" fill="#3478bb" stroke="#fff" stroke-width="2" />
+    <path d="M 595 257 L 595.0 319.0 A 62 62 0 0 1 536.0344959897004 237.84094634875328 Z" fill="#d38b36" stroke="#fff" stroke-width="2" />
+    <path d="M 595 257 L 536.0344959897004 237.84094634875328 A 62 62 0 0 1 548.9250208204015 215.5139024057508 Z" fill="#00a67d" stroke="#fff" stroke-width="2" />
+    <path d="M 595 257 L 548.9250208204015 215.5139024057508 A 62 62 0 0 1 595.0 195.0 Z" fill="#c43d87" stroke="#fff" stroke-width="2" />
+    <text x="687" y="200" font-size="16" fill="#203148" text-anchor="start">商品 A  50%</text>
+    <text x="687" y="228" font-size="16" fill="#203148" text-anchor="start">商品 B  30%</text>
+    <text x="687" y="256" font-size="16" fill="#203148" text-anchor="start">商品 C  6.7%</text>
+    <text x="687" y="284" font-size="16" fill="#203148" text-anchor="start">全店托管  13.3%</text>
+    <text x="687" y="341" font-size="16" fill="#203148" text-anchor="start">消耗合计 ¥3,000</text>
+    <rect x="24" y="380" width="444" height="233" fill="#fff" rx="8" />
+    <text x="42" y="410" font-size="19" fill="#203148" text-anchor="start">昨天 · 盈利商品贡献</text>
+    <path d="M 127 507 L 127.0 445.0 A 62 62 0 0 1 163.44268564213334 557.1590536512467 Z" fill="#3478bb" stroke="#fff" stroke-width="2" />
+    <path d="M 127 507 L 163.44268564213334 557.1590536512467 A 62 62 0 1 1 126.99999999999999 445.0 Z" fill="#d38b36" stroke="#fff" stroke-width="2" />
+    <text x="219" y="450" font-size="16" fill="#203148" text-anchor="start">商品 A  40%</text>
+    <text x="219" y="478" font-size="16" fill="#203148" text-anchor="start">商品 B  60%</text>
+    <text x="219" y="591" font-size="16" fill="#203148" text-anchor="start">盈利合计 ¥2,500</text>
+    <rect x="492" y="380" width="444" height="233" fill="#fff" rx="8" />
+    <text x="510" y="410" font-size="19" fill="#203148" text-anchor="start">昨天 · 广告消耗占比</text>
+    <path d="M 595 507 L 595.0 445.0 A 62 62 0 0 1 631.4426856421334 557.1590536512467 Z" fill="#3478bb" stroke="#fff" stroke-width="2" />
+    <path d="M 595 507 L 631.4426856421334 557.1590536512467 A 62 62 0 0 1 533.0 507.0 Z" fill="#d38b36" stroke="#fff" stroke-width="2" />
+    <path d="M 595 507 L 533.0 507.0 A 62 62 0 0 1 539.7575955003211 478.8525890161481 Z" fill="#00a67d" stroke="#fff" stroke-width="2" />
+    <path d="M 595 507 L 539.7575955003211 478.8525890161481 A 62 62 0 0 1 595.0 445.0 Z" fill="#c43d87" stroke="#fff" stroke-width="2" />
+    <text x="687" y="450" font-size="16" fill="#203148" text-anchor="start">商品 A  40%</text>
+    <text x="687" y="478" font-size="16" fill="#203148" text-anchor="start">商品 B  35%</text>
+    <text x="687" y="506" font-size="16" fill="#203148" text-anchor="start">商品 C  7.5%</text>
+    <text x="687" y="534" font-size="16" fill="#203148" text-anchor="start">全店托管  17.5%</text>
+    <text x="687" y="591" font-size="16" fill="#203148" text-anchor="start">消耗合计 ¥4,000</text>
+    <text x="30" y="653" font-size="16" fill="#203148" text-anchor="start">商品 C 亏损另列：前天 −¥200 / 昨天 −¥300，不进入盈利饼图。</text>
+    <text x="30" y="686" font-size="14" fill="#64748b" text-anchor="start">全店托管利润均待核验；左图只看盈利商品，不代表全账户净利润。</text>
+  </g>
+</svg>
