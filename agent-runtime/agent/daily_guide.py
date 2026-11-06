@@ -112,9 +112,11 @@ def attach(root,env,now,bundle):
     main=json.loads((out/'result.json').read_text())
     if str(main['account'])!=str(bundle['account']) or main['date']!=bundle['date']:raise ValueError('Guide scope mismatch')
     before=(date.fromisoformat(main['date'])-timedelta(days=1)).isoformat()
-    view=build(main,previous(root,str(main['account']),before),local.date().isoformat())
+    prior=previous(root,str(main['account']),before)
+    view=build(main,prior,local.date().isoformat())
     folder=out/'guide';folder.mkdir(parents=True,exist_ok=True);source=folder/'guide.json';target=folder/'guide.png'
     profit_daily.save(source,view)
+    profit_daily.save(folder/'previous.json',prior)
     cfg=json.loads((root/'config/profit_daily.json').read_text())
     subprocess.run([cfg['render_python'],str(root/'tools/daily_guide_image.py'),str(source),str(target),cfg['font']],check=True,capture_output=True,timeout=90)
     item={'kind':'image','path':str(target),'sha256':hashlib.sha256(target.read_bytes()).hexdigest()}

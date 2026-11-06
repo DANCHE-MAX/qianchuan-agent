@@ -34,7 +34,7 @@ class Tests(unittest.TestCase):
     e.store.balances.return_value=[]
     self.assertFalse(s.tick(e,datetime(2026,1,3,0,1,tzinfo=CHINA)));prep.assert_not_called()
 
- def test_collect_reconcile_failure_is_missing_not_zero(self):
+ def test_collect_reconcile_failure_keeps_conflict_for_send_barrier(self):
   def pages(env,path,args,evidence,tag):
    if path==s.p.LIST:return [],[]
    if 'live-total' in tag:return [],[]
@@ -44,6 +44,8 @@ class Tests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp,patch.object(s.p,'pages',side_effect=pages):
    days=s.collect({'QC_ADVERTISER_IDS':'123'},['2026-01-01','2026-01-02'],Path(tmp))
    self.assertTrue(all(not d['complete'] for d in days))
+   self.assertTrue(all(d['conflicts'] for d in days))
+   self.assertTrue(all('Reconciliation mismatch' in str(d['conflicts']) for d in days))
    self.assertIsNone(s.build(days)['series'][0]['total']);self.assertIsNone(s.build(days)['unknown'])
 
 if __name__=='__main__':unittest.main()

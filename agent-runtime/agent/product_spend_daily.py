@@ -33,7 +33,7 @@ def collect(env,days,evidence,*,include_gmv=False):
     result=[]
     for day in days:
         common={'advertiser_id':hourly.account_id(env),'start_time':day+' 00:00:00','end_time':day+' 23:59:59'}
-        allrows=[];warnings=[];complete=True;seen_plans=set();inventory=set();inventory_complete=True
+        allrows=[];warnings=[];conflicts=[];complete=True;seen_plans=set();inventory=set();inventory_complete=True
         for scene,topic,metric,hourdim in [('OVERALL_PROJECT','OVERALL_ROI_PRODUCT_PROJECT','stat_cost_for_roi2','range_stat_time_hour'),('UNI_PROJECT','SITE_PROMOTION_PRODUCT_AD','stat_cost','stat_time_hour')]:
             mapping={};managed=set()
             try:
@@ -60,13 +60,16 @@ def collect(env,days,evidence,*,include_gmv=False):
                 ids={r['plan'] for r in parsed}
                 if ids & seen_plans:raise ValueError('Overlapping report scopes')
                 seen_plans.update(ids);allrows.extend(parsed)
-            except Exception:complete=False;warnings.append(scene+'小时明细或对账待核验')
+            except Exception as exc:
+                complete=False;warnings.append(scene+'小时明细或对账待核验')
+                if isinstance(exc,ValueError) and str(exc) in ('Reconciliation mismatch','GMV reconciliation mismatch','Overlapping report scopes','Wrong report date','Duplicate/invalid hour','Invalid spend'):
+                    conflicts.append(scene+':'+str(exc))
         # Live data is not allocated to products without a supported mapping.
         try:
             live,_=p.pages(env,p.REPORT,dict(common,data_topic='OVERALL_ROI_LIVE_AWEME',dimensions=[],metrics=['stat_cost'],filters=[],order_by=[]),evidence,day+'-live-total')
             if len(live)!=1 or amount(live[0]['metrics']['stat_cost']['Value'])!=0:warnings.append('直播消耗未纳入，覆盖待核验')
         except Exception:warnings.append('直播消耗覆盖待核验')
-        result.append({'day':day,'rows':allrows,'complete':complete,'warnings':warnings,'inventory':sorted(inventory),'inventory_complete':inventory_complete})
+        result.append({'day':day,'rows':allrows,'complete':complete,'warnings':warnings,'inventory':sorted(inventory),'inventory_complete':inventory_complete,'conflicts':conflicts})
     return result
 
 

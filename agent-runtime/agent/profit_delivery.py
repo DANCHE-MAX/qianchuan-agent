@@ -16,7 +16,14 @@ def upload(api,kind,path):
     if response.status_code!=200 or payload.get('code')!=0:raise RuntimeError('Feishu media upload failed')
     return payload['data'][kind+'_key']
 
-def deliver(bundle,api,uuid,upload_fn=upload):
+def deliver(bundle,api,uuid,upload_fn=upload,*,expected_account=None,expected_day=None):
+    # Validate the entire bundle before even the first text or upload.
+    if bundle.get('type')=='profit_bundle':
+        from . import report_preflight
+        report_preflight.check(bundle,expected_account=expected_account,expected_day=expected_day)
+    for item in bundle['files']:
+        if hashlib.sha256(Path(item['path']).read_bytes()).hexdigest()!=item['sha256']:
+            raise ValueError('Attachment changed after preparation')
     receipt=Path(bundle['directory'])/'delivery.json'
     state=json.loads(receipt.read_text()) if receipt.exists() else {'chat':api.chat_id,'parts':{}}
     if state['chat']!=api.chat_id:raise ValueError('Receipt bound to another chat')

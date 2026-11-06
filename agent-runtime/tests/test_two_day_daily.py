@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
   d=data('2026-01-02');t.reconcile_main(d,{'rows':[{'plan_id':'1','gmv':'100','spend':'999'}]})
   self.assertFalse(d['complete']);self.assertIn('日报',str(d['warnings']))
  def test_daily_prepare_attaches_only_for_scheduled_new_bundle(self):
-  with tempfile.TemporaryDirectory() as root,patch('agent.profit_daily.prepare',return_value={'type':'profit_bundle'}) as prep,patch.object(t,'attach',return_value={'type':'profit_bundle','extra':True}) as attach,patch('agent.daily_guide.attach',side_effect=lambda root,env,now,bundle:bundle):
+  with tempfile.TemporaryDirectory() as root,patch('agent.profit_daily.prepare',return_value={'type':'profit_bundle'}) as prep,patch.object(t,'attach',return_value={'type':'profit_bundle','extra':True}) as attach,patch('agent.daily_guide.attach',side_effect=lambda root,env,now,bundle:bundle),patch('agent.report_preflight.seal',side_effect=lambda bundle:bundle):
    v=daily_brief.prepare(root,{},datetime(2026,1,3,10,tzinfo=timezone(timedelta(hours=8))),{}, {'profit_report':True})
    self.assertTrue(v['extra']);attach.assert_called_once()
  def test_midnight_sender_retired(self):

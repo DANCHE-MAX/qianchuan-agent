@@ -70,7 +70,7 @@ class ScheduleTests(unittest.TestCase):
     restarted=daily_brief.Engine(root,env,Mock());self.assertFalse(restarted.tick(now.replace(minute=4)))
 
  def test_scheduler_routes_profit_mode_and_keeps_old_default(self):
-  with tempfile.TemporaryDirectory() as d,patch('agent.profit_daily.prepare',return_value={'type':'profit_bundle'}) as prepare,patch('agent.two_day_daily.attach',side_effect=lambda root,env,now,bundle:bundle),patch('agent.daily_guide.attach',side_effect=lambda root,env,now,bundle:bundle):
+  with tempfile.TemporaryDirectory() as d,patch('agent.profit_daily.prepare',return_value={'type':'profit_bundle'}) as prepare,patch('agent.two_day_daily.attach',side_effect=lambda root,env,now,bundle:bundle),patch('agent.daily_guide.attach',side_effect=lambda root,env,now,bundle:bundle),patch('agent.report_preflight.seal',side_effect=lambda bundle:bundle):
    self.assertEqual(daily_brief.prepare(d,{},None,{}, {'profit_report':True}),{'type':'profit_bundle'})
    self.assertFalse(daily_brief.options(d).get('profit_report',False))
 

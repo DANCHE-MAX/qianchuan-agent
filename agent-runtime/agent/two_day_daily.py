@@ -76,8 +76,11 @@ def attach(root,env,now,bundle):
     if [d['day'] for d in inputs]!=days:raise ValueError('Comparison dates mismatch')
     reconcile_main(inputs[-1],main)
     from . import daily_guide
+    reports=[]
     for item in inputs:
+        item['account']=str(main['account'])
         report=main if item['day']==main['date'] else daily_guide.previous(root,str(main['account']),item['day'])
+        reports.append(report)
         if report:
             if report.get('policy')!=main['policy']:
                 item['complete']=False;item['warnings'].append('两日报表政策不同，比较待核验')
@@ -88,6 +91,7 @@ def attach(root,env,now,bundle):
                 info=by_id.get(row['plan'],{})
                 row['managed']='全店托管' in str(info.get('plan_name') or info.get('name',''))
     p.save(folder/'collected.json',inputs)
+    p.save(folder/'reports.json',reports)
     stack=spend.build(inputs);pies=pie_view(inputs,main['policy'])
     p.save(folder/'stack.json',stack);p.save(folder/'pies.json',pies)
     config=json.loads((root/'config/profit_daily.json').read_text())

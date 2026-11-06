@@ -90,10 +90,11 @@ def render(report, max_plans=2, max_operations=3):
 
 def prepare(root, env, now, cfg, opts):
     if opts.get('profit_report', False):
-        from . import profit_daily,two_day_daily,daily_guide
+        from . import profit_daily,two_day_daily,daily_guide,report_preflight
         bundle=profit_daily.prepare(root, env, now, cfg, opts)
         bundle=two_day_daily.attach(root,env,now,bundle)
-        return daily_guide.attach(root,env,now,bundle)
+        bundle=daily_guide.attach(root,env,now,bundle)
+        return report_preflight.seal(bundle)
     account = hourly.account_id(env)
     end = (now.date()-timedelta(days=1)).isoformat()
     # Shares the existing generator lock to avoid concurrent writes to source snapshots.
@@ -160,7 +161,7 @@ class Engine:
                         db.execute('UPDATE jobs SET payload=? WHERE account=? AND day=?', (json.dumps(rendered,ensure_ascii=False),account,end)); db.commit()
                     if rendered.get('type') == 'profit_bundle':
                         from .profit_delivery import deliver
-                        deliver(rendered, self.notifier_factory(chat), uuid)
+                        deliver(rendered, self.notifier_factory(chat), uuid, expected_account=account, expected_day=end)
                     else:
                         self.notifier_factory(chat).send_card(rendered, request_uuid=uuid)
                     db.execute('UPDATE jobs SET sent=1,last_error=NULL WHERE account=? AND day=?', (account,end)); db.commit()
