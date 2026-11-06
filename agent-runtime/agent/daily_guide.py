@@ -60,7 +60,7 @@ def show(value):
     return '待核验' if value is None else f'{amount(value):,.2f}'
 
 
-def build(current,prior,today,*,coverage_day=None,include_coverage=False):
+def build(current,prior,today,*,coverage_day=None,include_coverage=False,coverage_version=2):
     day=current['date'];before=(date.fromisoformat(day)-timedelta(days=1)).isoformat()
     if (date.fromisoformat(today)-timedelta(days=1)).isoformat()!=day:raise ValueError('Guide must describe yesterday')
     comparable=bool(prior and prior.get('date')==before and str(prior.get('account'))==str(current['account']) and prior.get('policy')==current.get('policy'))
@@ -104,7 +104,7 @@ def build(current,prior,today,*,coverage_day=None,include_coverage=False):
             'actions':actions,'policy':current.get('policy',{}),'as_of':current.get('as_of','待核验'),
             'previous_as_of':prior.get('as_of','待核验') if comparable else '待核验','warnings':current.get('warnings',[])}
 
-    if include_coverage:view['coverage']=data_completeness.build(current,coverage_day)
+    if include_coverage:view['coverage']=data_completeness.build(current,coverage_day,version=coverage_version)
     return view
 
 

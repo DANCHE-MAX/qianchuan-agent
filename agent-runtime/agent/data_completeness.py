@@ -2,7 +2,7 @@
 from decimal import Decimal
 
 
-def build(report, mapping_day=None):
+def build(report, mapping_day=None, *, version=2):
     rows=report['rows'];ids=[str(r['plan_id']) for r in rows]
     if len(ids)!=len(set(ids)):raise ValueError('Duplicate coverage plan')
     mapping={}
@@ -22,24 +22,33 @@ def build(report, mapping_day=None):
         else:category='linked' if all(mapping[pid]) else 'unlinked'
         counts[category]+=1
         fields=[k for k in missing if row.get(k) is None]
-        details.append({'plan_id':pid,'name':name,'missing_fields':fields,'product_mapping':category,
+        details.append({'plan_id':pid,'name':name,'missing_fields':fields,'product_mapping':category,'gmv_source':row.get('gmv_source'),'raw_gmv':row.get('raw_gmv'),
                         'status':'待核验' if fields or category in ('pending','unlinked') else '模型可测算'})
+    imputed=sum(r.get('gmv_source')=='business_rule_zero_spend' for r in rows)
     total=len(rows);known=total-missing['profit']
     percent=str((Decimal(known)*100/total).quantize(Decimal('.01'))) if total else None
     sentence=(f'本次报表共{total}个计划，{known}个可测算、{missing["profit"]}个利润待核验；非全账户最终利润。'
               if total else '本次报表暂无计划明细，覆盖情况待核验；不能视为零消耗或零利润。')
-    return {'version':1,'date':report['date'],'as_of':report.get('as_of') or '待核验',
+    if imputed:sentence=f'本次{total}个计划：{known}个可测算（含{imputed}个业务规则补值），{missing["profit"]}个待核验；非全账户最终利润。'
+    result={'raw_gmv_missing_plans':sum(r.get('raw_gmv',r.get('gmv')) is None for r in rows),'business_imputed_plans':imputed,'version':version,'date':report['date'],'as_of':report.get('as_of') or '待核验',
             'total_plans':total,'calculable_plans':known,'pending_plans':missing['profit'],
             'calculable_percent':percent,'account_coverage_percent':None,
             'missing_fields':missing,'known_zero_spend_plans':sum(r.get('spend') is not None and Decimal(str(r['spend']))==0 for r in rows),
             'product_mapping':counts,'plans':details,'sentence':sentence,
             'scope':'本次报表计划清单；全账户覆盖率待核验。字段缺失可重叠，商品归属未知不等于金额未知。'}
 
+    if version==1:
+        result.pop('business_imputed_plans');result.pop('raw_gmv_missing_plans')
+        for row in result['plans']:
+            row.pop('gmv_source');row.pop('raw_gmv')
+    return result
+
 
 def text_lines(view):
     if view is None:return ['数据完整性：待核验，输入不可读取。']
     m=view['missing_fields'];p=view['product_mapping']
     lines=['数据完整性：'+view['sentence'],
+            f'其中业务规则补值计划：{view.get("business_imputed_plans",0)}；补值不等于接口确认GMV为0；原始GMV缺失 {view.get("raw_gmv_missing_plans",view["missing_fields"]["gmv"])}个',
             '报表内可测算比例：'+(view['calculable_percent']+'%' if view['calculable_percent'] is not None else '待核验')+'；全账户覆盖率：待核验',
             f'缺失字段（可重叠）：GMV {m["gmv"]}，广告消耗 {m["spend"]}，利润 {m["profit"]}；已知零消耗 {view["known_zero_spend_plans"]}',
             f'商品归属：已关联 {p["linked"]}，全店托管 {p["managed"]}，未关联 {p["unlinked"]}，映射证据待核验 {p["pending"]}',

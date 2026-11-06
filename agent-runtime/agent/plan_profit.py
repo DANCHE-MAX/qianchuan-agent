@@ -40,6 +40,18 @@ def calculate(gmv, spend, policy):
     return {k: str(money(v)) for k, v in values.items()}
 
 
+ZERO_GMV_RULE = 'confirmed-zero-spend-rechecked-gmv-v1'
+
+
+def zero_gmv_eligible(plan, evidence, day):
+    evidence=evidence or {};proof=evidence.get('gmv_recheck') or {}
+    return (plan.get('goal')=='VIDEO_PROM_GOODS' and evidence.get('goal')=='VIDEO_PROM_GOODS'
+            and str(plan.get('plan_id'))==str(evidence.get('plan_id')) and evidence.get('date')==day
+            and bool(evidence.get('request_id')) and proof.get('date')==day
+            and proof.get('success') is True and proof.get('gmv_missing') is True
+            and bool(proof.get('request_ids')) and all(proof['request_ids']))
+
+
 def report(inventory, daily, no_spend, policy, *, date):
     """Rows must be scoped to the same account/date by the acquisition layer.
 
@@ -75,10 +87,16 @@ def report(inventory, daily, no_spend, policy, *, date):
             if spend is not None and number(spend) != 0:
                 raise ValueError('Daily spend contradicts zero-spend evidence')
             spend = '0.00'
+        raw_gmv=gmv
+        imputed=gmv is None and spend=='0.00' and zero_gmv_eligible(plan,zeros.get(pid),date)
+        if imputed:gmv='0.00'
         values = calculate(gmv, spend, policy)
         status = ('已取昨日明细' if values['profit'] is not None else
                   '已核实无消耗；GMV待核验' if pid in zeros else '昨日数据待核验')
-        rows.append(dict(plan, plan_id=pid, gmv=gmv, spend=spend, **values,
+        if imputed:status='业务规则补值：已核实零消耗，复查GMV缺失按0测算'
+        rows.append(dict(plan, plan_id=pid, gmv=gmv, spend=spend, raw_gmv=raw_gmv,
+                         gmv_source='business_rule_zero_spend' if imputed else 'api' if gmv is not None else 'missing',
+                         gmv_rule_version=ZERO_GMV_RULE if imputed else None, **values,
                          status=status, current_budget=None,
                          evidence=zeros.get(pid) or (raw or {}).get('source')))
     rows.sort(key=lambda r: (r['profit'] is None, -Decimal(r['profit'] or '0'), r['name']))
@@ -106,7 +124,7 @@ def html_report(result):
     lines = ['<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width">',
              '<style>body{font:16px sans-serif;color:#172b44}table{border-collapse:collapse}td,th{padding:12px;border-bottom:1px solid #ddd}th{background:#172b44;color:white}.profit{background:#14975d;color:white}.loss{background:#d83f45;color:white}.unknown{background:#e5e7eb}</style>',
              '<h2>'+escape(result['date'])+' 计划利润估算</h2>',
-             '<p>历史情景估算，非今日预算。未扣固定费用及运费；缺失不填0。无需反馈，不自动改预算。</p>',
+             '<p>历史情景估算，非今日预算。未扣固定费用及运费；仅已核实零消耗且复查GMV缺失的商品计划按业务规则补0，其他缺失待核验。无需反馈，不自动改预算。</p>',
              '<div style="overflow-x:auto"><table><tr>'+''.join('<th>'+t+'</th>' for t,k in cols)+'</tr>']
     for row in result['rows']:
         profit = row['profit']

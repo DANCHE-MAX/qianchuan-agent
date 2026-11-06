@@ -39,6 +39,11 @@ def inspect_report(report,account,day,errors,warnings,label):
     known=[r for r in rows if r.get('profit') is not None]
     require(len(known)==report['calculable'] and len(rows)-len(known)==report['missing_profit'],'coverage_count')
     for i,row in enumerate(rows):
+        if row.get('gmv_source')=='business_rule_zero_spend':
+            require(plan_profit.zero_gmv_eligible(row,row.get('evidence'),day) and row.get('raw_gmv') is None
+                    and equal(row.get('gmv'),0) and equal(row.get('spend'),0)
+                    and row.get('gmv_rule_version')==plan_profit.ZERO_GMV_RULE,'invalid_business_zero_evidence')
+            warnings.append(label+':business_rule_imputation')
         expected=plan_profit.calculate(row.get('gmv'),row.get('spend'),report['policy'])
         for key,value in expected.items():require(equal(row.get(key),value),'row_'+str(i)+'_'+key)
         if row.get('profit') is None:warnings.append(label+':row_'+str(i)+':profit_pending')
@@ -96,6 +101,7 @@ def inspect_excel(path,main,errors):
         require(detail.get('B'+str(i))==str(row['plan_id']),'plan_id_'+str(i));require(detail.get('A'+str(i))==row['name'],'name_'+str(i))
         for col,key in [('D','gmv'),('E','spend'),('F','net'),('G','cost'),('H','fee'),('I','preprofit'),('J','profit'),('K','ad15'),('L','profit15'),('M','headroom'),('O','candidate')]:numeric(detail,col+str(i),row.get(key))
         require(detail.get('P'+str(i))=='待核验','today_budget_'+str(i))
+        if row.get('gmv_source')=='business_rule_zero_spend':require('业务规则补值' in detail.get('C'+str(i),''),'business_zero_label_'+str(i))
         if row['profit'] is not None:known.append(row)
     for i,row in enumerate(known,7):
         require(summary.get('A'+str(i))==row['name'],'summary_name_'+str(i))
@@ -137,7 +143,7 @@ def check(bundle,*,expected_account=None,expected_day=None):
         coverage=data_completeness.build(main,coverage_day)
         if not coverage['total_plans']:warnings.append('coverage:no_plan_rows_pending')
         if coverage['product_mapping']['unlinked'] or coverage['product_mapping']['pending']:warnings.append('coverage:product_mapping_pending')
-        expected_guide=daily_guide.build(main,prior,(date.fromisoformat(day)+timedelta(days=1)).isoformat(),coverage_day=coverage_day,include_coverage='coverage' in data['guide/guide.json'])
+        expected_guide=daily_guide.build(main,prior,(date.fromisoformat(day)+timedelta(days=1)).isoformat(),coverage_day=coverage_day,include_coverage='coverage' in data['guide/guide.json'],coverage_version=data['guide/guide.json'].get('coverage',{}).get('version',2))
         require(expected_guide==data['guide/guide.json'],'guide_content_conflict')
         checked.extend(['plan_calculation','totals_and_api_controls','guide_dates_and_actions'])
         days=data['two_day/collected.json'];reports=data['two_day/reports.json']

@@ -113,6 +113,42 @@ def collect(env,day,today,evidence,request=get):
             if str(exc) in ('Report totals mismatch','Unexpected aggregate grain'):raise
             warnings.append(topic+'汇总待核验：'+type(exc).__name__)
         except Exception as exc:warnings.append(topic+'汇总待核验：'+type(exc).__name__)
+    # One scoped second read for proven-zero product plans with missing GMV.
+    by_id={r['plan_id']:r for r in daily}
+    for topic,cost,scene in TOPICS[:2]:
+        pending=[z for z in zeros if inventory[z['plan_id']]['scene']==scene and by_id.get(z['plan_id'],{}).get('gmv') is None]
+        if not pending:continue
+        ids=[z['plan_id'] for z in pending]
+        # Official ad_id filter permits at most 1000 values.
+        for offset in range(0,len(ids),1000):
+            batch=ids[offset:offset+1000]
+            params=dict(common,data_topic=topic,dimensions=['ad_id','stat_time_day'],metrics=[cost,GMV],
+                        filters=[{'field':'ad_id','operator':7,'values':batch}],order_by=[])
+            try:
+                rows,rids=pages(env,REPORT,params,evidence,topic+'-gmv-recheck-'+str(offset),request)
+                returned={}
+                for row in rows:
+                    pid=str(row['dimensions']['ad_id']['Value'])
+                    if pid not in batch or pid in returned or row['dimensions']['stat_time_day']['ValueStr']!=day:
+                        raise ValueError('Invalid recheck scope')
+                    metrics=row['metrics'];spend=metrics.get(cost,{}).get('Value');gmv=metrics.get(GMV,{}).get('Value')
+                    if spend is not None and Decimal(str(spend))!=0:raise ValueError('Zero evidence conflict')
+                    returned[pid]=gmv
+                # Real returned GMV takes precedence; absent fields stay missing until model business rule.
+                for z in pending:
+                    pid=z['plan_id']
+                    if pid not in batch:continue
+                    gmv=returned.get(pid)
+                    z['gmv_recheck']={'date':day,'success':True,'gmv_missing':gmv is None,'request_ids':rids,'topic':topic}
+                    if gmv is not None:
+                        record=by_id.get(pid)
+                        if record is None:
+                            record={'plan_id':pid,'name':inventory[pid]['name'],'date':day,'spend':'0.00'}
+                            daily.append(record);by_id[pid]=record
+                        record.update(gmv=gmv,source={'topic':topic,'request_ids':rids})
+            except Exception as exc:
+                if isinstance(exc,ValueError) and str(exc) in ('Invalid recheck scope','Zero evidence conflict'):raise
+                warnings.append(topic+'零消耗GMV复查未完成：'+type(exc).__name__+'；保留待核验')
     if not inventory and not daily:raise ValueError('No inventory or daily evidence')
     return {'inventory':list(inventory.values()),'daily':daily,'no_spend':zeros,'date':day,'checks':checks,'warnings':warnings,'account':account}
 
