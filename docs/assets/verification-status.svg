@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="470" viewBox="0 0 960 470" role="img" aria-labelledby="title desc">
+<title id="title">2026年11月6日相关功能复测结果</title>
+<desc id="desc">六组测试合计49项，48通过，0失败，1因依赖未配置跳过。不是全项目测试，也不是业务收益。</desc>
+<rect width="960" height="470" rx="16" fill="#f4f7fb"/>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#182d44">
+<text x="30" y="43" font-size="24" font-weight="600">本轮功能复测：48 通过 · 0 失败 · 1 跳过</text>
+<text x="30" y="74" font-size="15" fill="#526579">2026-11-06｜6组相关测试｜合成数据与模拟接口，不代表线上送达或经营收益</text>
+<text x="30" y="130" font-size="17">日期与账户一致性</text>
+<rect x="240" y="109" width="520" height="28" rx="4" fill="#e5ebf2"/>
+<rect x="240" y="109" width="520" height="28" rx="4" fill="#277f77"/>
+<text x="780" y="130" font-size="17">13 通过</text>
+<text x="30" y="177" font-size="17">余额三时段对比</text>
+<rect x="240" y="156" width="520" height="28" rx="4" fill="#e5ebf2"/>
+<rect x="240" y="156" width="480" height="28" rx="4" fill="#277f77"/>
+<text x="780" y="177" font-size="17">12 通过</text>
+<text x="30" y="224" font-size="17">自动日报与发送</text>
+<rect x="240" y="203" width="520" height="28" rx="4" fill="#e5ebf2"/>
+<rect x="240" y="203" width="440" height="28" rx="4" fill="#277f77"/>
+<text x="780" y="224" font-size="17">11 通过</text>
+<text x="30" y="271" font-size="17">指定日期图片</text>
+<rect x="240" y="250" width="520" height="28" rx="4" fill="#e5ebf2"/>
+<rect x="240" y="250" width="240" height="28" rx="4" fill="#277f77"/>
+<text x="780" y="271" font-size="17">6 通过</text>
+<text x="30" y="318" font-size="17">利润与缺失处理</text>
+<rect x="240" y="297" width="520" height="28" rx="4" fill="#e5ebf2"/>
+<rect x="240" y="297" width="240" height="28" rx="4" fill="#277f77"/>
+<text x="780" y="318" font-size="17">6 通过</text>
+<text x="30" y="365" font-size="17">Excel实际渲染</text>
+<rect x="240" y="344" width="520" height="28" rx="4" fill="#e5ebf2"/>
+<text x="780" y="365" font-size="17">1 跳过</text>
+<text x="240" y="410" font-size="14" fill="#526579">条形长度 = 通过的测试数量（项），不是功能完成百分比</text>
+<text x="30" y="447" font-size="14" fill="#526579">跳过原因：未显式配置 Node 与 artifact-tool 渲染依赖。</text>
+</g></svg>

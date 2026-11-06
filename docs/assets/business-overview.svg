@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="370" viewBox="0 0 960 370" role="img" aria-labelledby="title desc">
+<title id="title">业务人员能获得的三类结果</title>
+<desc id="desc">利润日报、余额对比、指定日期查询。展示功能结构，不含真实经营数字。</desc>
+<rect width="960" height="370" rx="16" fill="#f4f7fb"/>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#182d44">
+<text x="32" y="44" font-size="25" font-weight="600">每天看什么？需要时查什么？</text>
+<text x="32" y="74" font-size="15" fill="#526579">三类业务结果 · 使用真实数据时依赖本地授权与配置</text>
+<rect x="24" y="100" width="288" height="236" rx="12" fill="#ffffff" stroke="#dce4ef"/>
+<text x="44" y="137" font-size="22" font-weight="600">利润日报</text>
+<text x="44" y="170" font-size="17" fill="#246b85">看哪些计划预计赚钱</text>
+<text x="44" y="215" font-size="14">利润柱状图 + Excel明细</text>
+<text x="44" y="247" font-size="13" fill="#526579">缺失单独列出，不伪装成零</text>
+<text x="44" y="305" font-size="19" font-weight="600">图片 / 表格</text>
+<rect x="336" y="100" width="288" height="236" rx="12" fill="#ffffff" stroke="#dce4ef"/>
+<text x="356" y="137" font-size="22" font-weight="600">余额对比</text>
+<text x="356" y="170" font-size="17" fill="#246b85">看资金下降是否变快</text>
+<text x="356" y="215" font-size="14">本两小时 / 前两小时 / 昨日同段</text>
+<text x="356" y="247" font-size="13" fill="#526579">同一尺度比较，缺样本标待核验</text>
+<text x="356" y="305" font-size="19" font-weight="600">3个时段</text>
+<rect x="648" y="100" width="288" height="236" rx="12" fill="#ffffff" stroke="#dce4ef"/>
+<text x="668" y="137" font-size="22" font-weight="600">指定日期查询</text>
+<text x="668" y="170" font-size="17" fill="#246b85">查哪一天，就分析哪一天</text>
+<text x="668" y="215" font-size="14">普通问题看图片，详细问题看解释</text>
+<text x="668" y="247" font-size="13" fill="#526579">缺失日期不拿旧报告顶替</text>
+<text x="668" y="305" font-size="19" font-weight="600">日期一致</text>
+</g></svg>

@@ -1,0 +1,46 @@
+# 首页能力核查与复测记录
+
+日期：2026-11-06。核查代码基线：`cd8bb59`。仅更新项目说明与图示，不部署服务、不读取真实经营报表、不发送群消息、不改投放。
+
+## 核查依据
+
+| 能力 | 主要代码/说明依据 |
+| --- | --- |
+| 自动利润日报及发送验证 | `agent-runtime/agent/profit_daily.py`、`profit_delivery.py`；`docs/automatic-profit-daily.md` |
+| 指定日期与账户隔离 | `agent-runtime/agent/profit_analysis.py`、`manual_profit.py`、`generation.py` |
+| 简洁手机图片 | `agent-runtime/agent/profit_summary.py`；自动日报说明中的简洁图片段落 |
+| 余额三时段比较 | `agent-runtime/agent/balance_comparison.py`；自动日报说明中的三时段段落 |
+| 利润与缺失处理 | `agent-runtime/agent/plan_profit.py`；`docs/current-profit-rules.md` |
+| 原5项失败修复 | `7bed176`及`SECURITY.md`历史回归记录；本轮未重新执行这5项 |
+
+## 本轮复测
+
+在独立脱敏仓库的`agent-runtime/`中，以Python 3.9.6执行以下unittest模块。使用合成数据、临时目录和模拟接口。未使用生产服务环境；项目推荐Python 3.12+，本结果不替代目标环境验收。
+
+| 测试模块 | 运行 | 通过 | 失败/错误 | 跳过 |
+| --- | ---: | ---: | ---: | ---: |
+| tests.test_profit_daily | 11 | 11 | 0 | 0 |
+| tests.test_profit_analysis | 13 | 13 | 0 | 0 |
+| tests.test_generation_images | 6 | 6 | 0 | 0 |
+| tests.test_balance_comparison | 12 | 12 | 0 | 0 |
+| tests.test_plan_profit | 6 | 6 | 0 | 0 |
+| tests.test_profit_excel | 1 | 0 | 0 | 1 |
+| **合计** | **49** | **48** | **0** | **1** |
+
+复测命令（从`agent-runtime/`运行）：
+
+```sh
+python3 -m unittest tests.test_profit_daily tests.test_profit_analysis tests.test_generation_images tests.test_balance_comparison tests.test_plan_profit tests.test_profit_excel
+```
+
+Excel专项需要显式设置`QC_TEST_NODE`并提供`artifact-tool`，本轮未配置，按测试规则跳过。环境出现urllib3与系统LibreSSL兼容警告；本轮使用模拟接口，不证明真实网络调用兼容。手机图片与余额图真实字体/渲染效果未在本轮重新验收。
+
+首页统计图仅展示上述测试数量，不是项目完成率、线上成功率或业务收益。本轮未执行全量回归，也未重新核验生产送达回执。首页的已实现状态来自当前代码、规则说明及对应测试，不将其写成所有环境都已启用。
+
+## 仍然有效的边界
+
+- 当前业务流程不自动改预算、ROI或计划状态。
+- 反馈交互当前暂停，效果回收尚未闭环。
+- 利润是情景估算，缺少财务结算和全部成本闭环。
+- 余额下降速率不是广告财务消耗；缺失不补零。
+- 自动发送需要本地明确启用和授权，克隆仓库不会自动启用。
