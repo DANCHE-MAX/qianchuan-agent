@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="930" viewBox="0 0 960 930" role="img" aria-labelledby="title desc">
+<title id="title">两日商品消耗堆叠图演示</title><desc id="desc">前天3000元，昨天4000元；12个两小时时段，每组左柱为前天、右柱为昨天。同一商品同色，两面板统一0至750元刻度。全部虚构。</desc>
+<rect width="960" height="930" rx="16" fill="#f4f7fb"/>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#203148">
+<text x="30" y="43" font-size="25" fill="#203148" text-anchor="start">两日商品消耗｜哪些商品、哪些时段花费变了？</text>
+<text x="30" y="75" font-size="15" fill="#9b4b16" text-anchor="start">虚构演示数据 · 两个完整自然日 · 实际广告消耗口径，不使用余额差</text>
+<rect x="30" y="95" width="280" height="76" rx="10" fill="#ffffff"/>
+<text x="46" y="120" font-size="14" fill="#64748b" text-anchor="start">前天 · 商品计划合计</text>
+<text x="46" y="154" font-size="25" fill="#203148" text-anchor="start">¥3,000</text>
+<rect x="340" y="95" width="280" height="76" rx="10" fill="#ffffff"/>
+<text x="356" y="120" font-size="14" fill="#64748b" text-anchor="start">昨天 · 商品计划合计</text>
+<text x="356" y="154" font-size="25" fill="#203148" text-anchor="start">¥4,000</text>
+<rect x="650" y="95" width="280" height="76" rx="10" fill="#ffffff"/>
+<text x="666" y="120" font-size="14" fill="#64748b" text-anchor="start">昨天比前天</text>
+<text x="666" y="154" font-size="25" fill="#203148" text-anchor="start">+33.3%</text>
+<rect x="30" y="192" width="16" height="16" rx="3" fill="#3478bb"/>
+<text x="54" y="206" font-size="15" fill="#203148" text-anchor="start">商品 A</text>
+<rect x="180" y="192" width="16" height="16" rx="3" fill="#d38b36"/>
+<text x="204" y="206" font-size="15" fill="#203148" text-anchor="start">商品 B</text>
+<rect x="330" y="192" width="16" height="16" rx="3" fill="#c43d87"/>
+<text x="354" y="206" font-size="15" fill="#203148" text-anchor="start">全店托管（未拆分）</text>
+<text x="30" y="237" font-size="17" fill="#203148" text-anchor="start">每组：左柱＝前天，右柱＝昨天；颜色表示商品，柱高表示该时段总消耗。</text>
+<rect x="24" y="259" width="912" height="265" rx="12" fill="#ffffff"/>
+<text x="44" y="288" font-size="20" fill="#203148" text-anchor="start">00:00—12:00</text>
+<text x="902" y="288" font-size="14" fill="#64748b" text-anchor="end">单位：元</text>
+<line x1="86" y1="468.0" x2="906" y2="468.0" stroke="#dfe6ef"/>
+<text x="74" y="473.0" font-size="13" fill="#64748b" text-anchor="end">0</text>
+<line x1="86" y1="414.6666666666667" x2="906" y2="414.6666666666667" stroke="#dfe6ef"/>
+<text x="74" y="419.6666666666667" font-size="13" fill="#64748b" text-anchor="end">250</text>
+<line x1="86" y1="361.33333333333337" x2="906" y2="361.33333333333337" stroke="#dfe6ef"/>
+<text x="74" y="366.33333333333337" font-size="13" fill="#64748b" text-anchor="end">500</text>
+<line x1="86" y1="308.0" x2="906" y2="308.0" stroke="#dfe6ef"/>
+<text x="74" y="313.0" font-size="13" fill="#64748b" text-anchor="end">750</text>
+<rect x="115.33333333333331" y="461.6" width="32" height="6.4" rx="0" fill="#3478bb"/>
+<rect x="115.33333333333331" y="459.4666666666667" width="32" height="2.1333333333333333" rx="0" fill="#d38b36"/>
+<rect x="115.33333333333331" y="457.33333333333337" width="32" height="2.1333333333333333" rx="0" fill="#c43d87"/>
+<text x="131.33333333333331" y="449.33333333333337" font-size="13" fill="#203148" text-anchor="middle">50</text>
+<text x="131.33333333333331" y="488" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="161.33333333333331" y="463.73333333333335" width="32" height="4.266666666666667" rx="0" fill="#3478bb"/>
+<rect x="161.33333333333331" y="459.4666666666667" width="32" height="4.266666666666667" rx="0" fill="#d38b36"/>
+<rect x="161.33333333333331" y="457.33333333333337" width="32" height="2.1333333333333333" rx="0" fill="#c43d87"/>
+<text x="177.33333333333331" y="449.33333333333337" font-size="13" fill="#203148" text-anchor="middle">50</text>
+<text x="177.33333333333331" y="488" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="154.33333333333331" y="514" font-size="16" fill="#203148" text-anchor="middle">00—02</text>
+<rect x="252.0" y="463.73333333333335" width="32" height="4.266666666666667" rx="0" fill="#3478bb"/>
+<rect x="252.0" y="461.6" width="32" height="2.1333333333333333" rx="0" fill="#d38b36"/>
+<rect x="252.0" y="459.4666666666667" width="32" height="2.1333333333333333" rx="0" fill="#c43d87"/>
+<text x="268.0" y="451.4666666666667" font-size="13" fill="#203148" text-anchor="middle">40</text>
+<text x="268.0" y="488" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="298.0" y="463.73333333333335" width="32" height="4.266666666666667" rx="0" fill="#3478bb"/>
+<rect x="298.0" y="461.6" width="32" height="2.1333333333333333" rx="0" fill="#d38b36"/>
+<rect x="298.0" y="459.4666666666667" width="32" height="2.1333333333333333" rx="0" fill="#c43d87"/>
+<text x="314.0" y="451.4666666666667" font-size="13" fill="#203148" text-anchor="middle">40</text>
+<text x="314.0" y="488" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="291.0" y="514" font-size="16" fill="#203148" text-anchor="middle">02—04</text>
+<rect x="388.6666666666667" y="463.73333333333335" width="32" height="4.266666666666667" rx="0" fill="#3478bb"/>
+<rect x="388.6666666666667" y="461.6" width="32" height="2.1333333333333333" rx="0" fill="#d38b36"/>
+<rect x="388.6666666666667" y="459.4666666666667" width="32" height="2.1333333333333333" rx="0" fill="#c43d87"/>
+<text x="404.6666666666667" y="451.4666666666667" font-size="13" fill="#203148" text-anchor="middle">40</text>
+<text x="404.6666666666667" y="488" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="434.6666666666667" y="463.73333333333335" width="32" height="4.266666666666667" rx="0" fill="#3478bb"/>
+<rect x="434.6666666666667" y="461.6" width="32" height="2.1333333333333333" rx="0" fill="#d38b36"/>
+<rect x="434.6666666666667" y="459.4666666666667" width="32" height="2.1333333333333333" rx="0" fill="#c43d87"/>
+<text x="450.6666666666667" y="451.4666666666667" font-size="13" fill="#203148" text-anchor="middle">40</text>
+<text x="450.6666666666667" y="488" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="427.6666666666667" y="514" font-size="16" fill="#203148" text-anchor="middle">04—06</text>
+<rect x="525.3333333333333" y="459.46666666666664" width="32" height="8.533333333333333" rx="0" fill="#3478bb"/>
+<rect x="525.3333333333333" y="455.2" width="32" height="4.266666666666667" rx="0" fill="#d38b36"/>
+<rect x="525.3333333333333" y="453.06666666666666" width="32" height="2.1333333333333333" rx="0" fill="#c43d87"/>
+<text x="541.3333333333333" y="445.06666666666666" font-size="13" fill="#203148" text-anchor="middle">70</text>
+<text x="541.3333333333333" y="488" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="571.3333333333333" y="459.46666666666664" width="32" height="8.533333333333333" rx="0" fill="#3478bb"/>
+<rect x="571.3333333333333" y="455.2" width="32" height="4.266666666666667" rx="0" fill="#d38b36"/>
+<rect x="571.3333333333333" y="450.93333333333334" width="32" height="4.266666666666667" rx="0" fill="#c43d87"/>
+<text x="587.3333333333333" y="442.93333333333334" font-size="13" fill="#203148" text-anchor="middle">80</text>
+<text x="587.3333333333333" y="488" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="564.3333333333333" y="514" font-size="16" fill="#203148" text-anchor="middle">06—08</text>
+<rect x="662.0" y="446.6666666666667" width="32" height="21.333333333333332" rx="0" fill="#3478bb"/>
+<rect x="662.0" y="438.1333333333333" width="32" height="8.533333333333333" rx="0" fill="#d38b36"/>
+<rect x="662.0" y="431.73333333333335" width="32" height="6.4" rx="0" fill="#c43d87"/>
+<text x="678.0" y="423.73333333333335" font-size="13" fill="#203148" text-anchor="middle">170</text>
+<text x="678.0" y="488" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="708.0" y="450.93333333333334" width="32" height="17.066666666666666" rx="0" fill="#3478bb"/>
+<rect x="708.0" y="440.26666666666665" width="32" height="10.666666666666666" rx="0" fill="#d38b36"/>
+<rect x="708.0" y="431.7333333333333" width="32" height="8.533333333333333" rx="0" fill="#c43d87"/>
+<text x="724.0" y="423.7333333333333" font-size="13" fill="#203148" text-anchor="middle">170</text>
+<text x="724.0" y="488" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="701.0" y="514" font-size="16" fill="#203148" text-anchor="middle">08—10</text>
+<rect x="798.6666666666666" y="438.1333333333333" width="32" height="29.866666666666667" rx="0" fill="#3478bb"/>
+<rect x="798.6666666666666" y="423.2" width="32" height="14.933333333333334" rx="0" fill="#d38b36"/>
+<rect x="798.6666666666666" y="412.5333333333333" width="32" height="10.666666666666666" rx="0" fill="#c43d87"/>
+<text x="814.6666666666666" y="404.5333333333333" font-size="13" fill="#203148" text-anchor="middle">260</text>
+<text x="814.6666666666666" y="488" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="844.6666666666666" y="442.4" width="32" height="25.6" rx="0" fill="#3478bb"/>
+<rect x="844.6666666666666" y="423.2" width="32" height="19.2" rx="0" fill="#d38b36"/>
+<rect x="844.6666666666666" y="410.4" width="32" height="12.8" rx="0" fill="#c43d87"/>
+<text x="860.6666666666666" y="402.4" font-size="13" fill="#203148" text-anchor="middle">270</text>
+<text x="860.6666666666666" y="488" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="837.6666666666666" y="514" font-size="16" fill="#203148" text-anchor="middle">10—12</text>
+<rect x="24" y="539" width="912" height="265" rx="12" fill="#ffffff"/>
+<text x="44" y="568" font-size="20" fill="#203148" text-anchor="start">12:00—24:00</text>
+<text x="902" y="568" font-size="14" fill="#64748b" text-anchor="end">单位：元</text>
+<line x1="86" y1="748.0" x2="906" y2="748.0" stroke="#dfe6ef"/>
+<text x="74" y="753.0" font-size="13" fill="#64748b" text-anchor="end">0</text>
+<line x1="86" y1="694.6666666666666" x2="906" y2="694.6666666666666" stroke="#dfe6ef"/>
+<text x="74" y="699.6666666666666" font-size="13" fill="#64748b" text-anchor="end">250</text>
+<line x1="86" y1="641.3333333333334" x2="906" y2="641.3333333333334" stroke="#dfe6ef"/>
+<text x="74" y="646.3333333333334" font-size="13" fill="#64748b" text-anchor="end">500</text>
+<line x1="86" y1="588.0" x2="906" y2="588.0" stroke="#dfe6ef"/>
+<text x="74" y="593.0" font-size="13" fill="#64748b" text-anchor="end">750</text>
+<rect x="115.33333333333331" y="713.8666666666667" width="32" height="34.13333333333333" rx="0" fill="#3478bb"/>
+<rect x="115.33333333333331" y="694.6666666666666" width="32" height="19.2" rx="0" fill="#d38b36"/>
+<rect x="115.33333333333331" y="681.8666666666667" width="32" height="12.8" rx="0" fill="#c43d87"/>
+<text x="131.33333333333331" y="673.8666666666667" font-size="13" fill="#203148" text-anchor="middle">310</text>
+<text x="131.33333333333331" y="768" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="161.33333333333331" y="709.6" width="32" height="38.4" rx="0" fill="#3478bb"/>
+<rect x="161.33333333333331" y="679.7333333333333" width="32" height="29.866666666666667" rx="0" fill="#d38b36"/>
+<rect x="161.33333333333331" y="660.5333333333333" width="32" height="19.2" rx="0" fill="#c43d87"/>
+<text x="177.33333333333331" y="652.5333333333333" font-size="13" fill="#203148" text-anchor="middle">410</text>
+<text x="177.33333333333331" y="768" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="154.33333333333331" y="794" font-size="16" fill="#203148" text-anchor="middle">12—14</text>
+<rect x="252.0" y="713.8666666666667" width="32" height="34.13333333333333" rx="0" fill="#3478bb"/>
+<rect x="252.0" y="692.5333333333333" width="32" height="21.333333333333332" rx="0" fill="#d38b36"/>
+<rect x="252.0" y="677.6" width="32" height="14.933333333333334" rx="0" fill="#c43d87"/>
+<text x="268.0" y="669.6" font-size="13" fill="#203148" text-anchor="middle">330</text>
+<text x="268.0" y="768" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="298.0" y="705.3333333333334" width="32" height="42.666666666666664" rx="0" fill="#3478bb"/>
+<rect x="298.0" y="671.2" width="32" height="34.13333333333333" rx="0" fill="#d38b36"/>
+<rect x="298.0" y="649.8666666666667" width="32" height="21.333333333333332" rx="0" fill="#c43d87"/>
+<text x="314.0" y="641.8666666666667" font-size="13" fill="#203148" text-anchor="middle">460</text>
+<text x="314.0" y="768" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="291.0" y="794" font-size="16" fill="#203148" text-anchor="middle">14—16</text>
+<rect x="388.6666666666667" y="709.6" width="32" height="38.4" rx="0" fill="#3478bb"/>
+<rect x="388.6666666666667" y="684.0" width="32" height="25.6" rx="0" fill="#d38b36"/>
+<rect x="388.6666666666667" y="666.9333333333333" width="32" height="17.066666666666666" rx="0" fill="#c43d87"/>
+<text x="404.6666666666667" y="658.9333333333333" font-size="13" fill="#203148" text-anchor="middle">380</text>
+<text x="404.6666666666667" y="768" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="434.6666666666667" y="701.0666666666666" width="32" height="46.93333333333334" rx="0" fill="#3478bb"/>
+<rect x="434.6666666666667" y="662.6666666666666" width="32" height="38.4" rx="0" fill="#d38b36"/>
+<rect x="434.6666666666667" y="637.0666666666666" width="32" height="25.6" rx="0" fill="#c43d87"/>
+<text x="450.6666666666667" y="629.0666666666666" font-size="13" fill="#203148" text-anchor="middle">520</text>
+<text x="450.6666666666667" y="768" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="427.6666666666667" y="794" font-size="16" fill="#203148" text-anchor="middle">16—18</text>
+<rect x="525.3333333333333" y="698.9333333333334" width="32" height="49.06666666666666" rx="0" fill="#3478bb"/>
+<rect x="525.3333333333333" y="664.8000000000001" width="32" height="34.13333333333333" rx="0" fill="#d38b36"/>
+<rect x="525.3333333333333" y="643.4666666666667" width="32" height="21.333333333333332" rx="0" fill="#c43d87"/>
+<text x="541.3333333333333" y="635.4666666666667" font-size="13" fill="#203148" text-anchor="middle">490</text>
+<text x="541.3333333333333" y="768" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="571.3333333333333" y="694.6666666666666" width="32" height="53.33333333333333" rx="0" fill="#3478bb"/>
+<rect x="571.3333333333333" y="647.7333333333333" width="32" height="46.93333333333334" rx="0" fill="#d38b36"/>
+<rect x="571.3333333333333" y="613.6" width="32" height="34.13333333333333" rx="0" fill="#c43d87"/>
+<text x="587.3333333333333" y="605.6" font-size="13" fill="#203148" text-anchor="middle">630</text>
+<text x="587.3333333333333" y="768" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="564.3333333333333" y="794" font-size="16" fill="#203148" text-anchor="middle">18—20</text>
+<rect x="662.0" y="692.5333333333333" width="32" height="55.46666666666667" rx="0" fill="#3478bb"/>
+<rect x="662.0" y="656.2666666666667" width="32" height="36.266666666666666" rx="0" fill="#d38b36"/>
+<rect x="662.0" y="634.9333333333333" width="32" height="21.333333333333332" rx="0" fill="#c43d87"/>
+<text x="678.0" y="626.9333333333333" font-size="13" fill="#203148" text-anchor="middle">530</text>
+<text x="678.0" y="768" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="708.0" y="694.6666666666666" width="32" height="53.33333333333333" rx="0" fill="#3478bb"/>
+<rect x="708.0" y="639.1999999999999" width="32" height="55.46666666666667" rx="0" fill="#d38b36"/>
+<rect x="708.0" y="598.6666666666666" width="32" height="40.53333333333334" rx="0" fill="#c43d87"/>
+<text x="724.0" y="590.6666666666666" font-size="13" fill="#203148" text-anchor="middle">700</text>
+<text x="724.0" y="768" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="701.0" y="794" font-size="16" fill="#203148" text-anchor="middle">20—22</text>
+<rect x="798.6666666666666" y="713.8666666666667" width="32" height="34.13333333333333" rx="0" fill="#3478bb"/>
+<rect x="798.6666666666666" y="692.5333333333333" width="32" height="21.333333333333332" rx="0" fill="#d38b36"/>
+<rect x="798.6666666666666" y="677.6" width="32" height="14.933333333333334" rx="0" fill="#c43d87"/>
+<text x="814.6666666666666" y="669.6" font-size="13" fill="#203148" text-anchor="middle">330</text>
+<text x="814.6666666666666" y="768" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+<rect x="844.6666666666666" y="705.3333333333334" width="32" height="42.666666666666664" rx="0" fill="#3478bb"/>
+<rect x="844.6666666666666" y="654.1333333333333" width="32" height="51.2" rx="0" fill="#d38b36"/>
+<rect x="844.6666666666666" y="613.6" width="32" height="40.53333333333334" rx="0" fill="#c43d87"/>
+<text x="860.6666666666666" y="605.6" font-size="13" fill="#203148" text-anchor="middle">630</text>
+<text x="860.6666666666666" y="768" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+<text x="837.6666666666666" y="794" font-size="16" fill="#203148" text-anchor="middle">22—24</text>
+<text x="30" y="849" font-size="16" fill="#203148" text-anchor="start">读图示例：20—22点总花费由530元升至700元，其中商品 B 由170元升至260元。</text>
+<text x="30" y="882" font-size="14" fill="#64748b" text-anchor="start">全店托管两日合计 ¥1,600，未拆到单品；此模板不含直播。缺数据时应标待核验，不补零。</text>
+<text x="30" y="910" font-size="14" fill="#64748b" text-anchor="start">与下方贡献占比模板使用同一组两日消耗；花费增加不等于效果变好，需结合利润和成交。</text>
+</g></svg>
