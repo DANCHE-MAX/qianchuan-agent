@@ -87,7 +87,7 @@ def assess(series,account,kind,now,stale_minutes=45):
     for pid in set().union(*(set(value['rows']) for value in values)):
         rows=[value['rows'].get(pid) for value in values]
         entity={'id':pid,'name':next(row['name'] for row in reversed(rows) if row is not None),
-                'metrics':{},'previous':{},'current':{},'hours':durations}
+                'metrics':{},'previous':{},'current':{},'hours':durations,'revisions':[]}
         for key in METRICS:
             if any(row is None for row in rows):reason='presence'
             else:
@@ -95,7 +95,13 @@ def assess(series,account,kind,now,stale_minutes=45):
                 reason=next((error for _,error in checked if error),None)
                 if reason is None:
                     previous=checked[1][0]-checked[0][0];current=checked[2][0]-checked[1][0]
-                    if previous<0 or current<0:reason='revision'
+                    if previous<0 or current<0:
+                        reason='revision'
+                        for i,delta in enumerate((previous,current)):
+                            if delta<0:
+                                entity['revisions'].append({'metric':key,'before':str(checked[i][0]),
+                                    'after':str(checked[i+1][0]),'decrease':str(-delta),
+                                    'start':values[i]['cutoff'].isoformat(),'end':values[i+1]['cutoff'].isoformat()})
                     else:entity['previous'][key]=previous;entity['current'][key]=current
             entity['metrics'][key]=reason or 'ready'
             if reason:reasons.add(reason)
@@ -141,6 +147,43 @@ def describe(result):
     return title+('：'+reasons if reasons else '')+'。累计数据与区间趋势分别核对；'+note
 
 
+METRIC_LABELS={'ad_spend':'广告消耗','gmv':'成交金额','order_count':'订单数',
+               'backend_net':'后台净成交金额','comprehensive_cost':'综合成本'}
+
+
+def revision_details(result):
+    """Show measured cumulative corrections, never infer a refund or profit loss."""
+    lines=[]
+    for pid,entity in sorted(result.get('entities',{}).items()):
+        changes=entity.get('revisions',[])
+        if not changes:continue
+        lines.append('%s（ID：%s）'%(entity['name'],pid))
+        for change in changes:
+            key=change['metric'];unit='单' if key=='order_count' else '元'
+            def fmt(value):
+                return format(Decimal(value),'.0f' if key=='order_count' else ',.2f')+unit
+            start,end=stamp(change['start']),stamp(change['end'])
+            label=('退款提示（按净成交减少识别）｜' if key=='backend_net' else '数据回调｜')+METRIC_LABELS[key]
+            lines.append('%s %s—%s｜%s：%s → %s，减少%s。'%(start.strftime('%m-%d'),
+                start.strftime('%H:%M'),end.strftime('%H:%M'),label,
+                fmt(change['before']),fmt(change['after']),fmt(change['decrease'])))
+    return lines
+
+
+def notice_elements(result,now):
+    details=revision_details(result)
+    if not details:
+        explanation=describe(result)
+    else:
+        explanation='千川累计指标出现回调，具体变化如下。'
+        other=[REASONS.get(r,r) for r in result['reasons'] if r!='revision']
+        if other:explanation+='另需核对：'+'；'.join(other)+'。'
+    count=('本轮对象可比性尚未评估；等待有效数据。' if result['state'] in ('blocked','waiting') else
+           '可正常比较%d个，需核验%d个。未调整投放。'%(result['counts']['ready'],result['counts']['limited']))
+    return [text_element('账户%s｜%s（北京时间）'%(result['account'],now.strftime('%Y-%m-%d %H:%M'))),
+            text_element(explanation),*[text_element(line) for line in details],text_element(count)]
+
+
 def finding_text(finding):
     money=lambda value:'未核验' if value is None else str(value)+'元'
     orders='未核验' if finding['orders'] is None else finding['orders']
@@ -174,7 +217,7 @@ def record(store,result,now,*,notify_observation=True):
         if not notify_observation:
             # Retire queued routine notices only; never replay them after policy changes.
             routine_phrases=('不足3个有效快照','新增、缺失或重新出现的对象不足3次连续观察','本轮规则分析条件已满足','本轮接口返回无报表记录')
-            serious_phrases=tuple(REASONS[k] for k in ('collect_failed','stale','metadata','gap','identity','missing','invalid','revision'))
+            serious_phrases=tuple(REASONS[k] for k in ('collect_failed','stale','metadata','gap','identity','missing','invalid','revision'))+('千川累计指标出现回调',)
             for key,payload in db.execute("SELECT id,payload FROM events WHERE account=? AND sent=0 AND id LIKE ?",(account,'analysis-status:'+account+':'+kind+':%')).fetchall():
                 if any(t in payload for t in routine_phrases) and not any(t in payload for t in serious_phrases):
                     db.execute('UPDATE events SET sent=2 WHERE id=? AND sent=0',(key,))
@@ -194,11 +237,7 @@ def record(store,result,now,*,notify_observation=True):
             announce=bool(set(result['reasons']) & {'collect_failed','stale','metadata','gap','identity','missing','invalid','revision'})
         if announce:
             key='analysis-status:'+account+':'+kind+':'+str(sequence)
-            rendered=card('投流分析｜'+('计划' if kind=='plan' else '素材')+'数据检查',[
-                text_element('账户%s｜%s'%(account,now.isoformat())),text_element(describe(result)),
-                text_element('本轮对象可比性尚未评估；满足采样条件后再统计。' if result['state'] in ('blocked','waiting') else
-                             '完整可比对象%d个，受限对象%d个；不补造缺失记录或把新计划历史当作0。'%
-                             (result['counts']['ready'],result['counts']['limited']))])
+            rendered=card('投流分析｜'+('计划' if kind=='plan' else '素材')+'数据检查',notice_elements(result,now))
             db.execute('INSERT OR IGNORE INTO events(id,account,stamp,payload) VALUES(?,?,?,?)',
                        (key,account,now.isoformat(),json.dumps(rendered,ensure_ascii=False)))
         # Queued explanations for a previous state must not replay after it changes.
