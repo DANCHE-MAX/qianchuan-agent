@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" aria-label="每日三件事｜昨日结果、变化与核查" width="960" height="840" viewBox="0 0 960 840" role="img">
+  <title>每日三件事｜昨日结果、变化与核查</title>
+  <rect x="0" y="0" width="960" height="840" fill="#f4f7fb" rx="12" />
+  <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
+    <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">每日三件事｜昨日结果、变化与核查</text>
+    <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
+    <rect x="25" y="100" width="910" height="145" fill="white" rx="12" />
+    <text x="48" y="135" font-size="24" fill="#203148" text-anchor="start">01 昨日结果</text>
+    <text x="48" y="173" font-size="17" fill="#64748b" text-anchor="start">可计算部分预估利润</text>
+    <text x="48" y="215" font-size="26" fill="#203148" text-anchor="start">+¥2,300</text>
+    <text x="370" y="173" font-size="17" fill="#64748b" text-anchor="start">已知广告消耗</text>
+    <text x="370" y="215" font-size="26" fill="#203148" text-anchor="start">¥4,000</text>
+    <text x="670" y="173" font-size="17" fill="#64748b" text-anchor="start">计划覆盖</text>
+    <text x="670" y="215" font-size="26" fill="#203148" text-anchor="start">5项可算 / 1项待核验</text>
+    <rect x="25" y="263" width="910" height="205" fill="white" rx="12" />
+    <text x="48" y="301" font-size="24" fill="#203148" text-anchor="start">02 相比前日</text>
+    <text x="48" y="338" font-size="18" fill="#64748b" text-anchor="start">指标</text>
+    <text x="390" y="338" font-size="18" fill="#64748b" text-anchor="start">前天</text>
+    <text x="580" y="338" font-size="18" fill="#64748b" text-anchor="start">昨天</text>
+    <text x="770" y="338" font-size="18" fill="#64748b" text-anchor="start">变化</text>
+    <text x="48" y="382" font-size="18" fill="#203148" text-anchor="start">预估利润</text>
+    <text x="390" y="382" font-size="18" fill="#203148" text-anchor="start">1,850</text>
+    <text x="580" y="382" font-size="18" fill="#203148" text-anchor="start">2,300</text>
+    <text x="770" y="382" font-size="18" fill="#203148" text-anchor="start">+450</text>
+    <text x="48" y="428" font-size="18" fill="#203148" text-anchor="start">已知广告消耗</text>
+    <text x="390" y="428" font-size="18" fill="#203148" text-anchor="start">3,000</text>
+    <text x="580" y="428" font-size="18" fill="#203148" text-anchor="start">4,000</text>
+    <text x="770" y="428" font-size="18" fill="#203148" text-anchor="start">+1,000</text>
+    <rect x="25" y="485" width="910" height="275" fill="white" rx="12" />
+    <text x="48" y="524" font-size="24" fill="#203148" text-anchor="start">03 今天先核查这三件事</text>
+    <text x="48" y="568" font-size="20" fill="#203148" text-anchor="start">1 商品 A：核查利润下降</text>
+    <text x="48" y="597" font-size="17" fill="#64748b" text-anchor="start">利润 1,200 → 1,000元，减少200元；原因待核验。</text>
+    <text x="48" y="637" font-size="20" fill="#203148" text-anchor="start">2 商品 C：核查亏损</text>
+    <text x="48" y="666" font-size="17" fill="#64748b" text-anchor="start">昨天预估亏损300元；核查成交、费用和投放时段。</text>
+    <text x="48" y="706" font-size="20" fill="#203148" text-anchor="start">3 计划 D：补齐GMV</text>
+    <text x="48" y="735" font-size="17" fill="#64748b" text-anchor="start">广告费已核实为0，GMV及利润待核验，不能补0。</text>
+    <text x="30" y="800" font-size="17" fill="#64748b" text-anchor="start">模型利润不代表完整账户财务净利润；不自动调整预算，无需投手反馈。</text>
+  </g>
+</svg>

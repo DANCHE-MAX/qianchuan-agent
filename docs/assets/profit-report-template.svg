@@ -1,46 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="590" viewBox="0 0 960 590" role="img" aria-label="昨日利润｜哪些商品需要关注？">
-  <title>昨日利润｜哪些商品需要关注？</title>
-  <rect x="0" y="0" width="960" height="590" fill="#f4f7fb" rx="16" />
-  <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#203148">
-    <text x="30" y="43" font-size="25" fill="#203148" text-anchor="start">昨日利润｜哪些商品需要关注？</text>
-    <text x="30" y="76" font-size="15" fill="#9b4b16" text-anchor="start">统一虚构演示数据 · 非真实报表、截图或发送记录</text>
-    <rect x="30" y="95" width="280" height="78" fill="#fff" rx="8" />
-    <text x="45" y="120" font-size="14" fill="#64748b" text-anchor="start">广告消耗｜含全店托管</text>
-    <text x="45" y="154" font-size="22" fill="#203148" text-anchor="start">¥4,000</text>
-    <rect x="340" y="95" width="280" height="78" fill="#fff" rx="8" />
-    <text x="355" y="120" font-size="14" fill="#64748b" text-anchor="start">可计算部分预计利润</text>
-    <text x="355" y="154" font-size="22" fill="#203148" text-anchor="start">+¥2,200</text>
-    <rect x="650" y="95" width="280" height="78" fill="#fff" rx="8" />
-    <text x="665" y="120" font-size="14" fill="#64748b" text-anchor="start">数据范围</text>
-    <text x="665" y="154" font-size="22" fill="#203148" text-anchor="start">3项可算 / 托管待核验</text>
-    <text x="30" y="205" font-size="15" fill="#64748b" text-anchor="start">预计利润（元）｜颜色表示商品，上下位置表示盈亏</text>
-    <line x1="100" y1="240.0" x2="910" y2="240.0" stroke="#dce4ef" />
-    <text x="80" y="245.0" font-size="13" fill="#64748b" text-anchor="end">1,500</text>
-    <line x1="100" y1="290.0" x2="910" y2="290.0" stroke="#dce4ef" />
-    <text x="80" y="295.0" font-size="13" fill="#64748b" text-anchor="end">1,000</text>
-    <line x1="100" y1="340.0" x2="910" y2="340.0" stroke="#dce4ef" />
-    <text x="80" y="345.0" font-size="13" fill="#64748b" text-anchor="end">500</text>
-    <line x1="100" y1="390.0" x2="910" y2="390.0" stroke="#9aaaba" />
-    <text x="80" y="395.0" font-size="13" fill="#64748b" text-anchor="end">0</text>
-    <line x1="100" y1="420.0" x2="910" y2="420.0" stroke="#dce4ef" />
-    <text x="80" y="425.0" font-size="13" fill="#64748b" text-anchor="end">-300</text>
-    <rect x="170" y="290.0" width="94" height="100.0" fill="#3478bb" rx="3" />
-    <text x="217" y="278.0" font-size="20" fill="#203148" text-anchor="middle">+1,000</text>
-    <rect x="175" y="467" width="12" height="12" fill="#3478bb" rx="2" />
-    <text x="192" y="478" font-size="16" fill="#203148" text-anchor="start">商品 A</text>
-    <rect x="360" y="240.0" width="94" height="150.0" fill="#d38b36" rx="3" />
-    <text x="407" y="228.0" font-size="20" fill="#203148" text-anchor="middle">+1,500</text>
-    <rect x="365" y="467" width="12" height="12" fill="#d38b36" rx="2" />
-    <text x="382" y="478" font-size="16" fill="#203148" text-anchor="start">商品 B</text>
-    <rect x="550" y="390" width="94" height="30.0" fill="#00a67d" rx="3" />
-    <text x="597" y="442.0" font-size="20" fill="#cd5757" text-anchor="middle">-300</text>
-    <rect x="555" y="467" width="12" height="12" fill="#00a67d" rx="2" />
-    <text x="572" y="478" font-size="16" fill="#203148" text-anchor="start">商品 C</text>
-    <text x="787" y="330" font-size="21" fill="#64748b" text-anchor="middle">待核验</text>
-    <text x="787" y="358" font-size="14" fill="#64748b" text-anchor="middle">收入缺失</text>
-    <rect x="745" y="467" width="12" height="12" fill="#c43d87" rx="2" />
-    <text x="762" y="478" font-size="16" fill="#203148" text-anchor="start">全店托管</text>
-    <text x="30" y="523" font-size="17" fill="#203148" text-anchor="start">A、B盈利合计 ¥2,500 − C亏损 ¥300 = 可计算部分 ¥2,200。</text>
-    <text x="30" y="557" font-size="14" fill="#64748b" text-anchor="start">全店托管广告费 ¥700 已计入消耗，利润未知；预计利润不是最终财务利润。</text>
+<svg xmlns="http://www.w3.org/2000/svg" aria-label="昨日利润｜全店托管与未关联计划分开" width="960" height="680" viewBox="0 0 960 680" role="img">
+  <title>昨日利润｜全店托管与未关联计划分开</title>
+  <rect x="0" y="0" width="960" height="680" fill="#f4f7fb" rx="12" />
+  <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
+    <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">昨日利润｜全店托管与未关联计划分开</text>
+    <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
+    <text x="30" y="125" font-size="20" fill="#203148" text-anchor="start">已知广告费 ¥4,000    可计算部分预估利润 +¥2,300    计划D利润待核验</text>
+    <line x1="80" y1="225.0" x2="925" y2="225.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="230.0" font-size="14" fill="#64748b" text-anchor="end">1500</text>
+    <line x1="80" y1="285.0" x2="925" y2="285.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="290.0" font-size="14" fill="#64748b" text-anchor="end">1000</text>
+    <line x1="80" y1="345.0" x2="925" y2="345.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="350.0" font-size="14" fill="#64748b" text-anchor="end">500</text>
+    <line x1="80" y1="405.0" x2="925" y2="405.0" stroke="#243951" stroke-width="2" />
+    <text x="68" y="410.0" font-size="14" fill="#64748b" text-anchor="end">0</text>
+    <line x1="80" y1="441.0" x2="925" y2="441.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="446.0" font-size="14" fill="#64748b" text-anchor="end">-300</text>
+    <rect x="105" y="285.0" width="88" height="120.0" fill="#149663" rx="3" />
+    <text x="149" y="273.0" font-size="22" fill="#149663" text-anchor="middle">+1,000</text>
+    <text x="149" y="505" font-size="17" fill="#203148" text-anchor="middle">商品 A</text>
+    <rect x="271" y="225.0" width="88" height="180.0" fill="#149663" rx="3" />
+    <text x="315" y="213.0" font-size="22" fill="#149663" text-anchor="middle">+1,500</text>
+    <text x="315" y="505" font-size="17" fill="#203148" text-anchor="middle">商品 B</text>
+    <rect x="437" y="405" width="88" height="36.0" fill="#d54d55" rx="3" />
+    <text x="481" y="465.0" font-size="22" fill="#d54d55" text-anchor="middle">-300</text>
+    <text x="481" y="505" font-size="17" fill="#203148" text-anchor="middle">商品 C</text>
+    <rect x="603" y="405" width="88" height="12.0" fill="#d54d55" rx="3" />
+    <text x="647" y="441.0" font-size="22" fill="#d54d55" text-anchor="middle">-100</text>
+    <text x="647" y="505" font-size="17" fill="#203148" text-anchor="middle">全店托管</text>
+    <rect x="769" y="381.0" width="88" height="24.0" fill="#149663" rx="3" />
+    <text x="813" y="369.0" font-size="22" fill="#149663" text-anchor="middle">+200</text>
+    <text x="813" y="505" font-size="17" fill="#203148" text-anchor="middle">其他未关联计划</text>
+    <text x="30" y="555" font-size="18" fill="#203148" text-anchor="start">2,500（盈利商品）−300（亏损商品）−100（托管）+200（未关联）= 2,300元</text>
+    <text x="30" y="600" font-size="17" fill="#64748b" text-anchor="start">全店托管是明确标注的计划；未关联计划金额可算，商品归属仍待核验。</text>
+    <text x="30" y="638" font-size="17" fill="#986320" text-anchor="start">计划D：已核实广告费0；GMV及利润未知，未画成零利润。</text>
   </g>
 </svg>
