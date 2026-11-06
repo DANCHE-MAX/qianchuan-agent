@@ -116,8 +116,8 @@ def collect(env,day,today,evidence,request=get):
     if not inventory and not daily:raise ValueError('No inventory or daily evidence')
     return {'inventory':list(inventory.values()),'daily':daily,'no_spend':zeros,'date':day,'checks':checks,'warnings':warnings,'account':account}
 
-def prepare(root,env,now,cfg,opts):
-    root=Path(root);day=(now.date()-timedelta(days=1)).isoformat();account=hourly.account_id(env)
+def prepare(root,env,now,cfg,opts,*,day=None):
+    root=Path(root);day=day or (now.date()-timedelta(days=1)).isoformat();account=hourly.account_id(env)
     config=json.loads((root/'config/profit_daily.json').read_text())
     policy_path=root/'data/trading_context'/account/'01_rules/rules.json'
     local=json.loads(policy_path.read_text());season=local['seasonal_refund_policy']

@@ -45,10 +45,15 @@ def load(outdir, account, day):
         raise ValueError('账户未明确')
     root = Path(outdir).resolve()
     dbpath = root.parent / 'data/qianchuan/daily_brief.db'
-    with sqlite3.connect(dbpath.as_uri() + '?mode=ro', uri=True) as db:
-        rows = db.execute('SELECT sent,payload FROM jobs WHERE account=? AND day=?', (str(account), day)).fetchall()
-    if len(rows) != 1 or rows[0][0] != 1:
-        raise ValueError('日报尚未完成')
+    rows = []
+    if dbpath.exists():
+        with sqlite3.connect(dbpath.as_uri() + '?mode=ro', uri=True) as db:
+            rows = db.execute('SELECT sent,payload FROM jobs WHERE account=? AND day=?', (str(account), day)).fetchall()
+    if not rows or len(rows) == 1 and rows[0][0] != 1:
+        from .manual_profit import completed
+        return completed(outdir, account, day)
+    if len(rows) != 1:
+        raise ValueError('日报记录冲突')
     bundle = json.loads(rows[0][1])
     directory = Path(bundle['directory']).resolve()
     expected = root / 'profit_daily' / str(account) / day

@@ -34,7 +34,7 @@ def deliver(api,message_id,chat,path):
     if 'message_id' not in state:
         if state.get('attempted'):raise AmbiguousDelivery('Image reply outcome unknown; manual readback required')
         state['attempted']=True;save(receipt,state)
-        result=api.reply_image(message_id,state['upload_key'],hashlib.sha256(('profit-summary:'+message_id).encode()).hexdigest()[:40])
+        result=api.reply_image(message_id,state['upload_key'],hashlib.sha256(('profit-summary:'+message_id+':'+path.name).encode()).hexdigest()[:40])
         state['message_id']=result['data']['message_id'];save(receipt,state)
     if not state.get('verified'):
         items=api.get_message(state['message_id'])

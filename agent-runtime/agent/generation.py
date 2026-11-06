@@ -132,6 +132,9 @@ def reply(notifier, message_id, command, root, outdir, env, context, memory=None
     if not chat or chat not in allowed or not message_id:
         # Do not send a generation response outside the configured allowlist.
         return None
+    from . import profit_analysis, manual_profit
+    if profit_analysis.enabled(outdir):
+        return manual_profit.reply(notifier, message_id, command, root, outdir, env, context, memory)
     # The listener already queues work; contention across processes is retried by its inbox.
     with generation_lock(root / 'data' / 'generation.lock'):
         db = sqlite3.connect(root / 'data' / 'generation.db', timeout=10)
