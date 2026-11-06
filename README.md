@@ -19,13 +19,13 @@
 
 ## 使用效果：在飞书里收到什么？
 
-日报提醒 → 看图找重点 → Excel核对明细 → 投手决定如何调整。
+日报摘要 → 利润图与 Excel → 两日消耗与贡献占比 → 余额提醒。
 
 **以下均为虚构数据的展示模板，不是真实截图或发送记录。点击图片可查看大图。**
 
-[![飞书日报与余额提醒展示模板](docs/assets/feishu-messages-template.svg)](docs/assets/feishu-messages-template.svg)
+[![飞书最新版接收模板：利润图、Excel、两日消耗、贡献占比和余额提醒](docs/assets/feishu-messages-template.svg)](docs/assets/feishu-messages-template.svg)
 
-上图展示基础接收形式；新版日报还会附上两日消耗对比和下面的贡献占比图。已发送的历史日报不会重新追加发送。
+上图已包含新版两日消耗和贡献占比附图；余额提醒按原时段发送。已发送的历史日报不会重复追加。
 
 ## 两日消耗：哪些商品、哪些时段花费变了？
 

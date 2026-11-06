@@ -1,72 +1,72 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1100" viewBox="0 0 960 1100" role="img" aria-labelledby="title desc">
-<title id="title">飞书群聊展示模板：接收利润日报、Excel附件和余额提醒</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1800" viewBox="0 0 960 1800" role="img" aria-labelledby="title desc">
+<title id="title">飞书新版日报展示：利润图、Excel、两日消耗与贡献图、余额提醒</title>
 <desc id="desc">简化界面示意，所有计划、人员和金额为虚构演示内容，不是真实飞书截图或发送回执。</desc>
-<rect width="960" height="1100" rx="16" fill="#f3f6fb"/>
+<rect width="960" height="1800" rx="16" fill="#f3f6fb" />
 <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#203148">
 <text x="30" y="42" font-size="26" fill="#203148" font-weight="600">在飞书里，会收到什么？</text>
 <text x="30" y="73" font-size="16" fill="#9b4b16" font-weight="400">界面示意 · 全部为演示数据 · 不是真实截图或发送回执</text>
-<rect x="24" y="95" width="912" height="953" rx="14" fill="#ffffff" stroke="#dfe6ef"/>
-<rect x="24" y="95" width="912" height="73" rx="14" fill="#ffffff" stroke="none"/>
-<rect x="44" y="114" width="36" height="36" rx="8" fill="#3370ff" stroke="none"/>
+<rect x="24" y="95" width="912" height="1653" rx="14" fill="#ffffff" stroke="#dfe6ef" />
+<rect x="24" y="95" width="912" height="73" rx="14" fill="#ffffff" stroke="none" />
+<rect x="44" y="114" width="36" height="36" rx="8" fill="#3370ff" stroke="none" />
 <text x="53" y="139" font-size="19" fill="#ffffff" font-weight="600">群</text>
 <text x="96" y="129" font-size="20" fill="#203148" font-weight="600">投放协作群 · 演示</text>
 <text x="96" y="152" font-size="14" fill="#64748b" font-weight="400">日报看重点，附件查明细，余额变化及时关注</text>
-<line x1="24" y1="168" x2="936" y2="168" stroke="#dfe6ef"/>
-<rect x="25" y="169" width="910" height="878" rx="0" fill="#f6f8fb" stroke="none"/>
+<line x1="24" y1="168" x2="936" y2="168" stroke="#dfe6ef" />
+<rect x="25" y="169" width="910" height="1578" rx="0" fill="#f6f8fb" stroke="none" />
 <text x="423" y="196" font-size="13" fill="#7a889b" font-weight="400">演示当天 10:00</text>
-<rect x="46" y="216" width="40" height="40" rx="10" fill="#e2ecff" stroke="none"/>
+<rect x="46" y="216" width="40" height="40" rx="10" fill="#e2ecff" stroke="none" />
 <text x="53" y="243" font-size="20" fill="#3370ff" font-weight="600">AI</text>
 <text x="100" y="234" font-size="16" fill="#203148" font-weight="600">千川助手</text>
 <text x="184" y="234" font-size="12" fill="#7a889b" font-weight="400">机器人 · 演示</text>
-<rect x="100" y="246" width="792" height="66" rx="10" fill="#ffffff" stroke="none"/>
+<rect x="100" y="246" width="792" height="66" rx="10" fill="#ffffff" stroke="none" />
 <text x="120" y="273" font-size="16" fill="#3370ff" font-weight="600">@投手（演示）</text>
-<text x="250" y="273" font-size="16" fill="#203148" font-weight="400">昨日利润日报已生成，请先看重点计划。</text>
-<text x="120" y="298" font-size="14" fill="#64748b" font-weight="400">图片看整体，Excel查明细；待核验的计划先补数据。</text>
-<rect x="100" y="324" width="792" height="272" rx="10" fill="#ffffff" stroke="#dfe6ef"/>
-<rect x="100" y="324" width="792" height="40" rx="10" fill="#eaf2ff" stroke="none"/>
+<text x="250" y="273" font-size="16" fill="#203148" font-weight="400">日报已生成，附两日消耗与贡献占比。</text>
+<text x="120" y="298" font-size="14" fill="#64748b" font-weight="400">依次查看：利润图 → Excel → 两日消耗图 → 贡献占比图。</text>
+<rect x="100" y="324" width="792" height="272" rx="10" fill="#ffffff" stroke="#dfe6ef" />
+<rect x="100" y="324" width="792" height="40" rx="10" fill="#eaf2ff" stroke="none" />
 <text x="120" y="350" font-size="18" fill="#203148" font-weight="600">昨日利润日报 · 图片预览（演示）</text>
-<text x="120" y="390" font-size="18" fill="#203148" font-weight="600">广告费 ¥2,400</text>
-<text x="344" y="390" font-size="18" fill="#228875" font-weight="600">预计利润 +¥1,500</text>
+<text x="120" y="390" font-size="18" fill="#203148" font-weight="600">广告费 ¥4,000</text>
+<text x="344" y="390" font-size="18" fill="#228875" font-weight="600">可算部分利润 +¥2,200</text>
 <text x="624" y="390" font-size="16" fill="#203148" font-weight="400">3个可算 / 1个待核验</text>
-<text x="120" y="418" font-size="13" fill="#64748b" font-weight="400">预计利润（元）｜仅合计可计算计划</text>
-<line x1="147" y1="513" x2="840" y2="513" stroke="#9baabd"/>
-<rect x="210" y="441.0" width="68" height="72.0" rx="3" fill="#228875" stroke="none"/>
-<text x="217" y="433.0" font-size="16" fill="#203148" font-weight="600">+1200</text>
+<text x="120" y="590" font-size="12" fill="#64748b" font-weight="400">已扣广告费 · 3项可算，托管利润待核验</text>
+<line x1="147" y1="513" x2="840" y2="513" stroke="#9baabd" />
+<rect x="210" y="453" width="68" height="60" rx="3" fill="#228875" stroke="none" />
+<text x="217" y="445" font-size="16" fill="#203148" font-weight="600">+1000</text>
 <text x="219" y="574" font-size="14" fill="#203148" font-weight="400">计划 A</text>
-<rect x="380" y="477.0" width="68" height="36.0" rx="3" fill="#228875" stroke="none"/>
-<text x="387" y="469.0" font-size="16" fill="#203148" font-weight="600">+600</text>
+<rect x="380" y="423" width="68" height="90" rx="3" fill="#228875" stroke="none" />
+<text x="387" y="415" font-size="16" fill="#203148" font-weight="600">+1500</text>
 <text x="389" y="574" font-size="14" fill="#203148" font-weight="400">计划 B</text>
-<rect x="550" y="513" width="68" height="18.0" rx="3" fill="#cd5757" stroke="none"/>
+<rect x="550" y="513" width="68" height="18.0" rx="3" fill="#cd5757" stroke="none" />
 <text x="557" y="550" font-size="16" fill="#203148" font-weight="600">-300</text>
 <text x="559" y="574" font-size="14" fill="#203148" font-weight="400">计划 C</text>
 <text x="730" y="475" font-size="18" fill="#64748b" font-weight="600">待核验</text>
 <text x="731" y="500" font-size="12" fill="#64748b" font-weight="400">不画假零值</text>
-<text x="737" y="574" font-size="14" fill="#203148" font-weight="400">计划 D</text>
-<rect x="100" y="608" width="560" height="66" rx="10" fill="#ffffff" stroke="#dfe6ef"/>
-<rect x="116" y="621" width="34" height="38" rx="5" fill="#e6f5ee" stroke="none"/>
+<text x="737" y="574" font-size="14" fill="#203148" font-weight="400">全店托管</text>
+<rect x="100" y="608" width="560" height="66" rx="10" fill="#ffffff" stroke="#dfe6ef" />
+<rect x="116" y="621" width="34" height="38" rx="5" fill="#e6f5ee" stroke="none" />
 <text x="123" y="647" font-size="22" fill="#228875" font-weight="600">X</text>
 <text x="164" y="634" font-size="17" fill="#203148" font-weight="600">昨日计划利润明细_演示.xlsx</text>
 <text x="164" y="657" font-size="13" fill="#64748b" font-weight="400">附件示意 · 计划明细 / 计算口径 / 缺失核查</text>
-<text x="423" y="707" font-size="13" fill="#7a889b" font-weight="400">演示当天 12:00</text>
-<rect x="46" y="723" width="40" height="40" rx="10" fill="#e2ecff" stroke="none"/>
-<text x="53" y="750" font-size="20" fill="#3370ff" font-weight="600">AI</text>
-<text x="100" y="741" font-size="16" fill="#203148" font-weight="600">千川助手</text>
-<text x="184" y="741" font-size="12" fill="#7a889b" font-weight="400">机器人 · 演示</text>
-<rect x="100" y="753" width="792" height="273" rx="10" fill="#ffffff" stroke="#dfe6ef"/>
-<rect x="100" y="753" width="792" height="40" rx="10" fill="#eaf2ff" stroke="none"/>
-<text x="120" y="780" font-size="18" fill="#3370ff" font-weight="600">@投手（演示）  余额速率对比</text>
-<text x="120" y="820" font-size="18" fill="#203148" font-weight="600">可用余额 ¥1,200</text>
-<text x="398" y="820" font-size="17" fill="#203148" font-weight="400">按本期速率估算约10小时</text>
-<text x="120" y="848" font-size="14" fill="#64748b" font-weight="400">本期较前期快50% · 较昨日同段快20%</text>
-<text x="120" y="883" font-size="14" fill="#203148" font-weight="400">本两小时 10—12点</text>
-<rect x="300" y="865" width="384.0" height="22" rx="3" fill="#3478bb" stroke="none"/>
-<text x="699.0" y="882" font-size="14" fill="#203148" font-weight="400">120 元/小时</text>
-<text x="120" y="918" font-size="14" fill="#203148" font-weight="400">前两小时 08—10点</text>
-<rect x="300" y="900" width="256.0" height="22" rx="3" fill="#d38b36" stroke="none"/>
-<text x="571.0" y="917" font-size="14" fill="#203148" font-weight="400">80 元/小时</text>
-<text x="120" y="953" font-size="14" fill="#203148" font-weight="400">昨日同段 10—12点</text>
-<rect x="300" y="935" width="320.0" height="22" rx="3" fill="#8a6abd" stroke="none"/>
-<text x="635.0" y="952" font-size="14" fill="#203148" font-weight="400">100 元/小时</text>
-<text x="120" y="1004" font-size="13" fill="#64748b" font-weight="400">余额净下降不等于广告消耗；充值、资金调整或缺样本时需核查。</text>
-<text x="30" y="1080" font-size="14" fill="#64748b" font-weight="400">展示用途：让业务理解接收形式；实际样式、发送时刻与内容以授权配置和数据情况为准。</text>
-</g></svg>
+<text x="423" y="1407.0" font-size="13" fill="#7a889b" font-weight="400">演示当天 12:00</text>
+<rect x="46" y="1423.0" width="40" height="40" rx="10" fill="#e2ecff" stroke="none" />
+<text x="53" y="1450.0" font-size="20" fill="#3370ff" font-weight="600">AI</text>
+<text x="100" y="1441.0" font-size="16" fill="#203148" font-weight="600">千川助手</text>
+<text x="184" y="1441.0" font-size="12" fill="#7a889b" font-weight="400">机器人 · 演示</text>
+<rect x="100" y="1453.0" width="792" height="273" rx="10" fill="#ffffff" stroke="#dfe6ef" />
+<rect x="100" y="1453.0" width="792" height="40" rx="10" fill="#eaf2ff" stroke="none" />
+<text x="120" y="1480.0" font-size="18" fill="#3370ff" font-weight="600">@投手（演示）  余额速率对比</text>
+<text x="120" y="1520.0" font-size="18" fill="#203148" font-weight="600">可用余额 ¥1,200</text>
+<text x="398" y="1520.0" font-size="17" fill="#203148" font-weight="400">按本期速率估算约10小时</text>
+<text x="120" y="1548.0" font-size="14" fill="#64748b" font-weight="400">本期较前期快50% · 较昨日同段快20%</text>
+<text x="120" y="1583.0" font-size="14" fill="#203148" font-weight="400">本两小时 10—12点</text>
+<rect x="300" y="1565.0" width="384.0" height="22" rx="3" fill="#3478bb" stroke="none" />
+<text x="699.0" y="1582.0" font-size="14" fill="#203148" font-weight="400">120 元/小时</text>
+<text x="120" y="1618.0" font-size="14" fill="#203148" font-weight="400">前两小时 08—10点</text>
+<rect x="300" y="1600.0" width="256.0" height="22" rx="3" fill="#d38b36" stroke="none" />
+<text x="571.0" y="1617.0" font-size="14" fill="#203148" font-weight="400">80 元/小时</text>
+<text x="120" y="1653.0" font-size="14" fill="#203148" font-weight="400">昨日同段 10—12点</text>
+<rect x="300" y="1635.0" width="320.0" height="22" rx="3" fill="#8a6abd" stroke="none" />
+<text x="635.0" y="1652.0" font-size="14" fill="#203148" font-weight="400">100 元/小时</text>
+<text x="120" y="1704.0" font-size="13" fill="#64748b" font-weight="400">余额净下降不等于广告消耗；充值、资金调整或缺样本时需核查。</text>
+<text x="30" y="1780.0" font-size="14" fill="#64748b" font-weight="400">展示用途：让业务理解接收形式；实际样式、发送时刻与内容以授权配置和数据情况为准。</text>
+<rect x="100" y="690" width="792" height="313" rx="10" fill="#fff" stroke="#dfe6ef" /><rect x="100" y="690" width="792" height="40" rx="10" fill="#eaf2ff" /><text x="120" y="717" font-size="18" fill="#203148" text-anchor="start">两日商品消耗 · 图片预览（演示）</text><text x="120" y="754" font-size="18" fill="#203148" text-anchor="start">前天 ¥3,000 → 昨天 ¥4,000（+33.3%）</text><text x="120" y="779" font-size="14" fill="#64748b" text-anchor="start">午后时段节选｜每组左前天、右昨天｜同商品同色</text><rect x="120" y="792" width="12" height="12" fill="#3478bb" /><text x="138" y="804" font-size="13" fill="#203148" text-anchor="start">商品 A</text><rect x="270" y="792" width="12" height="12" fill="#d38b36" /><text x="288" y="804" font-size="13" fill="#203148" text-anchor="start">商品 B</text><rect x="420" y="792" width="12" height="12" fill="#c43d87" /><text x="438" y="804" font-size="13" fill="#203148" text-anchor="start">全店托管</text><line x1="160" y1="938.0" x2="850" y2="938.0" stroke="#dfe6ef" /><text x="147" y="942.0" font-size="11" fill="#64748b" text-anchor="end">0</text><line x1="160" y1="889.0" x2="850" y2="889.0" stroke="#dfe6ef" /><text x="147" y="893.0" font-size="11" fill="#64748b" text-anchor="end">350</text><line x1="160" y1="840.0" x2="850" y2="840.0" stroke="#dfe6ef" /><text x="147" y="844.0" font-size="11" fill="#64748b" text-anchor="end">700</text><rect x="189" y="915.6" width="22" height="22.400000000000002" fill="#3478bb" /><rect x="189" y="903.0" width="22" height="12.600000000000001" fill="#d38b36" /><rect x="189" y="894.6" width="22" height="8.4" fill="#c43d87" /><text x="200" y="888.6" font-size="11" fill="#203148" text-anchor="middle">310</text><rect x="223" y="912.8" width="22" height="25.200000000000003" fill="#3478bb" /><rect x="223" y="893.1999999999999" width="22" height="19.6" fill="#d38b36" /><rect x="223" y="880.5999999999999" width="22" height="12.600000000000001" fill="#c43d87" /><text x="234" y="874.5999999999999" font-size="11" fill="#203148" text-anchor="middle">410</text><text x="217" y="961" font-size="13" fill="#203148" text-anchor="middle">12—14</text><rect x="299" y="915.6" width="22" height="22.400000000000002" fill="#3478bb" /><rect x="299" y="901.6" width="22" height="14.000000000000002" fill="#d38b36" /><rect x="299" y="891.8000000000001" width="22" height="9.8" fill="#c43d87" /><text x="310" y="885.8000000000001" font-size="11" fill="#203148" text-anchor="middle">330</text><rect x="333" y="910.0" width="22" height="28.000000000000004" fill="#3478bb" /><rect x="333" y="887.6" width="22" height="22.400000000000002" fill="#d38b36" /><rect x="333" y="873.6" width="22" height="14.000000000000002" fill="#c43d87" /><text x="344" y="867.6" font-size="11" fill="#203148" text-anchor="middle">460</text><text x="327" y="961" font-size="13" fill="#203148" text-anchor="middle">14—16</text><rect x="409" y="912.8" width="22" height="25.200000000000003" fill="#3478bb" /><rect x="409" y="896.0" width="22" height="16.8" fill="#d38b36" /><rect x="409" y="884.8" width="22" height="11.200000000000001" fill="#c43d87" /><text x="420" y="878.8" font-size="11" fill="#203148" text-anchor="middle">380</text><rect x="443" y="907.2" width="22" height="30.800000000000004" fill="#3478bb" /><rect x="443" y="882.0" width="22" height="25.200000000000003" fill="#d38b36" /><rect x="443" y="865.2" width="22" height="16.8" fill="#c43d87" /><text x="454" y="859.2" font-size="11" fill="#203148" text-anchor="middle">520</text><text x="437" y="961" font-size="13" fill="#203148" text-anchor="middle">16—18</text><rect x="519" y="905.8" width="22" height="32.2" fill="#3478bb" /><rect x="519" y="883.4" width="22" height="22.400000000000002" fill="#d38b36" /><rect x="519" y="869.4" width="22" height="14.000000000000002" fill="#c43d87" /><text x="530" y="863.4" font-size="11" fill="#203148" text-anchor="middle">490</text><rect x="553" y="903.0" width="22" height="35.0" fill="#3478bb" /><rect x="553" y="872.2" width="22" height="30.800000000000004" fill="#d38b36" /><rect x="553" y="849.8000000000001" width="22" height="22.400000000000002" fill="#c43d87" /><text x="564" y="843.8000000000001" font-size="11" fill="#203148" text-anchor="middle">630</text><text x="547" y="961" font-size="13" fill="#203148" text-anchor="middle">18—20</text><rect x="629" y="901.6" width="22" height="36.400000000000006" fill="#3478bb" /><rect x="629" y="877.8000000000001" width="22" height="23.8" fill="#d38b36" /><rect x="629" y="863.8000000000001" width="22" height="14.000000000000002" fill="#c43d87" /><text x="640" y="857.8000000000001" font-size="11" fill="#203148" text-anchor="middle">530</text><rect x="663" y="903.0" width="22" height="35.0" fill="#3478bb" /><rect x="663" y="866.6" width="22" height="36.400000000000006" fill="#d38b36" /><rect x="663" y="840.0" width="22" height="26.6" fill="#c43d87" /><text x="674" y="834.0" font-size="11" fill="#203148" text-anchor="middle">700</text><text x="657" y="961" font-size="13" fill="#203148" text-anchor="middle">20—22</text><rect x="739" y="915.6" width="22" height="22.400000000000002" fill="#3478bb" /><rect x="739" y="901.6" width="22" height="14.000000000000002" fill="#d38b36" /><rect x="739" y="891.8000000000001" width="22" height="9.8" fill="#c43d87" /><text x="750" y="885.8000000000001" font-size="11" fill="#203148" text-anchor="middle">330</text><rect x="773" y="910.0" width="22" height="28.000000000000004" fill="#3478bb" /><rect x="773" y="876.4" width="22" height="33.6" fill="#d38b36" /><rect x="773" y="849.8" width="22" height="26.6" fill="#c43d87" /><text x="784" y="843.8" font-size="11" fill="#203148" text-anchor="middle">630</text><text x="767" y="961" font-size="13" fill="#203148" text-anchor="middle">22—24</text><text x="120" y="988" font-size="12" fill="#64748b" text-anchor="start">完整附件含全天12个时段；这里仅展示午后，纵轴单位：元。</text><rect x="100" y="1015" width="792" height="359" rx="10" fill="#fff" stroke="#dfe6ef" /><rect x="100" y="1015" width="792" height="40" rx="10" fill="#eaf2ff" /><text x="120" y="1042" font-size="18" fill="#203148" text-anchor="start">商品贡献占比 · 两日四宫格（演示）</text><text x="120" y="1080" font-size="15" fill="#64748b" text-anchor="start">左看盈利商品贡献，右看广告费占比</text><path d="M 163 1142 L 163.0 1106.0 A 36 36 0 1 1 141.83973091747097 1171.1246117974981 Z" fill="#3478bb" stroke="#fff" /><path d="M 163 1142 L 141.83973091747097 1171.1246117974981 A 36 36 0 0 1 163.0 1106.0 Z" fill="#d38b36" stroke="#fff" /><text x="212" y="1110" font-size="15" fill="#203148" text-anchor="start">前天 · 盈利贡献</text><text x="212" y="1134" font-size="14" fill="#203148" text-anchor="start">A 60% / B 40%</text><text x="212" y="1180" font-size="14" fill="#203148" text-anchor="start">盈利合计 ¥2,000</text><path d="M 543 1142 L 543.0 1106.0 A 36 36 0 0 1 543.0 1178.0 Z" fill="#3478bb" stroke="#fff" /><path d="M 543 1142 L 543.0 1178.0 A 36 36 0 0 1 508.76196541337447 1130.8753882025019 Z" fill="#d38b36" stroke="#fff" /><path d="M 543 1142 L 508.76196541337447 1130.8753882025019 A 36 36 0 0 1 543.0 1106.0 Z" fill="#c43d87" stroke="#fff" /><text x="592" y="1110" font-size="15" fill="#203148" text-anchor="start">前天 · 消耗占比</text><text x="592" y="1134" font-size="14" fill="#203148" text-anchor="start">A 50% / B 30%</text><text x="592" y="1155" font-size="13" fill="#64748b" text-anchor="start">全店托管 20%</text><text x="592" y="1180" font-size="14" fill="#203148" text-anchor="start">消耗合计 ¥3,000</text><path d="M 163 1257 L 163.0 1221.0 A 36 36 0 0 1 184.16026908252903 1286.1246117974981 Z" fill="#3478bb" stroke="#fff" /><path d="M 163 1257 L 184.16026908252903 1286.1246117974981 A 36 36 0 1 1 163.0 1221.0 Z" fill="#d38b36" stroke="#fff" /><text x="212" y="1225" font-size="15" fill="#203148" text-anchor="start">昨天 · 盈利贡献</text><text x="212" y="1249" font-size="14" fill="#203148" text-anchor="start">A 40% / B 60%</text><text x="212" y="1295" font-size="14" fill="#203148" text-anchor="start">盈利合计 ¥2,500</text><path d="M 543 1257 L 543.0 1221.0 A 36 36 0 0 1 564.160269082529 1286.1246117974981 Z" fill="#3478bb" stroke="#fff" /><path d="M 543 1257 L 564.160269082529 1286.1246117974981 A 36 36 0 0 1 507.0 1257.0 Z" fill="#d38b36" stroke="#fff" /><path d="M 543 1257 L 507.0 1257.0 A 36 36 0 0 1 543.0 1221.0 Z" fill="#c43d87" stroke="#fff" /><text x="592" y="1225" font-size="15" fill="#203148" text-anchor="start">昨天 · 消耗占比</text><text x="592" y="1249" font-size="14" fill="#203148" text-anchor="start">A 40% / B 35%</text><text x="592" y="1270" font-size="13" fill="#64748b" text-anchor="start">全店托管 25%</text><text x="592" y="1295" font-size="14" fill="#203148" text-anchor="start">消耗合计 ¥4,000</text><text x="120" y="1357" font-size="12" fill="#64748b" text-anchor="start">亏损另列：前天 −¥200 / 昨天 −¥300；托管利润和缺数不计入盈利饼图。</text></g></svg>
