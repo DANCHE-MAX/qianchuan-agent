@@ -30,52 +30,37 @@
 
 ## 看展示模板
 
-**全部使用虚构数据，非真实截图或发送记录。** 按需展开；手机上点击图片可放大查看。
+**全部使用虚构数据，非真实截图或发送记录。** 图片直接展示，手机上点击可放大查看。
 
-<details>
-<summary>① 飞书里收到什么？｜查看完整接收流程</summary>
+### ① 飞书里收到什么？｜查看完整接收流程
 
 日报摘要 → 利润图与Excel → 两日消耗与贡献图；余额提醒另按时段发送。
 
 [![飞书接收效果演示](docs/assets/feishu-messages-template.svg)](docs/assets/feishu-messages-template.svg)
 
-</details>
-
-<details>
-<summary>② 利润图｜哪些商品需要关注？</summary>
+### ② 利润图｜哪些商品需要关注？
 
 零线上方盈利、下方亏损；颜色表示商品。待核验不填零，合计只含可计算部分。
 
 [![利润柱状图演示](docs/assets/profit-report-template.svg)](docs/assets/profit-report-template.svg)
 
-</details>
-
-<details>
-<summary>③ 两日消耗图｜哪些商品、哪些时段花费变了？</summary>
+### ③ 两日消耗图｜哪些商品、哪些时段花费变了？
 
 每组左前天、右昨天；同商品同色、刻度一致。花费增加不代表效果变好。
 
 [![两日商品消耗堆叠图演示](docs/assets/two-day-spend-template.svg)](docs/assets/two-day-spend-template.svg)
 
-</details>
-
-<details>
-<summary>④ 贡献占比图｜花钱与盈利贡献是否匹配？</summary>
+### ④ 贡献占比图｜花钱与盈利贡献是否匹配？
 
 左看盈利贡献，右看消耗占比。亏损、托管利润和缺失另列，不计入盈利饼图。
 
 [![两日贡献占比演示](docs/assets/two-day-contribution-template.svg)](docs/assets/two-day-contribution-template.svg)
 
-</details>
-
-<details>
-<summary>⑤ 余额提醒｜资金下降是否加快？</summary>
+### ⑤ 余额提醒｜资金下降是否加快？
 
 三时段统一刻度，估算时长假定速度不变。余额下降不是广告消耗；缺样本或资金调整时需核查。
 
 [![余额速率对比演示](docs/assets/balance-comparison-template.svg)](docs/assets/balance-comparison-template.svg)
-
-</details>
 
 [演示数据与颜色对照](docs/demo-guide.md) · 商品颜色固定；余额图颜色仅代表时段。
 
