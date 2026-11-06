@@ -150,7 +150,11 @@ class Engine:
                 db.execute('CREATE TABLE IF NOT EXISTS jobs(account TEXT,day TEXT,chat TEXT,payload TEXT,sent INTEGER DEFAULT 0,attempts INTEGER DEFAULT 0,retry_at TEXT,error_notice INTEGER DEFAULT 0,last_error TEXT,PRIMARY KEY(account,day))')
                 db.execute('INSERT OR IGNORE INTO jobs(account,day,chat) VALUES(?,?,?)', (account,end,chat)); db.commit()
                 row = db.execute('SELECT chat,payload,sent,attempts,retry_at,error_notice FROM jobs WHERE account=? AND day=?', (account,end)).fetchone()
-                if row[2]: return False
+                if row[2]:
+                    if opts.get('profit_report'):
+                        from .verification_tracker import safe_tick
+                        safe_tick(self.root,self.env,now)
+                    return False
                 if row[0] != chat: raise ValueError('该日日报已绑定其他群，请人工核对，不自动更改接收者')
                 if row[4] and now < datetime.fromisoformat(row[4]): return False
                 rendered = json.loads(row[1]) if row[1] else None
