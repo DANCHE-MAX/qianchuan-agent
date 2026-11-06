@@ -3,7 +3,7 @@ import hashlib,json,sqlite3,subprocess
 from pathlib import Path
 from datetime import date,timedelta
 from decimal import Decimal
-from . import hourly,profit_daily
+from . import hourly,profit_daily,data_completeness
 
 
 def _ledger_previous(root,account,day):
@@ -60,7 +60,7 @@ def show(value):
     return '待核验' if value is None else f'{amount(value):,.2f}'
 
 
-def build(current,prior,today):
+def build(current,prior,today,*,coverage_day=None,include_coverage=False):
     day=current['date'];before=(date.fromisoformat(day)-timedelta(days=1)).isoformat()
     if (date.fromisoformat(today)-timedelta(days=1)).isoformat()!=day:raise ValueError('Guide must describe yesterday')
     comparable=bool(prior and prior.get('date')==before and str(prior.get('account'))==str(current['account']) and prior.get('policy')==current.get('policy'))
@@ -99,10 +99,13 @@ def build(current,prior,today):
     actions.append({'title':f'补齐利润缺口：{missing}个计划待核验' if missing else '复核利润估算口径',
                     'detail':f'{zero}个已知零消耗计划利润待核验；{unknown_spend}个计划广告费待核验。' if missing else '计划均可测算，但仍为模型利润，需实际退款、成本及费用核验。',
                     'action':'补核GMV、费用与缺失报表；完整账户利润不能用已知部分替代。' if missing else '按实际退款及成本对账，未确认前不称最终财务净利润。'})
-    return {'date':day,'previous_date':before,'today':today,'current':totals,'previous':old,'changes':changes,'comparable':comparable,
+    view={'date':day,'previous_date':before,'today':today,'current':totals,'previous':old,'changes':changes,'comparable':comparable,
             'calculable':current['calculable'],'previous_calculable':prior.get('calculable') if comparable else None,'missing':missing,
             'actions':actions,'policy':current.get('policy',{}),'as_of':current.get('as_of','待核验'),
             'previous_as_of':prior.get('as_of','待核验') if comparable else '待核验','warnings':current.get('warnings',[])}
+
+    if include_coverage:view['coverage']=data_completeness.build(current,coverage_day)
+    return view
 
 
 def attach(root,env,now,bundle):
@@ -113,7 +116,10 @@ def attach(root,env,now,bundle):
     if str(main['account'])!=str(bundle['account']) or main['date']!=bundle['date']:raise ValueError('Guide scope mismatch')
     before=(date.fromisoformat(main['date'])-timedelta(days=1)).isoformat()
     prior=previous(root,str(main['account']),before)
-    view=build(main,prior,local.date().isoformat())
+    mapping_path=out/'two_day/collected.json'
+    mapping_days=json.loads(mapping_path.read_text()) if mapping_path.exists() else []
+    coverage_day=next((d for d in mapping_days if d.get('day')==main['date']),None)
+    view=build(main,prior,local.date().isoformat(),coverage_day=coverage_day,include_coverage=True)
     folder=out/'guide';folder.mkdir(parents=True,exist_ok=True);source=folder/'guide.json';target=folder/'guide.png'
     profit_daily.save(source,view)
     profit_daily.save(folder/'previous.json',prior)

@@ -179,7 +179,7 @@ class Tests(unittest.TestCase):
 
     def test_dead_worker_and_stalled_progress_recorded(self):
         thread=Mock();thread.is_alive.return_value=False
-        engine=H.Engine(self.root,ENV,self.factory,{'消息处理':lambda:thread},worker_tick=lambda:0)
+        engine=H.Engine(self.root,ENV,self.factory,{'消息处理':lambda:thread},worker_tick=lambda:H.time.monotonic()-H.options(self.root)['task_timeout_minutes']*60-1)
         with patch.object(H,'check',side_effect=lambda *a,**k:engine.stopping.set()):engine.work()
         signals=H.Store(self.root).signals('999')
         self.assertEqual(signals['线程:消息处理']['state'],'failed')

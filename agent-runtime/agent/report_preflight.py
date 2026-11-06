@@ -4,7 +4,7 @@ from pathlib import Path
 from decimal import Decimal
 from datetime import date,timedelta,datetime,timezone
 from xml.etree import ElementTree as ET
-from . import plan_profit,daily_guide,two_day_daily,product_spend_daily,profit_daily
+from . import data_completeness,plan_profit,daily_guide,two_day_daily,product_spend_daily,profit_daily
 
 INPUTS=('result.json','guide/previous.json','guide/guide.json','two_day/collected.json','two_day/reports.json','two_day/stack.json','two_day/pies.json')
 class PreflightBlocked(RuntimeError):pass
@@ -104,7 +104,7 @@ def inspect_excel(path,main,errors):
 
 
 def check(bundle,*,expected_account=None,expected_day=None):
-    root=Path(bundle['directory']);errors=[];warnings=[];checked=[]
+    root=Path(bundle['directory']);errors=[];warnings=[];checked=[];coverage=None
     def require(ok,code):
         if not ok:errors.append(code)
     try:
@@ -132,7 +132,12 @@ def check(bundle,*,expected_account=None,expected_day=None):
             inspect_report(prior,account,before,errors,warnings,'previous')
             require(prior['policy']==main['policy'],'previous_policy_conflict')
         else:warnings.append('previous_report_pending')
-        expected_guide=daily_guide.build(main,prior,(date.fromisoformat(day)+timedelta(days=1)).isoformat())
+        coverage_days=data['two_day/collected.json']
+        coverage_day=next((d for d in coverage_days if d.get('day')==day),None)
+        coverage=data_completeness.build(main,coverage_day)
+        if not coverage['total_plans']:warnings.append('coverage:no_plan_rows_pending')
+        if coverage['product_mapping']['unlinked'] or coverage['product_mapping']['pending']:warnings.append('coverage:product_mapping_pending')
+        expected_guide=daily_guide.build(main,prior,(date.fromisoformat(day)+timedelta(days=1)).isoformat(),coverage_day=coverage_day,include_coverage='coverage' in data['guide/guide.json'])
         require(expected_guide==data['guide/guide.json'],'guide_content_conflict')
         checked.extend(['plan_calculation','totals_and_api_controls','guide_dates_and_actions'])
         days=data['two_day/collected.json'];reports=data['two_day/reports.json']
@@ -171,11 +176,12 @@ def check(bundle,*,expected_account=None,expected_day=None):
         errors.append('unreadable_or_invalid_input:'+type(exc).__name__)
     result={'version':1,'checked_at':datetime.now(timezone.utc).isoformat(),'date':bundle.get('date'),'allowed':not errors,
             'status':'BLOCKED' if errors else 'PASS_WITH_MISSING' if warnings else 'PASS','checks':checked,
-            'errors':sorted(set(errors)),'warnings':sorted(set(warnings)),
+            'errors':sorted(set(errors)),'warnings':sorted(set(warnings)),'coverage':coverage,
             'input_hashes':bundle.get('input_hashes',{}),'artifact_hashes':[{"name":Path(p['path']).name,"sha256":p.get('sha256')} for p in bundle.get('files',[])],
             'scope':'Input arithmetic, cross-artifact values, XLSX cached values, file hashes; no OCR or financial-final-profit certification.'}
     profit_daily.save(root/'preflight.json',result)
     lines=['日报发送前体检：'+result['status'],'数据日期：'+str(result['date']),'仅留本地，不新增群消息。']
+    lines+=data_completeness.text_lines(coverage)
     lines+=['阻止发送：'+x for x in result['errors']]+['待核验：'+x for x in result['warnings']]
     (root/'preflight.txt').write_text('\n'.join(lines),encoding='utf-8')
     if errors:raise PreflightBlocked('Daily preflight blocked; inspect local preflight.json')
