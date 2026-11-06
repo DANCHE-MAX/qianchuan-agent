@@ -32,8 +32,12 @@ def card(title, elements, template='blue'):
     return value
 
 
-def add_mentions(rendered, config, category):
+def add_mentions(rendered, config, category, now=None):
     """Only administrator-configured identities become native Feishu mentions."""
+    if category == "balance_check":
+        local = (now or h.now_china()).astimezone(h.CHINA)
+        if local.hour not in (10, 12, 14, 16, 18):
+            return rendered
     roles = config.get('notify', {}).get('roles', {})
     selected = config.get('monitoring', {}).get('at_roles', {}).get(category, [])
     identities = []
@@ -287,7 +291,7 @@ class Engine:
                     category='balance_alert' if rendered['header']['template']=='red' else 'balance_check'
                     from . import balance_comparison
                     rendered=balance_comparison.attach(self.root,self.store,account,now,latest,rendered)
-                    self.store.enqueue(key,account,now,add_mentions(rendered,config,category))
+                    self.store.enqueue(key,account,now,add_mentions(rendered,config,category,now=now))
                     if rendered['header']['template']=='red':covered_notice=key
                 elif not self.store.exists(key) and latest is None:
                     rendered=card('千川余额｜检查失败',[
