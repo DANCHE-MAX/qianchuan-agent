@@ -35,11 +35,12 @@ def collect(env,days,evidence,*,include_gmv=False):
         common={'advertiser_id':hourly.account_id(env),'start_time':day+' 00:00:00','end_time':day+' 23:59:59'}
         allrows=[];warnings=[];complete=True;seen_plans=set();inventory=set();inventory_complete=True
         for scene,topic,metric,hourdim in [('OVERALL_PROJECT','OVERALL_ROI_PRODUCT_PROJECT','stat_cost_for_roi2','range_stat_time_hour'),('UNI_PROJECT','SITE_PROMOTION_PRODUCT_AD','stat_cost','stat_time_hour')]:
-            mapping={}
+            mapping={};managed=set()
             try:
                 ads,_=p.pages(env,p.LIST,dict(common,marketing_goal='VIDEO_PROM_GOODS',adlab_scene=scene,filtering={'status':'ALL'}),evidence,day+'-'+scene+'-inventory')
                 for ad in ads:
                     inventory.add(str(ad['ad_info']['id']))
+                    if '全店托管' in str(ad['ad_info'].get('name','')):managed.add(str(ad['ad_info']['id']))
                     products=ad.get('product_info') or []
                     if len(products)==1 and products[0].get('product_id') and products[0].get('product_name'):
                         mapping[str(ad['ad_info']['id'])]={'id':str(products[0]['product_id']),'name':products[0]['product_name']}
@@ -50,6 +51,7 @@ def collect(env,days,evidence,*,include_gmv=False):
                 rows,_=p.pages(env,p.REPORT,dict(args,dimensions=['ad_id','stat_time_day',hourdim]),evidence,day+'-'+scene+'-hours')
                 totals,_=p.pages(env,p.REPORT,dict(args,dimensions=[]),evidence,day+'-'+scene+'-total')
                 parsed=parse(rows,day,metric,mapping)
+                for item in parsed:item["managed"]=item["plan"] in managed
                 if len(totals)!=1:raise ValueError('Aggregate unavailable')
                 if sum((amount(r['amount']) for r in parsed),Decimal(0))!=amount(totals[0]['metrics'][metric]['Value']):raise ValueError('Reconciliation mismatch')
                 if include_gmv:
@@ -73,20 +75,21 @@ def build(days):
     for day in days:
         if not day['complete']:continue
         for r in day['rows']:
-            if r['product'] is not None:totals[r['product']]+=amount(r['amount']);names[r['product']]=r['name']
-    top=sorted(totals,key=lambda k:(-totals[k],k))[:3];series=[];unknown=Decimal(0)
+            if r['product'] is not None and not r.get('managed'):totals[r['product']]+=amount(r['amount']);names[r['product']]=r['name']
+    top=sorted(totals,key=lambda k:(-totals[k],k))[:3];series=[];unknown=Decimal(0);managed_total=Decimal(0)
     for day in days:
         slots=[]
         for i in range(12):
             if not day['complete']:slots.append(None);continue
-            bins=[Decimal(0) for _ in range(5)]
+            bins=[Decimal(0) for _ in range(6)]
             for r in day['rows']:
                 if r['slot']!=i:continue
-                idx=top.index(r['product']) if r['product'] in top else 4 if r['product'] is None else 3
+                idx=5 if r.get('managed') else top.index(r['product']) if r['product'] in top else 4 if r['product'] is None else 3
                 bins[idx]+=amount(r['amount'])
-            unknown+=bins[4];slots.append(list(map(str,bins)))
+            unknown+=bins[4];managed_total+=bins[5];slots.append(list(map(str,bins)))
         series.append({'day':day['day'],'slots':slots,'total':str(sum((sum(map(Decimal,b)) for b in slots),Decimal(0))) if day['complete'] else None})
     return {'products':[{'name':names[k],'total':str(totals[k])} for k in top], 'series':series,
+            'managed':str(managed_total) if any(d['complete'] for d in days) else None,
             'unknown':str(unknown) if any(d['complete'] for d in days) else None,'complete':all(d['complete'] for d in days),
             'warnings':sorted({w for d in days for w in d.get('warnings',[])})}
 

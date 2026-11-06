@@ -35,7 +35,7 @@ class Tests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as tmp:
    root=Path(tmp);(root/'config').mkdir();(root/'config/profit_daily.json').write_text('{"render_python":"synthetic-python","font":"synthetic-font"}')
    directory=root/'out';directory.mkdir()
-   main={'date':'2026-01-02','account':'123','policy':POLICY,'rows':[{'plan_id':r['plan'],'gmv':r['gmv'],'spend':r['amount']} for r in data('2026-01-02')['rows']]}
+   main={'date':'2026-01-02','account':'123','missing_profit':1,'policy':POLICY,'rows':[{'plan_id':r['plan'],'gmv':r['gmv'],'spend':r['amount']} for r in data('2026-01-02')['rows']]}
    (directory/'result.json').write_text(json.dumps(main))
    originals=[{'kind':'image','path':'old.png','sha256':'old'},{'kind':'file','path':'old.xlsx','sha256':'book'}]
    bundle={'directory':str(directory),'date':'2026-01-02','account':'123','files':originals,'text':'original','actors':['ou_synthetic']}

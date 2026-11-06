@@ -10,7 +10,7 @@ def render(view,path,font):
     legend=view['legend'];colors={g['id']:g['color'] for g in legend}
     # Size for full names and all losses, no hidden rows or fixed-height clipping.
     loss_count=max((len(d['losses']) for d in view['days']),default=0)
-    loss_height=max(470,190+loss_count*56+150)
+    loss_height=max(520,190+loss_count*56+200)
     legend_height=90+sum(45+len(g['name'])//48*28 for g in legend)
     height=160+2*720+30+loss_height+40+legend_height+180
     image=Image.new('RGB',(width,height),'#F3F5F7');draw=ImageDraw.Draw(image)
@@ -57,18 +57,19 @@ def render(view,path,font):
             for j,line in enumerate(wrap(label(item['name']),445,23)):text(x,yy+j*26,line,23)
             text(x+600,yy,money(item['amount']),24,red,'ra')
         if not day['losses']:text(x,y+125,'暂无可测算亏损' if day['complete'] else '待核验',25,muted)
-        yy=y+loss_height-145
-        text(x,yy,'全店托管预估利润：'+(money(day['unknown_profit']) if day['unknown_present'] or not day['complete'] else '无对应记录'),24)
-        text(x,yy+40,'单品归属待核验，未纳入商品盈利饼图。',23,muted)
-        text(x,yy+80,(str(day['missing_plans'])+'个计划缺完整利润明细，未按0计算。') if day['missing_plans'] is not None else '缺失计划范围待核验，未按0计算。',23,muted)
+        yy=y+loss_height-195
+        text(x,yy,'全店托管预估利润：'+(money(day.get('managed_profit')) if day.get('managed_present') or not day['complete'] else '无对应记录'),24)
+        text(x,yy+40,'其他未关联计划利润：'+(money(day['unknown_profit']) if day['unknown_present'] or not day['complete'] else '无对应记录'),23,muted)
+        text(x,yy+80,'两类均单列，不进入商品盈利贡献分母。',23,muted)
+        text(x,yy+120,(str(day['missing_plans'])+'个计划缺完整利润明细，未按0计算。') if day['missing_plans'] is not None else '缺失计划范围待核验，未按0计算。',23,muted)
     y+=loss_height+40;text(45,y,'商品全名图例 · 两天四图同一商品同色',31);y+=55
     for item in legend:
         draw.rectangle((48,y+4,68,y+24),fill=item['color']);lines=wrap(item['name'],1250,24)
         for j,line in enumerate(lines):text(85,y+j*28,line,24)
         y+=max(42,len(lines)*28+10)
     text(45,y+20,'利润为现行退款率/成本口径的情景估算，已扣实际广告费，未扣运费和固定费用。',24,muted)
-    text(45,y+60,'盈利占比分母仅含已关联且可测算的盈利商品；亏损、全店托管利润及缺失另列。',24,muted)
-    text(45,y+100,'商品关联取采集时计划信息；全店托管含多商品计划，直播覆盖待核验。',24,muted)
+    text(45,y+60,'盈利占比分母仅含已关联且可测算的盈利商品；亏损、全店托管、未关联计划及缺失另列。',24,muted)
+    text(45,y+100,'全店托管仅含明确标注的计划；其他未关联计划不混入，直播覆盖待核验。',24,muted)
     image.crop((0,0,width,y+150)).save(path)
 
 if __name__=='__main__':render(json.loads(Path(sys.argv[1]).read_text()),sys.argv[2],sys.argv[3])

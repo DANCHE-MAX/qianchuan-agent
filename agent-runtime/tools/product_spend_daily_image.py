@@ -4,7 +4,7 @@ from pathlib import Path
 from decimal import Decimal as D
 import json,math,sys
 v=json.loads(Path(sys.argv[1]).read_text());font=sys.argv[3]
-im=Image.new('RGB',(1200,2110),'#F3F5F7');d=ImageDraw.Draw(im);navy='#193344';muted='#71818D';colors=['#1769E0','#F2A000','#00A67D','#A7B1BA','#C43D87']
+im=Image.new('RGB',(1200,2110),'#F3F5F7');d=ImageDraw.Draw(im);navy='#193344';muted='#71818D';colors=['#1769E0','#F2A000','#00A67D','#A7B1BA','#64748B','#C43D87']
 def text(x,y,s,size=26,color=navy,anchor=None):d.text((x,y),s,font=ImageFont.truetype(font,size),fill=color,anchor=anchor)
 def box(rect,fill='white'):d.rounded_rectangle(rect,radius=22,fill=fill)
 def wrapped(s,width,size):
@@ -30,7 +30,8 @@ for i,pr in enumerate(v['products']):
  for j,line in enumerate(lines):text(103,y+j*28,line,24)
  text(1130,y,'¥'+pr['total'],25,colors[i],'ra')
 patch(65,617,88,639,3);text(103,613,'其他商品',24)
-patch(370,617,393,639,4);text(408,613,'全店托管',24)
+patch(370,617,393,639,5);text(408,613,'全店托管',24)
+patch(670,617,693,639,4);text(708,613,'商品归属待核验',24)
 text(65,655,'相同商品始终同色；左柱'+v['series'][0]['day'][5:]+'，右柱'+v['series'][1]['day'][5:]+'。',23,muted)
 peak=max((sum(float(z) for z in b) for s in v['series'] for b in s['slots'] if b is not None),default=0);top=max(50,math.ceil(peak/50)*50)
 for panel in range(2):
@@ -52,8 +53,8 @@ for panel in range(2):
     base_y-=h
    text(x,base_y-10,format(sum(bins),'.2f'),23,navy,'mb');text(x,base+12,v['series'][day]['day'][-2:],20,muted,'mt')
   text(cx,base+49,f'{i*2:02d}—{(i+1)*2:02d}',25,navy,'mt')
-text(45,1840,'全店托管：'+(('两天合计' if v['complete'] else '已核验部分')+' ¥'+v['unknown'] if v['unknown'] is not None else '待核验'),30,'#995F5A')
-text(45,1890,'“全店托管”含未拆分的多商品计划；单品归属待核验，不作分摊。',24,muted)
+text(45,1840,'全店托管：'+(('两天合计' if v['complete'] else '已核验部分')+' ¥'+v.get('managed','0') if v.get('managed') is not None else '待核验'),30,'#995F5A')
+text(45,1890,'其他未关联计划消耗：'+('¥'+v['unknown'] if v['unknown'] is not None else '待核验')+'；不计入全店托管。',24,muted)
 text(45,1930,'小时明细与两天商品计划汇总一致。' if v['complete'] else '部分明细或对账待核验，不显示为零；暂不比较全天合计。',24,muted)
 text(45,1970,'口径：千川实际广告消耗，不使用余额差；两块图统一零起点及刻度。',24,muted)
 text(45,2010,'直播消耗覆盖待核验，未纳入本图。' if any('直播' in w for w in v['warnings']) else '仅比较商品计划广告消耗。',24,muted)

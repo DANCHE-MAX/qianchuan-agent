@@ -9,7 +9,7 @@ from . import product_spend_daily as spend,profit_daily as p,plan_profit,hourly
 def grouped_plans(day):
     plans={}
     for r in day['rows']:
-        entry=plans.setdefault(r['plan'],{'product':r['product'],'name':r['name'],'spend':Decimal(0),'gmv':Decimal(0)})
+        entry=plans.setdefault(r['plan'],{'product':r['product'],'name':r['name'],'managed':r.get('managed',False),'spend':Decimal(0),'gmv':Decimal(0)})
         if (entry['product'],entry['name'])!=(r['product'],r['name']):raise ValueError('Conflicting product mapping')
         entry['spend']+=spend.amount(r['amount']);entry['gmv']+=spend.amount(r['gmv'])
     return plans
@@ -37,12 +37,13 @@ def pie_view(days,policy):
             plans=grouped_plans(day)
             if day.get('inventory_complete'):missing=len(set(day.get('inventory',[]))-set(plans))
             for plan in plans.values():
-                pid=plan['product'] or 'unknown';name=plan['name'] if plan['product'] else '全店托管'
+                pid='managed' if plan.get('managed') else plan['product'] or 'unknown';name='全店托管' if pid=='managed' else plan['name'] if plan['product'] else '商品归属待核验'
                 g=groups.setdefault(pid,{'id':pid,'name':name,'spend':Decimal(0),'profit':Decimal(0)})
                 g['spend']+=plan['spend'];g['profit']+=Decimal(plan_profit.calculate(plan['gmv'],plan['spend'],policy)['profit'])
             for pid,g in groups.items():names[pid]=g['name'];ranking[pid]=ranking.get(pid,Decimal(0))+g['spend']
-        positive=[g for g in groups.values() if g['id']!='unknown' and g['profit']>0]
-        loss=sorted([g for g in groups.values() if g['id']!='unknown' and g['profit']<0],key=lambda g:g['profit'])
+        if 'report_missing' in day:missing=day['report_missing']
+        positive=[g for g in groups.values() if g['id'] not in ('unknown','managed') and g['profit']>0]
+        loss=sorted([g for g in groups.values() if g['id'] not in ('unknown','managed') and g['profit']<0],key=lambda g:g['profit'])
         ads=[g for g in groups.values() if g['spend']>0]
         def shares(items,key):
             total=sum((g[key] for g in items),Decimal(0))
@@ -53,11 +54,13 @@ def pie_view(days,policy):
             'loss_total':str(sum((g['profit'] for g in loss),Decimal(0))) if day['complete'] else None,
             'losses':[{'id':g['id'],'name':g['name'],'amount':str(g['profit'])} for g in loss],
             'unknown_profit':str(groups['unknown']['profit']) if 'unknown' in groups else None,
-            'unknown_present':'unknown' in groups,'missing_plans':missing,'warnings':day.get('warnings',[])})
+            'managed_profit':str(groups['managed']['profit']) if 'managed' in groups else None,
+            'managed_present':'managed' in groups,'unknown_present':'unknown' in groups,'missing_plans':missing,'warnings':day.get('warnings',[])})
     colors=['#1769E0','#F2A000','#00A67D','#8357C5','#D85B31','#5D8B38','#AC7224','#36A5AE','#D3639F','#67717A']
-    ids=sorted([x for x in ranking if x!='unknown'],key=lambda x:(-ranking[x],x))
+    ids=sorted([x for x in ranking if x not in ('unknown','managed')],key=lambda x:(-ranking[x],x))
     legend=[{'id':pid,'name':names[pid],'color':colors[i%len(colors)]} for i,pid in enumerate(ids)]
-    legend.append({'id':'unknown','name':'全店托管（未拆分）','color':'#C43D87'})
+    legend.append({'id':'unknown','name':'商品归属待核验','color':'#64748B'})
+    legend.append({'id':'managed','name':'全店托管','color':'#C43D87'})
     return {'days':result,'legend':legend}
 
 
@@ -72,6 +75,18 @@ def attach(root,env,now,bundle):
     inputs=spend.collect(env,days,folder/'source',include_gmv=True)
     if [d['day'] for d in inputs]!=days:raise ValueError('Comparison dates mismatch')
     reconcile_main(inputs[-1],main)
+    from . import daily_guide
+    for item in inputs:
+        report=main if item['day']==main['date'] else daily_guide.previous(root,str(main['account']),item['day'])
+        if report:
+            if report.get('policy')!=main['policy']:
+                item['complete']=False;item['warnings'].append('两日报表政策不同，比较待核验')
+            reconcile_main(item,report)
+            item['report_missing']=report['missing_profit']
+            by_id={str(r['plan_id']):r for r in report['rows']}
+            for row in item['rows']:
+                info=by_id.get(row['plan'],{})
+                row['managed']='全店托管' in str(info.get('plan_name') or info.get('name',''))
     p.save(folder/'collected.json',inputs)
     stack=spend.build(inputs);pies=pie_view(inputs,main['policy'])
     p.save(folder/'stack.json',stack);p.save(folder/'pies.json',pies)

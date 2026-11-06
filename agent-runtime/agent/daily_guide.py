@@ -6,7 +6,7 @@ from decimal import Decimal
 from . import hourly,profit_daily
 
 
-def previous(root,account,day):
+def _ledger_previous(root,account,day):
     db=Path(root)/'data/qianchuan/daily_brief.db'
     if not db.exists():return None
     try:
@@ -19,6 +19,34 @@ def previous(root,account,day):
         if str(result.get('account'))!=account or result.get('date')!=day:return None
         return result
     except (OSError,ValueError,KeyError,TypeError,sqlite3.Error):return None
+
+
+def previous(root,account,day):
+    """Prefer completed ledger; otherwise exact-day verified report artifacts only."""
+    result=_ledger_previous(root,account,day)
+    if result is not None:return result
+    candidates=[]
+    for folder in (Path(root)/'out/profit_daily'/account/day).glob('*'):
+        try:
+            receipt=json.loads((folder/'delivery.json').read_text())
+            parts=receipt.get('parts',{})
+            if not receipt.get('complete') or len(parts)<3 or not all(p.get('verified') and p.get('message_id') for p in parts.values()):continue
+            if not (folder/('profit-'+day+'.xlsx')).is_file() or not list(folder.glob('profit-'+day+'-*.png')):continue
+            report=json.loads((folder/'result.json').read_text())
+            if str(report.get('account'))!=account or report.get('date')!=day:continue
+            rows=report['rows'];known=[r for r in rows if r.get('profit') is not None]
+            if len({str(r['plan_id']) for r in rows})!=len(rows):continue
+            if len(known)!=report['calculable'] or len(rows)-len(known)!=report['missing_profit']:continue
+            from . import plan_profit
+            for row in known:
+                if plan_profit.calculate(row['gmv'],row['spend'],report['policy'])['profit']!=row['profit']:raise ValueError('History profit mismatch')
+            for key in ('gmv','spend','profit'):
+                expected=sum((amount(r[key]) for r in known),Decimal(0)) if known else None
+                if amount(report['totals_calculable_only'][key])!=expected:raise ValueError('History totals mismatch')
+            candidates.append(report)
+        except (OSError,ValueError,KeyError,TypeError,ArithmeticError):continue
+    # Multiple independent revisions require explicit reconciliation, not latest-file guessing.
+    return candidates[0] if len(candidates)==1 else None
 
 
 def amount(value):

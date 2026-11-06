@@ -11,7 +11,7 @@ class Tests(unittest.TestCase):
   data=[{'day':'2026-01-01','complete':True,'rows':[{'slot':0,'product':str(i),'name':'商品'+str(i),'amount':str(i)} for i in range(1,5)]+[{'slot':0,'product':None,'name':'','amount':'9'}]}, {'day':'2026-01-02','complete':False,'rows':[]}]
   v=s.build(data)
   self.assertEqual([p['name'] for p in v['products']],['商品4','商品3','商品2'])
-  self.assertEqual(v['series'][0]['slots'][0],['4','3','2','1','9'])
+  self.assertEqual(v['series'][0]['slots'][0],['4','3','2','1','9','0'])
   self.assertIsNone(v['series'][1]['total']);self.assertIsNone(v['series'][1]['slots'][0])
  def test_parse_rejects_duplicate_wrong_date_negative(self):
   r={'dimensions':{'ad_id':{'Value':'1'},'stat_time_day':{'ValueStr':'2026-01-01'},'stat_time_hour':{'ValueStr':'2026-01-01 00:00'}},'metrics':{'cost':{'Value':'1'}}}
