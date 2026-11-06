@@ -134,7 +134,7 @@ class Tests(unittest.TestCase):
                 self.assertEqual(nf.send_card.call_count,1)
                 m.Engine(root,ENV,lambda chat:nf).tick(now+timedelta(minutes=1))
                 self.assertEqual(nf.send_card.call_count,1)
-            self.assertIn('余额',kb.ask.call_args.kwargs['report_context'])
+            kb.ask.assert_not_called()  # Compact deterministic digest, no model-generated narrative.
 
     def test_today_prefers_new_snapshot_and_does_not_mix_accounts(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -248,9 +248,9 @@ def reply_command(notifier, message_id, command, outdir=None, env=None, context=
             and not hourly.is_current(command)):
         previous = memory.load(chat, user) if is_followup(command) else []
         query = profit_analysis.followup_command(command, previous[-1] if previous else {})
-        from . import profit_summary
+        from . import profit_summary, decision_brief
         content = profit_analysis.answer(query, outdir or BASE / 'out', env, kb, summary_only=profit_summary.wants_image(query))
-        handled, result = profit_summary.maybe_reply(notifier, message_id, chat, query, kb.last_context, outdir or BASE / 'out')
+        handled, result = (False,None) if decision_brief.question(query) else profit_summary.maybe_reply(notifier, message_id, chat, query, kb.last_context, outdir or BASE / 'out')
         if not handled:
             result = notifier.reply_card(message_id, answer_card(content, title='投流助手｜新版日报分析'))
         if kb.last_context:

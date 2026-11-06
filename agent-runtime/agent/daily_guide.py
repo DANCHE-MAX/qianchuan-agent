@@ -60,7 +60,7 @@ def show(value):
     return '待核验' if value is None else f'{amount(value):,.2f}'
 
 
-def build(current,prior,today,*,coverage_day=None,include_coverage=False,coverage_version=2):
+def build(current,prior,today,*,coverage_day=None,include_coverage=False,coverage_version=2,decision_version=0):
     day=current['date'];before=(date.fromisoformat(day)-timedelta(days=1)).isoformat()
     if (date.fromisoformat(today)-timedelta(days=1)).isoformat()!=day:raise ValueError('Guide must describe yesterday')
     comparable=bool(prior and prior.get('date')==before and str(prior.get('account'))==str(current['account']) and prior.get('policy')==current.get('policy'))
@@ -104,6 +104,10 @@ def build(current,prior,today,*,coverage_day=None,include_coverage=False,coverag
             'actions':actions,'policy':current.get('policy',{}),'as_of':current.get('as_of','待核验'),
             'previous_as_of':prior.get('as_of','待核验') if comparable else '待核验','warnings':current.get('warnings',[])}
 
+    if decision_version:
+        from . import decision_brief
+        view['decision_version']=decision_version
+        view['actions']=decision_brief.actions(current,coverage_day)
     if include_coverage:view['coverage']=data_completeness.build(current,coverage_day,version=coverage_version)
     return view
 
@@ -119,7 +123,7 @@ def attach(root,env,now,bundle):
     mapping_path=out/'two_day/collected.json'
     mapping_days=json.loads(mapping_path.read_text()) if mapping_path.exists() else []
     coverage_day=next((d for d in mapping_days if d.get('day')==main['date']),None)
-    view=build(main,prior,local.date().isoformat(),coverage_day=coverage_day,include_coverage=True)
+    view=build(main,prior,local.date().isoformat(),coverage_day=coverage_day,include_coverage=True,decision_version=1)
     folder=out/'guide';folder.mkdir(parents=True,exist_ok=True);source=folder/'guide.json';target=folder/'guide.png'
     profit_daily.save(source,view)
     profit_daily.save(folder/'previous.json',prior)

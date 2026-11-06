@@ -143,7 +143,7 @@ def check(bundle,*,expected_account=None,expected_day=None):
         coverage=data_completeness.build(main,coverage_day)
         if not coverage['total_plans']:warnings.append('coverage:no_plan_rows_pending')
         if coverage['product_mapping']['unlinked'] or coverage['product_mapping']['pending']:warnings.append('coverage:product_mapping_pending')
-        expected_guide=daily_guide.build(main,prior,(date.fromisoformat(day)+timedelta(days=1)).isoformat(),coverage_day=coverage_day,include_coverage='coverage' in data['guide/guide.json'],coverage_version=data['guide/guide.json'].get('coverage',{}).get('version',2))
+        expected_guide=daily_guide.build(main,prior,(date.fromisoformat(day)+timedelta(days=1)).isoformat(),coverage_day=coverage_day,include_coverage='coverage' in data['guide/guide.json'],coverage_version=data['guide/guide.json'].get('coverage',{}).get('version',2),decision_version=data['guide/guide.json'].get('decision_version',0))
         require(expected_guide==data['guide/guide.json'],'guide_content_conflict')
         checked.extend(['plan_calculation','totals_and_api_controls','guide_dates_and_actions'])
         days=data['two_day/collected.json'];reports=data['two_day/reports.json']

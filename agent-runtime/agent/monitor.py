@@ -252,23 +252,11 @@ class Engine:
                         with self.store.db() as db:
                             row=db.execute('SELECT stamp FROM cooldown WHERE account=? AND entity=?',(account,entity)).fetchone()
                         if row and (now-datetime.fromisoformat(row[0])).total_seconds()<cfg['cooldown_minutes']*60:continue
-                        try:
-                            balance=self.sample_balance()  # Fresh read at anomaly detection.
-                            samples=self.store.balances(account,now-timedelta(hours=5))
-                            rate=balance_rate(samples,balance)
-                        except Exception:
-                            balance=None
-                            rate={'rate':None,'reason':'本次余额读取失败，无法计算，请核对账户资金'}
-                        evidence={'资料类型':'半小时监测预警','账户':account,'规则命中':finding,
-                            '余额':balance,'两小时余额速率':rate,
-                            '限制':'快照差分是观测增量，可能受归因回补影响，不是精确半小时成交归属。不将计划起量说成某素材起量。不自动调整预算。用不超过150字说明重点和人工检查建议。'}
-                        brief=Knowledge().ask('请汇报本次监测异常和余额情况。',self.env,report_context=json.dumps(evidence,ensure_ascii=False))
                         fallback=gate.finding_text(finding)
-                        rendered=card('投流监测｜'+('素材' if kind=='material' else '计划')+'异常',[
-                            text_element('账户%s｜%s—%s'%(account,finding['start'],finding['end'])),text_element(fallback),
-                            text_element(brief if '暂时不可用' not in brief and '尚未配置' not in brief else 'LLM暂不可用，请按上述实测指标人工核对。'),
-                            text_element('可用余额%s；近两小时余额净下降速率：%s。'%((balance['amounts_yuan']['account_valid']+'元') if balance else '未获取',('%.2f元/小时'%D(rate['rate'])) if rate['rate'] is not None else rate['reason'])),
-                            text_element('相邻累计快照的观测变化，非精确半小时事件归属；只提醒，不自动调预算。')],template='orange')
+                        rendered=card('投流监测｜规则异常',[
+                            text_element(finding['start']+'—'+finding['end']),text_element(fallback),
+                            text_element('快照观测变化；只提醒，不自动调预算。')],template='orange')
+                        rendered['_brief_alert']={'kind':kind,'window':finding['start']+'—'+finding['end'],'text':fallback}
                         self.store.enqueue(key,account,now,add_mentions(rendered,config,'anomaly'),entity=entity)
                         gate.bind(self.store,key,account,finding)
                 except Exception as exc:
@@ -308,7 +296,11 @@ class Engine:
             chat=self.env.get('FEISHU_ALERT_CHAT_ID') or self.env.get('FEISHU_CHAT_ID')
             if not chat or chat not in allowed: raise ValueError('预警目标群不在白名单内')
             notifier=self.notifier_factory(chat)
+            from . import alert_digest
+            kinds=settings.collection_kinds(config,account)
+            merged=alert_digest.deliver(self.store,account,chat,now,notifier,lambda key:any(key.startswith('anomaly26:'+account+':'+k+':') for k in kinds) and gate.allow_pending(self.store,key,account,admissions))
             for key,payload,created in self.store.pending(account):
+                if key in merged:continue
                 if any(key.startswith("anomaly26:"+account+":"+kind+":") for kind in ("plan","material") if kind not in settings.collection_kinds(config,account)):continue
                 if key.startswith('balance4h:'):continue  # Preserve old outbox without replaying old cadence.
                 if key.startswith('balance:') and not key.startswith('balance:threshold-v2:'):

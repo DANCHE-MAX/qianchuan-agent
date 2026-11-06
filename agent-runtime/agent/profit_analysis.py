@@ -65,6 +65,13 @@ def load(outdir, account, day):
             or not isinstance(result.get('rows'), list)
             or not isinstance(result.get('totals_calculable_only'), dict)):
         raise ValueError('日报数据无效')
+    mapping_path=directory/'two_day/collected.json'
+    if mapping_path.exists():
+        try:
+            days=json.loads(mapping_path.read_text())
+            matches=[d for d in days if d.get('day')==day and str(d.get('account'))==str(account)]
+            if len(matches)==1:result={**result,'_decision_mapping':matches[0]}
+        except (OSError,ValueError,TypeError,AttributeError):pass
     return result
 
 def answer(command, outdir, env, kb, *, summary_only=False):
@@ -87,6 +94,11 @@ def answer(command, outdir, env, kb, *, summary_only=False):
         '限制': '严格使用本报告日期、政策和原始金额；null和缺失均为待核验，不能补0。按字段分别判断：已确认的spend=0就是零消耗，不能因为GMV或利润缺失就说消耗未知；只有spend本身缺失才表示消耗待核验。缺失计划不得推断可投额度。SOP仅作参考，不能覆盖报告政策或补造价格档。不能称为公司最终净利润。不得把历史空间当成今天预算。反馈暂停，不要求投手反馈，不执行预算、ROI或计划状态调整。'
     }, ensure_ascii=False)
     kb.report_snapshot = None
+    from . import decision_brief
+    quick=decision_brief.answer(command,report)
+    if quick is not None:
+        kb.last_context=context
+        return quick
     if summary_only:
         from .profit_summary import view
         summary = view(report)

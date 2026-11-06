@@ -42,7 +42,7 @@ def render(view,target,font):
     height=90
     for item in view['actions']:
         height+=sum(len(wrap(item[k],n,880))*(n+12) for k,n in [('title',29),('detail',25),('action',25)])+38
-    box(32,y,1016,height);text(58,y+24,'03  今天先核查这三件事',32);y+=90
+    box(32,y,1016,height);text(58,y+24,'03  今日投放重点' if view.get('decision_version') else '03  今天先核查这三件事',32);y+=90
     for i,item in enumerate(view['actions']):
         box(58,y,42,44,'#246DD1' if i<2 else '#BD872D');text(70,y+5,str(i+1),27,'white')
         y=para(116,y,item['title'],29,navy,880)
