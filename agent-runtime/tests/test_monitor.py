@@ -69,7 +69,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(Decimal(rate['rate']),Decimal('200'))
         rendered=str(m.balance_notice(samples[-1],rate))
         self.assertIn('还能用约18.50小时',rendered)
-        self.assertIn('500元参考线约剩16.00小时',rendered)
+        self.assertIn('暂不需要充值',rendered);self.assertNotIn('参考线约剩',rendered)
         self.assertNotIn('次日10:00',rendered)
         self.assertIsNone(m.balance_rate([],samples[-1])['rate'])
         bad=copy.deepcopy(samples);bad[-3]['amounts_yuan']['account_total']='9999'
@@ -114,7 +114,7 @@ class Tests(unittest.TestCase):
                 with patch.object(m,'fetch_snapshot',side_effect=lambda env,kind,stamp:snap(stamp,kind=kind)),patch.object(m.account_balance,'fetch',return_value=samples[-1]):
                     m.Engine(root,ENV,lambda chat:nf).tick(now)
                 text=str(nf.send_card.call_args.args[0])
-                self.assertIn('200.00元/小时',text)
+                self.assertIn('近两小时余额净下降速度估算',text)
                 self.assertIn('还能用约25.00小时',text)
                 self.assertNotIn('次日10:00余额约',text)
 

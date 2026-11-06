@@ -60,7 +60,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(Decimal(value['rate']),100)
         self.assertTrue(value['start'].startswith('2026-10-28T20:00'))
         text=str(b.notice(values[-1],value))
-        self.assertIn('还能用约20.00小时',text);self.assertIn('10-29 20:00',text)
+        self.assertIn('还能用约20.00小时',text);self.assertIn('暂不需要充值',text)
 
     def test_all_twelve_slots_send_one_each(self):
         for hour in b.HOURS:self.tick(NOW.replace(hour=hour))
@@ -88,7 +88,7 @@ class Tests(unittest.TestCase):
     def test_low_balance_red_and_reserve_reference(self):
         values=window(valid='500');rendered=b.notice(values[-1],b.rate(values,values[-1]))
         self.assertEqual(rendered['header']['template'],'red')
-        self.assertIn('还能用约5.00小时',str(rendered));self.assertIn('参考线约剩0.00小时',str(rendered))
+        self.assertIn('还能用约5.00小时',str(rendered));self.assertIn('及时充值',str(rendered))
 
     def test_no_current_balance_no_fabrication(self):
         with self.assertRaises(RuntimeError):self.tick(NOW,fail=True)

@@ -396,6 +396,16 @@ class FeishuAppNotifier(Notifier):
                                headers={'Authorization': 'Bearer ' + self._tenant_token()})
         return result.get('data', {})
 
+    def reply_image(self, message_id, image_key, request_uuid=None):
+        """Reply with an uploaded image in the original conversation."""
+        if not message_id or not image_key:
+            raise ValueError('图片回复缺少消息或图片标识')
+        body = {'msg_type': 'image', 'content': json.dumps({'image_key': image_key})}
+        if request_uuid:
+            body['uuid'] = request_uuid
+        return self._request('POST', self.BASE + '/im/v1/messages/%s/reply' % quote(message_id, safe=''),
+                             body, {'Authorization': 'Bearer ' + self._tenant_token()})
+
     def reply_card(self, message_id, card, request_uuid=None):
         """Reply using a native Feishu card in the originating conversation."""
         if not message_id:

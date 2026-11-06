@@ -62,7 +62,7 @@ def load(outdir, account, day):
         raise ValueError('日报数据无效')
     return result
 
-def answer(command, outdir, env, kb):
+def answer(command, outdir, env, kb, *, summary_only=False):
     try:
         day = target_day(command)
     except ValueError as exc:
@@ -82,6 +82,13 @@ def answer(command, outdir, env, kb):
         '限制': '严格使用本报告日期、政策和原始金额；null和缺失均为待核验，不能补0。按字段分别判断：已确认的spend=0就是零消耗，不能因为GMV或利润缺失就说消耗未知；只有spend本身缺失才表示消耗待核验。缺失计划不得推断可投额度。SOP仅作参考，不能覆盖报告政策或补造价格档。不能称为公司最终净利润。不得把历史空间当成今天预算。反馈暂停，不要求投手反馈，不执行预算、ROI或计划状态调整。'
     }, ensure_ascii=False)
     kb.report_snapshot = None
+    if summary_only:
+        from .profit_summary import view
+        summary = view(report)
+        kb.last_context = context
+        return '数据日期：%s（北京时间）。%s；预估利润%s元，已花广告费%s元；%s。' % (
+            day, summary['headline'], summary['profit'] if summary['profit'] is not None else '待核验',
+            summary['spend'] if summary['spend'] is not None else '待核验', summary['subhead'])
     if not env or env.get('KNOWLEDGE_ENABLED', '').lower() != 'true':
         return '数据日期：%s（北京时间）。知识问答尚未开启。' % day
     result = kb.ask(command + '\n仅分析数据日期' + day + '的新版利润日报；缺失明确列为待核验。', env, report_context=context)

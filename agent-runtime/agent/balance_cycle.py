@@ -59,38 +59,26 @@ def rate(samples, current, hours=4, tolerance_minutes=5, *, window_minutes=None,
 
 def notice(snapshot, value):
     label = '两小时' if value.get('window_hours') == 2 else '四小时'
-    now = stamp(snapshot['fetched_at']); available = Decimal(str(snapshot['amounts_yuan']['account_valid']))
-    if not available.is_finite(): raise ValueError('余额金额无效')
-    lines = ['账户%s｜余额读取于%s（北京时间）' % (snapshot['advertiser_id'],now.strftime('%m-%d %H:%M:%S')),
-             '当前可用余额：%.2f元' % available]
+    now = stamp(snapshot['fetched_at'])
+    available = Decimal(str(snapshot['amounts_yuan']['account_valid']))
     speed = Decimal(str(value['rate'])) if value['rate'] is not None else None
-    if speed is None:
-        lines += ['最近四小时平均余额消耗速率：无法计算。'+value['reason'],
-                  '预计可用时长：0小时，当前已无可用余额。' if available <= 0 else
-                  '预计可用时长：无法估算，请等待完整采样或核对充值与资金流水。']
+    if not available.is_finite() or (speed is not None and (not speed.is_finite() or speed < 0)):
+        raise ValueError('余额或速率无效')
+    prefix = '%s（北京时间）｜可用余额%.2f元，' % (now.strftime('%H:%M'), available)
+    urgent = available <= 500
+    if available <= 0:
+        body = '预计可用时长：0小时，请及时充值。'
+    elif speed is None:
+        body = '数据不足或资金变动，暂无法估算可用时长。' + ('余额已不高于500元，请及时充值。' if urgent else '')
+    elif speed == 0:
+        body = '近%s未见余额净下降，暂无法估算可用时长。' % label + ('余额已不高于500元，请及时充值。' if urgent else '')
+    elif speed < Decimal('.01'):
+        body = '近%s余额净下降低于0.01元/小时，暂无法可靠估算可用时长。' % label + ('余额已不高于500元，请及时充值。' if urgent else '')
     else:
-        if not speed.is_finite() or speed < 0: raise ValueError('余额速率无效')
-        lines += ['观察窗口：%s—%s。' % (stamp(value['start']).strftime('%m-%d %H:%M'),stamp(value['end']).strftime('%m-%d %H:%M')),
-                  '最近四小时平均余额净下降速率：%s。' %
-                  ('低于0.01元/小时' if 0 < speed < Decimal('.01') else '%.2f元/小时' % speed)]
-        if available <= 0:
-            lines.append('预计可用时长：0小时，当前已无可用余额。')
-        elif speed == 0:
-            lines.append('预计可用时长：暂无法估算，近四小时未观察到余额净下降；不代表余额可无限使用。')
-        else:
-            hours = available/speed
-            lines.append('按目前速率，余额预计还能用约%.2f小时（按余额降至0元估算）。' % hours)
-            if hours <= 24*365:
-                deadline = now+timedelta(seconds=float(hours*3600))
-                lines.append('预计用尽时间：%s（北京时间）。' % deadline.strftime('%m-%d %H:%M'))
-            reserve = max(Decimal(0),available-500)/speed
-            lines.append('降至500元参考线约剩%.2f小时。' % reserve)
-    if available <= 500: lines.append('充值预警：当前可用余额已不高于500元，请及时充值。')
-    lines.append('本轮未计算余额速率和续航；低余额阈值预警单独判断。' if speed is None else
-                 '按近四小时余额净下降速率保持不变估算；充值、资金调整及后续消耗变化会影响结果，不是精确耗尽承诺。')
-    rendered = card('千川余额｜'+('充值预警' if available<=500 else '四小时检查'),[text_element('\n'.join(lines))])
-    if label == '两小时':
-        import json
-        rendered = json.loads(json.dumps(rendered,ensure_ascii=False).replace('四小时','两小时'))
-    rendered['header']['template'] = 'red' if available<=500 else 'blue'
+        hours = available / speed
+        # Warning text only; preserve the existing balance threshold/category.
+        advice = '请及时充值' if urgent or hours <= 2 else '暂不需要充值'
+        body = '按近%s余额净下降速度估算，还能用约%.2f小时，%s。' % (label, hours, advice)
+    rendered = card('千川余额｜'+label+'提醒', [text_element(prefix+body)])
+    rendered['header']['template'] = 'red' if urgent else 'blue'
     return rendered

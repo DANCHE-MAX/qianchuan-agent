@@ -45,8 +45,8 @@ class Tests(unittest.TestCase):
     def test_unknown_balance_speed_does_not_claim_fixed_rate_estimation(self):
         text=str(balance_cycle.notice(balance(NOW),{'rate':None,'reason':'缺少四小时前基准'}))
         self.assertNotIn('按近四小时余额净下降速率保持不变估算',text)
-        self.assertIn('未计算',text)
-        self.assertIn('充值预警',text)
+        self.assertIn('暂无法估算',text)
+        self.assertIn('请及时充值',text)
 
 
 if __name__=='__main__':unittest.main()

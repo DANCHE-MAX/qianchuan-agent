@@ -64,10 +64,9 @@ def observe(store, snapshot, config, now=None, covered_notice=None):
             if needs_notice and (not previous or at > datetime.fromisoformat(previous['sample_stamp'])):
                 notice = PREFIX+account+':'+hashlib.sha256(stamp.encode()).hexdigest()[:24]
                 from .monitor import add_mentions
-                rendered = card('千川余额｜低余额预警', [
-                    text_element('账户%s｜余额采集于%s（北京时间）' % (account, at.strftime('%m-%d %H:%M:%S'))),
-                    text_element('采样可用余额：%.2f元；已不高于500元参考线，请核对资金。' % amounts['account_valid']),
-                    text_element('本提醒按余额阈值触发，与两小时余额速率是否可计算分别判断。')])
+                rendered = card('千川余额｜低余额预警', [text_element(
+                    '%s（北京时间）｜可用余额%.2f元，已不高于500元，请及时充值。' %
+                    (at.strftime('%H:%M'), amounts['account_valid']))])
                 rendered['header']['template'] = 'red'
                 rendered = add_mentions(rendered, config, 'balance_alert')
                 db.execute('INSERT OR IGNORE INTO events(id,account,stamp,payload) VALUES(?,?,?,?)',

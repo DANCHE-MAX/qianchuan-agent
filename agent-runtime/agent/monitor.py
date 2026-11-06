@@ -289,7 +289,7 @@ class Engine:
                     if rendered['header']['template']=='red':covered_notice=key
                 elif not self.store.exists(key) and latest is None:
                     rendered=card('千川余额｜检查失败',[
-                        text_element('账户%s｜%s。当前余额读取失败，无法计算近两小时消耗速率及预计可用时长。系统将重试，请人工核对资金。'%(account,now.strftime('%m-%d %H:%M')))],template='red')
+                        text_element('%s（北京时间）｜当前余额读取失败，暂无法估算可用时长。请核对资金，系统将重试。'%now.strftime('%H:%M'))],template='red')
                     self.store.enqueue(key+':unavailable',account,now,add_mentions(rendered,config,'balance_alert'))
             if latest:
                 from . import balance_watch
