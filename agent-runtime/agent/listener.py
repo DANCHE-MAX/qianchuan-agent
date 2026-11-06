@@ -242,6 +242,18 @@ def reply_command(notifier, message_id, command, outdir=None, env=None, context=
         effective_command = '报告 夏季' if '夏季' in command else '报告 秋冬' if '秋冬' in command else '报告'
     route = command_route(effective_command)
     turns = []
+    from . import profit_analysis
+    # New daily analysis must precede old conversation and quoted-message fallbacks.
+    if (profit_analysis.enabled(outdir or BASE / 'out') and route == 'knowledge'
+            and not hourly.is_current(command)):
+        previous = memory.load(chat, user) if is_followup(command) else []
+        query = profit_analysis.followup_command(command, previous[-1] if previous else {})
+        content = profit_analysis.answer(query, outdir or BASE / 'out', env, kb)
+        result = notifier.reply_card(message_id, answer_card(content, title='投流助手｜新版日报分析'))
+        if kb.last_context:
+            memory.save(chat, user, [{'question': command[:2000], 'answer': content[:5000],
+                'source': kb.last_context, 'report_snapshot': None, 'display_kind': 'answer'}])
+        return result
     if intent == 'reformat' and not context.get('parent_id') and not hourly.is_current(command):
         turns = memory.load(chat, user)
         if not turns:
@@ -381,6 +393,9 @@ def answer(command, outdir=None, env=None, knowledge=None):
     if hourly.is_current(command):
         return answer_current(command, outdir, env, knowledge or Knowledge())
     route = command_route(command)
+    from . import profit_analysis
+    if route == 'knowledge' and profit_analysis.enabled(outdir or BASE / 'out'):
+        return profit_analysis.answer(command, outdir or BASE / 'out', env, knowledge or Knowledge())
     if route == "knowledge":
         if not env or env.get("KNOWLEDGE_ENABLED", "").lower() != "true":
             return "知识问答尚未开启，请联系管理员配置。可发送“帮助”查看报告查询指令。"

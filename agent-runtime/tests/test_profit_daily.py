@@ -73,3 +73,24 @@ class ScheduleTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as d,patch('agent.profit_daily.prepare',return_value={'type':'profit_bundle'}) as prepare:
    self.assertEqual(daily_brief.prepare(d,{},None,{}, {'profit_report':True}),{'type':'profit_bundle'})
    self.assertFalse(daily_brief.options(d).get('profit_report',False))
+
+class RateLimitTests(unittest.TestCase):
+ def test_raised_rate_limit_recovers_with_bounded_delay(self):
+  from agent.reliability import ServiceError
+  for code in (40100,429):
+   with self.subTest(code=code),patch.object(p.qc_auth,'call',side_effect=[ServiceError('synthetic',api_code=code),{'code':0,'data':{}}]) as call,patch.object(p.time,'sleep') as sleep:
+    self.assertEqual(p.get({},p.REPORT,{}),{'code':0,'data':{}})
+    self.assertEqual(call.call_count,2);sleep.assert_called_once_with(6)
+ def test_rate_limit_exhaustion_stops_after_three_attempts(self):
+  from agent.reliability import ServiceError
+  with patch.object(p.qc_auth,'call',side_effect=ServiceError('synthetic',api_code=40100)) as call,patch.object(p.time,'sleep') as sleep:
+   with self.assertRaises(ServiceError):p.get({},p.REPORT,{})
+   self.assertEqual(call.call_count,3)
+   self.assertEqual([c.args[0] for c in sleep.call_args_list],[6,12])
+ def test_non_rate_errors_are_not_retried(self):
+  from agent.reliability import ServiceError
+  with patch.object(p.qc_auth,'call',side_effect=ServiceError('synthetic',api_code=40002)) as call,patch.object(p.time,'sleep') as sleep:
+   with self.assertRaises(ServiceError):p.get({},p.REPORT,{})
+   self.assertEqual(call.call_count,1);sleep.assert_not_called()
+
+if __name__=='__main__':unittest.main()

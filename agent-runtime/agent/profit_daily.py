@@ -4,6 +4,7 @@ from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
 from . import hourly,qc_auth,plan_profit
+from .reliability import ServiceError
 
 LIST='/open_api/v1.0/qianchuan/uni_promotion/list/'
 REPORT='/open_api/v1.0/qianchuan/report/uni_promotion/data/get/'
@@ -24,7 +25,12 @@ def get(env,path,params):
         req=urllib.request.Request('https://api.oceanengine.com'+path+'?'+query,headers={'Access-Token':token},method='GET')
         with urllib.request.urlopen(req,timeout=30) as response:return json.load(response)
     for attempt in range(3):
-        result=qc_auth.call(env,request)
+        try:
+            result=qc_auth.call(env,request)
+        except ServiceError as exc:
+            if getattr(exc,'api_code',None) not in (40100,429) or attempt==2:raise
+            time.sleep(6*(attempt+1))
+            continue
         if result.get('code')==0:return result
         if result.get('code') not in (40100,429):break
         time.sleep(2**attempt)

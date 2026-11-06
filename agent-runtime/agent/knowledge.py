@@ -112,7 +112,7 @@ class Knowledge:
         if report_context:
             try:
                 kind = json.loads(report_context).get('资料类型')
-                if kind in ('今日小时采集', '今日半小时采集', '半小时监测预警'):
+                if kind in ('今日小时采集', '今日半小时采集', '半小时监测预警', '新版利润日报'):
                     context_title = kind
             except (ValueError, TypeError, AttributeError):
                 pass
@@ -122,7 +122,7 @@ class Knowledge:
             for i, item in enumerate(context, 1):
                 item['编号'] = i
         body = {'model': model, 'stream': False, 'max_tokens': 2000, 'thinking': {'type': 'disabled'}, 'messages': [
-            {'role': 'system', 'content': BRIEFING_SYSTEM_PROMPT},
+            {'role': 'system', 'content': BRIEFING_SYSTEM_PROMPT + ('\n本次为新版利润日报分析：以新版利润日报的policy与已计算金额为准，覆盖上文旧模型固定费率、毛利率和保本系数；不重算或套用旧价格档。数据日期按给定北京时间日期，不能把旧日期称为昨日。null保持待核验；可计算部分合计不能代表完整账户。反馈暂停，不要求投手反馈或操作机器人，不执行预算变更。' if context_title == '新版利润日报' else '')},
             {'role': 'user', 'content': json.dumps({'问题': question, '检索资料': context}, ensure_ascii=False)}]}
         request = urllib.request.Request(base + '/chat/completions', data=json.dumps(body).encode('utf-8'), headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'}, method='POST')
         try:

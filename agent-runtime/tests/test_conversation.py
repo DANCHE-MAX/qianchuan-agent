@@ -8,6 +8,12 @@ from agent.conversation import Conversation, is_followup
 from agent import listener
 
 class Tests(unittest.TestCase):
+    def setUp(self):
+        # This suite covers the retained legacy mode; new daily mode has its own integration tests.
+        mode = patch('agent.profit_analysis.enabled', return_value=False)
+        mode.start()
+        self.addCleanup(mode.stop)
+
     def test_scope_expiry_and_limit(self):
         with tempfile.TemporaryDirectory() as tmp:
             m = Conversation(Path(tmp)/'memory.db')

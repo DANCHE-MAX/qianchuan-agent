@@ -7,6 +7,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from agent import listener, notify
 
 class Tests(unittest.TestCase):
+    def setUp(self):
+        # This suite covers the retained legacy mode; new daily mode has its own integration tests.
+        mode = patch('agent.profit_analysis.enabled', return_value=False)
+        mode.start()
+        self.addCleanup(mode.stop)
+
     def test_routes(self):
         for text in ['达人视频审核不通过怎么办？', '计划审核不通过怎么办', '报告怎么看', '托管']:
             self.assertEqual(listener.command_route(text), 'knowledge')
