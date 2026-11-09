@@ -112,4 +112,68 @@ The detailed documents below are currently in Chinese.
 - **Project history:** [Development journey](docs/development-journey.md)
 - **Development:** [Developer guide](docs/developer-guide.md) · [Data protection](SECURITY.md)
 
-Reviewed on November 9, 2026. Capability reference: committed version `af9cc6d`. Demo images use fictional data and do not establish production acceptance.
+Reviewed on November 9, 2026. Capability reference: committed version `309a819`. Demo images use fictional data and do not establish production acceptance.
+
+## New: local, read-only business dashboard
+
+The latest dashboard brings together daily reports, comparison estimates, seven-day product trends, and questions about recorded results. All real data and configuration stay on the local machine.
+
+| Business need | What the dashboard shows |
+| --- | --- |
+| Review results for a date | Recorded amounts and verification status; missing dates are not replaced with older reports |
+| Compare profit assumptions | “Current-policy estimate” and “comparison estimate,” separate from the original report |
+| Review products and campaigns | Recognizable product names, campaign totals, and links to historical report attachments |
+| Explore additional ad spend | The GMV needed to cover an assumed increase in ad spend; not a sales forecast or executable budget |
+| Review a missing historical date | Explicitly enabled, read-only product-campaign backfills, labeled as estimates, excluding livestream, and not sent |
+
+The model uses confirmed tiered refund assumptions, a procurement multiplier of 3.2, and a 13.10% fee rate. Shipping and fixed costs are not included. These are modeling assumptions, not the day’s actual refund rate or final settlement profit. Historical reports retain their original values; comparisons across a policy change remain subject to verification.
+
+Configure the approved local `data/model_policy/authority.json` file in the runtime directory; never commit it. Start the dashboard with:
+
+```sh
+.venv/bin/python tools/dashboard.py --root . --shadow-root /path/to/local/shadow
+```
+
+Open `http://127.0.0.1:8768` on the same machine. See the [detailed rules — Chinese](docs/current-profit-rules.md) for policy, verification, and operating boundaries.
+
+![Local read-only dashboard — entirely fictional demo data, Chinese interface](docs/assets/readonly-dashboard-demo.jpg)
+
+### Product names and attribution
+
+Confirmed local identity evidence can supply product names without rewriting reports or delivery records. Historical names are marked as historical; company style codes are never guessed from titles, campaign names, or prices. New reports recheck campaign bindings rather than assuming old mappings still apply.
+
+Single-product attribution can be confirmed from the matching account and date’s campaign list, including zero-spend campaigns. Multi-product and livestream campaigns remain unassigned when the necessary evidence is absent; they are not classified as store-managed by default. Real mappings and evidence remain local.
+
+The current dashboard uses shorter display names derived from the original names. Full names remain available on hover and in search. Duplicate short names receive distinguishing labels; separate products are not merged. The dashboard no longer displays the “style code pending verification” wording, but underlying missing-value records remain. Product-attribution and amount gaps are still visible. Historical downloaded attachments keep their original labels.
+
+### Product details and confirmed refund differences
+
+Daily profit-chart supplementary pages and Excel can include returned product-level GMV and spend within a campaign. Campaign totals are counted once; product details do not count again toward profit, rankings, or pie-chart totals. Missing product-day and livestream bindings are not filled with zero.
+
+**The dashboard no longer displays the within-campaign product-detail section.** Campaign GMV, spend, estimated profit, and totals remain. Backend details, missing-data reasons, daily supplementary pages, and Excel are retained.
+
+Confirmed refund-related differences are handled per metric and date. Independently verified spend remains visible, while profit contribution uses the corresponding original daily report. A GMV difference is not deducted again as a profit loss. Unconfirmed contradictions still block delivery; other missing values remain explicitly unverified.
+
+### Historical backfills and clearer presentation
+
+Historical backfills must be explicitly enabled and cover only complete past days for product campaigns, excluding livestream. Ordinary daily reporting still uses yesterday. Backfills retain pagination, date, independent-total, and zero-spend GMV recheck requirements; failure or missing data is not a real zero.
+
+Validated backfills are a fallback for missing dashboard dates; completed original reports take priority. Trends and answers label them as backfill estimates, excluding livestream and not sent. They use the currently confirmed policy and do not impersonate reports previously delivered. File-hash or scope mismatches leave data unverified. Backfill evidence never changes historical reports or delivery status.
+
+The business dashboard provides expandable “How to read this” help while keeping amounts and missing-data labels visible. This applies to the dashboard interface; homepage demo images remain directly displayed. Clearly typed livestream records are hidden from the specified product and comparison views without changing source data, account totals, or live advertising. The former “Anomalies and recovery” dashboard panel has been removed; background monitoring remains active.
+
+Answers use separate lines for rankings and notes, with the data date at the bottom. Missing-value, business-rule estimate, and budget-boundary notices remain. Text is rendered as plain text, not executable HTML.
+
+### More reliable alert delivery and collection
+
+ROI in anomaly cards is an observed ratio for the snapshot interval, not full-day ROI, an exact order period, or accounting profit. Persistent event identities help avoid reporting the same metric revision twice while keeping genuinely new campaign or interval events.
+
+Within one runtime directory, API readers share conservative request spacing and temporary-error cooldowns. This is a local safeguard, not a published platform quota. Local diagnostics classify failures without exposing credentials, identities, request parameters, or raw exception text. Persistent failures still trigger the existing notices; failures are never replaced with zero values. Router, Wi-Fi, and proxy configuration is not changed.
+
+### Acceptance checks remain separate from implementation
+
+Product naming, attribution, supplementary details, and refund-display checks are included in the existing next daily-report acceptance run: November 10, 2026, after 10:05 Beijing time, for the November 9 report and November 8–9 comparison. This is a scheduled check, not evidence that it has passed.
+
+Checks use that run’s actual evidence and delivered attachments: consistent names and amounts, no double counting, all profit pages before Excel, one native mention per daily package, and group-history checks for duplicate delivery. Historical coverage counts are not reused as current coverage. When no real refund difference occurs, only isolated synthetic cases are tested; no production event or extra group message is created.
+
+These updates do not resume feedback, send additional group messages, or automatically change budgets, ROI targets, or campaign status. Real data, backups, configuration, and group or staff identities remain local.
