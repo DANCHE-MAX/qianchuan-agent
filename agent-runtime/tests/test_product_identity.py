@@ -49,3 +49,36 @@ for _name,_fn in list(globals().items()):
         def _test(self,fn=_fn):
             with tempfile.TemporaryDirectory() as directory:fn(__import__('pathlib').Path(directory))
         setattr(ProductIdentityTests,_name,_test)
+
+class InventoryIdentityTests(unittest.TestCase):
+ def test_inventory_scope_and_identity(self):
+  rec={'account':'a','plan_id':'p','product_id':'g','name':'old'}
+  doc={'request':{'advertiser_id':'a','start_time':'2026-01-01 00:00:00','end_time':'2026-01-01 23:59:59'},'response':{'code':0,'data':{'ad_list':[{'ad_info':{'id':'p'},'product_info':[{'product_id':'g','product_name':'dated name'}]}]}}}
+  self.assertEqual(p.inventory_record(rec,doc,'2026-01-01')['name'],'dated name')
+  self.assertIsNone(p.inventory_record(rec,doc,'2026-01-02'))
+  doc['request']['advertiser_id']='other';self.assertIsNone(p.inventory_record(rec,doc,'2026-01-01'))
+ def test_multiple_products_not_collapsed(self):
+  rec={'account':'a','plan_id':'p','product_id':'g'}
+  doc={'request':{'advertiser_id':'a','start_time':'2026-01-01 00:00:00','end_time':'2026-01-01 23:59:59'},'response':{'code':0,'data':{'ad_list':[{'ad_info':{'id':'p'},'product_info':[{'product_id':'g','product_name':'x'},{'product_id':'h','product_name':'y'}]}]}}}
+  self.assertIsNone(p.inventory_record(rec,doc,'2026-01-01'))
+ def test_future_reuses_dated_inventory_without_detail_requests(self):
+  from pathlib import Path
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t);rec,folder=setup(root);rec.update(plan_id='12',binding_kind='inventory');(folder/'confirmed.json').write_text(json.dumps([rec]))
+   ev=root/'source';ev.mkdir();doc={'request':{'advertiser_id':'a','start_time':'2026-01-01 00:00:00','end_time':'2026-01-01 23:59:59'},'response':{'code':0,'data':{'ad_list':[{'ad_info':{'id':'12'},'product_info':[{'product_id':'g','product_name':'New dated title'}]}]}}}
+   (ev/'VIDEO_PROM_GOODS-UNI_PROJECT-2.json').write_text(json.dumps(doc))
+   r={'account':'a','date':'2026-01-01','rows':[{'plan_id':'12','name':'plan','profit':'3'}]}
+   def forbidden(*args):raise AssertionError('Must reuse inventory, not call network')
+   result=p.capture(root,{},r,ev,request=forbidden)
+   self.assertIn('New dated title',result['rows'][0]['name']);self.assertEqual(result['rows'][0]['profit'],'3')
+   doc['request']['advertiser_id']='other';(ev/'VIDEO_PROM_GOODS-UNI_PROJECT-2.json').write_text(json.dumps(doc))
+   self.assertEqual(p.capture(root,{},r,ev,request=forbidden)['rows'],r['rows'])
+ def test_live_empty_and_missing_title_remain_unverified(self):
+  rec={'account':'a','plan_id':'p','product_id':'g'}
+  ad={'ad_info':{'id':'p'},'product_info':[]}
+  doc={'request':{'advertiser_id':'a','start_time':'2026-01-01 00:00:00','end_time':'2026-01-01 23:59:59'},'response':{'code':0,'data':{'ad_list':[ad]}}}
+  self.assertIsNone(p.inventory_record(rec,doc,'2026-01-01'))
+  ad['product_info']=[{'product_id':'g','product_name':''}]
+  self.assertIsNone(p.inventory_record(rec,doc,'2026-01-01'))
+  ad['product_info']=[{'product_id':'different','product_name':'Other product'}]
+  self.assertIsNone(p.inventory_record(rec,doc,'2026-01-01'))

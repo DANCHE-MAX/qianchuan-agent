@@ -25,6 +25,16 @@ def match(record,detail):
     return detail.get('code')==0 and len(products)==1 and str(products[0].get('product_id'))==str(record['product_id'])
 
 
+def inventory_record(record,doc,day):
+    args=doc.get('request',{});response=doc.get('response',{})
+    if str(args.get('advertiser_id'))!=str(record['account']) or args.get('start_time')!=day+' 00:00:00' or args.get('end_time')!=day+' 23:59:59' or response.get('code')!=0:return None
+    ads=[a for a in response.get('data',{}).get('ad_list',[]) if str(a.get('ad_info',{}).get('id'))==str(record['plan_id'])]
+    if len(ads)!=1:return None
+    products=ads[0].get('product_info') or []
+    if len(products)!=1 or str(products[0].get('product_id'))!=str(record['product_id']) or not products[0].get('product_name'):return None
+    return dict(record,name=products[0]['product_name'])
+
+
 def label(record):
     return record['name']+'（历史商品名；'+(str(record['sku']) if record.get('sku') else '款号待核验')+'）'
 
@@ -43,7 +53,10 @@ def overlay(root,report,mapping):
         if not verified(binding.get('path'),binding.get('sha256')):continue
         try:detail=json.loads(Path(binding['path']).read_text())
         except (ValueError,OSError):continue
-        if not match(rec,detail):continue
+        if binding.get('kind')=='inventory':
+            rec=inventory_record(rec,detail,report['date'])
+            if rec is None:continue
+        elif not match(rec,detail):continue
         pid=str(rec['plan_id']);rows=[r for r in out['rows'] if str(r['plan_id'])==pid]
         existing=[r for r in m['rows'] if str(r['plan'])==pid]
         if any(r.get('product') and str(r['product'])!=str(rec['product_id']) for r in existing):continue
@@ -63,6 +76,19 @@ def capture(root,env,report,evidence,request=None):
     for rec in records(root,report['account']):
         rows=[r for r in out['rows'] if str(r['plan_id'])==str(rec['plan_id'])]
         if not rows:continue
+        # Reuse this acquisition's scoped inventory before any detail call.
+        candidates=[]
+        for path in evidence.glob('VIDEO_PROM_GOODS-*.json'):
+            if 'no-cost' in path.name:continue
+            try:found=inventory_record(rec,json.loads(path.read_text()),report['date'])
+            except (ValueError,OSError):found=None
+            if found:candidates.append(found)
+        if len(candidates)==1:
+            for row in rows:
+                if '全店托管' not in str(row.get('plan_name') or row['name']):apply(row,candidates[0])
+            proof.append(candidates[0]);continue
+        if rec.get('binding_kind')=='inventory':
+            out.setdefault('warnings',[]).append('本次列表未确认唯一商品绑定，不沿用历史映射，归属待核验');continue
         try:detail=request(env,p.DETAIL,{'advertiser_id':report['account'],'ad_id':int(rec['plan_id'])})
         except Exception:
             out.setdefault('warnings',[]).append('商品绑定复查失败，商品款号及归属待核验');continue
