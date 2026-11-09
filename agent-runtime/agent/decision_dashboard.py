@@ -81,7 +81,7 @@ def build(root,account,end_day,shadow_root=None):
  for i in range(7):
   day=str(end-timedelta(days=i))
   try:r,m=completed(root,account,day)
-  except (OSError,ValueError,KeyError,sqlite3.Error) as exc:r,m=None,None;warnings.append(day+'：已发报表证据待核验（'+type(exc).__name__+'）')
+  except (OSError,ValueError,KeyError,sqlite3.Error) as exc:r,m=None,None;warnings.append(day+'：历史报表完整性证据不足，待核验')
   if r:reports.append(r)
   if m:mappings[day]=m
  trends=build_trends(reports,mappings,end_day);current=next((r for r in reports if r['date']==end_day),None)
