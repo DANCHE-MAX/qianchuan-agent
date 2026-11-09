@@ -36,10 +36,10 @@ def pie_view(days,policy):
         if day['complete']:
             plans=grouped_plans(day)
             if day.get('inventory_complete'):missing=len(set(day.get('inventory',[]))-set(plans))
-            for plan in plans.values():
+            for plan_id,plan in plans.items():
                 pid='managed' if plan.get('managed') else plan['product'] or 'unknown';name='全店托管' if pid=='managed' else plan['name'] if plan['product'] else '商品归属待核验'
                 g=groups.setdefault(pid,{'id':pid,'name':name,'spend':Decimal(0),'profit':Decimal(0)})
-                g['spend']+=plan['spend'];g['profit']+=Decimal(plan_profit.calculate(plan['gmv'],plan['spend'],policy)['profit'])
+                g['spend']+=plan['spend'];g['profit']+=Decimal(plan_profit.calculate(plan['gmv'],plan['spend'],plan_profit.resolve_policy(day.get('profit_policy',policy),plan_id))['profit'])
             for pid,g in groups.items():names[pid]=g['name'];ranking[pid]=ranking.get(pid,Decimal(0))+g['spend']
         if 'report_missing' in day:missing=day['report_missing']
         positive=[g for g in groups.values() if g['id'] not in ('unknown','managed') and g['profit']>0]
@@ -83,9 +83,10 @@ def attach(root,env,now,bundle):
         reports.append(report)
         if report:
             if report.get('policy')!=main['policy']:
-                item['complete']=False;item['warnings'].append('两日报表政策不同，比较待核验')
+                item['complete']=False;item['policy_transition']=True;item['warnings'].append('新旧模型版本切换，利润比较待核验')
             reconcile_main(item,report)
             item['report_missing']=report['missing_profit']
+            if report['policy'].get('model_version'):item['profit_policy']=report['policy']
             by_id={str(r['plan_id']):r for r in report['rows']}
             for row in item['rows']:
                 info=by_id.get(row['plan'],{})

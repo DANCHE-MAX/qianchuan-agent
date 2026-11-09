@@ -164,6 +164,8 @@ def prepare(root,env,now,cfg,opts,*,day=None):
             'fee_rate':config['fee_rate'],'ad_rate':config['ad_rate'],'shipping_mode':'excluded'}
     out=root/'out/profit_daily'/account/day/now.strftime('%H%M%S%f');out.mkdir(parents=True)
     inputs=collect(env,day,now.date(),out/'source')
+    from .profit_policy import load_policy
+    policy=load_policy(root,account,policy)
     result=plan_profit.report(inputs['inventory'],inputs['daily'],inputs['no_spend'],policy,date=day)
     result.update(account=account,policy=policy,checks=inputs['checks'],warnings=inputs['warnings'],as_of=now.isoformat(),policy_version=season['policy_version'])
     save(out/'result.json',result)

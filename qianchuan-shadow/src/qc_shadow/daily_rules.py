@@ -4,12 +4,12 @@ from decimal import Decimal,localcontext
 from .contracts import Daily
 from .history import at
 
-def assess_daily(rows,as_of,refund):
+def assess_daily(rows,as_of,refund,estimator=None):
     with localcontext() as context:
         context.prec=40
-        return _assess(rows,as_of,refund)
+        return _assess(rows,as_of,refund,estimator)
 
-def _assess(rows,as_of,refund):
+def _assess(rows,as_of,refund,estimator=None):
     end=at(as_of).date()-timedelta(days=1);values={};duplicate=False
     for raw in rows:
         r=Daily.model_validate({k:raw.get(k) for k in ('day','spend','gmv','orders','complete','evidence')})
@@ -24,7 +24,7 @@ def _assess(rows,as_of,refund):
     profits={}
     for day,r in values.items():
         if day<=end and r.complete and r.evidence and r.spend is not None and r.gmv is not None and rate is not None:
-            profits[day]=r.gmv*(1-rate)*Decimal('.5566')-r.spend
+            profits[day]=(estimator(r.gmv,r.spend) if estimator else r.gmv*(1-rate)*Decimal('.5566')-r.spend)
     def window(n):return [end-timedelta(days=i) for i in reversed(range(n))]
     def ready(n):return not duplicate and all(d in profits and values[d].orders is not None for d in window(n))
     grow='unknown';stable='unknown'

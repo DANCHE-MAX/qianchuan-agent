@@ -1,6 +1,7 @@
 """Account-wide scenario reporting. Pure calculations; no messaging or budget writes."""
 from decimal import Decimal, ROUND_HALF_UP
 from html import escape
+from .profit_policy import estimate, resolve_policy
 
 VERSION = 'qianchuan-plan-scenario-v1'
 
@@ -17,27 +18,7 @@ def money(value):
 
 
 def calculate(gmv, spend, policy):
-    """All business parameters must come from a separately supplied local policy."""
-    rate = number(policy['refund_rate'])
-    multiplier = number(policy['purchase_multiplier'])
-    fee_rate = number(policy['fee_rate'])
-    ad_rate = number(policy['ad_rate'])
-    if rate > 1 or multiplier == 0 or fee_rate > 1 or ad_rate > 1:
-        raise ValueError('Invalid policy')
-    if policy.get('shipping_mode') != 'excluded':
-        raise ValueError('This scenario requires explicit shipping exclusion')
-    if gmv is None or spend is None:
-        return {k: None for k in ('net', 'cost', 'fee', 'preprofit', 'profit',
-                                  'ad15', 'profit15', 'headroom', 'candidate')}
-    gmv, spend = number(gmv), number(spend)
-    net = money(gmv * (1-rate))
-    cost, fee = money(net / multiplier), money(net * fee_rate)
-    preprofit = net-cost-fee
-    profit, ad15 = preprofit-spend, money(gmv*ad_rate)
-    values = dict(net=net, cost=cost, fee=fee, preprofit=preprofit, profit=profit,
-                  ad15=ad15, profit15=preprofit-ad15, headroom=max(Decimal(0), profit),
-                  candidate=max(Decimal(0), min(preprofit, ad15)-spend))
-    return {k: str(money(v)) for k, v in values.items()}
+    return estimate(gmv, spend, policy)
 
 
 ZERO_GMV_RULE = 'confirmed-zero-spend-rechecked-gmv-v1'
@@ -90,7 +71,8 @@ def report(inventory, daily, no_spend, policy, *, date):
         raw_gmv=gmv
         imputed=gmv is None and spend=='0.00' and zero_gmv_eligible(plan,zeros.get(pid),date)
         if imputed:gmv='0.00'
-        values = calculate(gmv, spend, policy)
+        row_policy = resolve_policy(policy, pid)
+        values = calculate(gmv, spend, row_policy)
         status = ('已取昨日明细' if values['profit'] is not None else
                   '已核实无消耗；GMV待核验' if pid in zeros else '昨日数据待核验')
         if imputed:status='业务规则补值：已核实零消耗，复查GMV缺失按0测算'
@@ -98,6 +80,7 @@ def report(inventory, daily, no_spend, policy, *, date):
                          gmv_source='business_rule_zero_spend' if imputed else 'api' if gmv is not None else 'missing',
                          gmv_rule_version=ZERO_GMV_RULE if imputed else None, **values,
                          status=status, current_budget=None,
+                         **({"policy":row_policy} if policy.get("model_version") else {}),
                          evidence=zeros.get(pid) or (raw or {}).get('source')))
     rows.sort(key=lambda r: (r['profit'] is None, -Decimal(r['profit'] or '0'), r['name']))
     valid = [r for r in rows if r['profit'] is not None]

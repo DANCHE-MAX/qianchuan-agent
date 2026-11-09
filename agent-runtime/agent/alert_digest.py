@@ -19,7 +19,7 @@ def deliver(store,account,chat,now,notifier,allowed):
     for group,members in groups.items():
         # Keep cards within platform size limits without silently dropping findings.
         for offset in range(0,len(members),8):
-            chunk=sorted(members,key=lambda row:row[0])[offset:offset+8]
+            chunk=sorted(members,key=lambda row:(row[1]['_brief_alert'].get('priority',1),row[0]))[offset:offset+8]
             keys=[r[0] for r in chunk];ident=hashlib.sha256((chat+':'+json.dumps(keys)).encode()).hexdigest()[:40]
             elements=[text_element(group[1]+'｜同轮异常合并；各计划分别判断')]
             elements.extend(text_element(r[1]['_brief_alert']['text']) for r in chunk)
@@ -29,6 +29,8 @@ def deliver(store,account,chat,now,notifier,allowed):
                     if '<at ' in element.get('text',{}).get('content','') and element not in mentions:mentions.append(element)
             rendered=card('投流监测｜异常汇总',elements+[text_element('按快照观测变化提醒，不代表利润损失；只供人工判断，不自动调预算。')]+mentions)
             rendered['header']['template']='orange'
+            from . import alert_lifecycle
+            rendered=alert_lifecycle.decorate(store.path.parent.parent.parent,account,rendered)
             row=(ident,chat,min(r[2] for r in chunk),json.dumps(keys),json.dumps(rendered,ensure_ascii=False),0)
             with store.db() as db:db.execute('INSERT OR IGNORE INTO alert_digests VALUES(?,?,?,?,?,?,?)',(ident,account,*row[1:]))
             records.append(row);covered.update(keys)
@@ -47,4 +49,6 @@ def deliver(store,account,chat,now,notifier,allowed):
         with store.db() as db:
             db.execute('UPDATE alert_digests SET sent=1 WHERE id=?',(ident,))
             db.executemany('UPDATE events SET sent=1 WHERE id=? AND sent=0',[(k,) for k in keys])
+        from . import alert_lifecycle
+        alert_lifecycle.acknowledge(store.path.parent.parent.parent,json.loads(payload))
     return covered

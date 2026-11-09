@@ -3,6 +3,7 @@ from datetime import datetime,timedelta
 from decimal import Decimal,localcontext
 from zoneinfo import ZoneInfo
 from .daily_rules import assess_daily
+from .profit_policy import estimate,shadow_policy
 D=Decimal;CHINA=ZoneInfo('Asia/Shanghai')
 
 def instant(s):
@@ -22,6 +23,7 @@ def analyze_plan(plan,settings,as_of):
 def _analyze(p,s,as_of):
  now=instant(as_of);end=now.date()-timedelta(days=1);gaps=[];rows=p.get('daily',[]);daily={r['day']:r for r in rows}
  duplicate=len(daily)!=len(rows);refund=p.get('refund') or {};rate=number(refund.get('rate'))
+ policy=shadow_policy(refund) if refund.get('rate') is not None and refund.get('band') else None
  model=refund.get('verified') is True and rate is not None and rate<1 and bool(refund.get('band') and refund.get('model_version'))
  if not model:gaps.append('refund_model_unverified')
  def window(n):
@@ -35,9 +37,9 @@ def _analyze(p,s,as_of):
   if complete:
    spend=sum((number(r['spend']) for r in facts),D(0));gmv=sum((number(r['gmv']) for r in facts),D(0));orders=sum(int(r['orders']) for r in facts)
    value.update(spend=str(spend),gmv=str(gmv),orders=orders,payment_roi=str(gmv/spend) if spend else None,
-    estimated_profit=str(gmv*(1-rate)*D('.5566')-spend) if model else None)
+    estimated_profit=str(sum((D(estimate(r['gmv'],r['spend'],policy)['profit']) for r in facts),D(0))) if model else None)
   return value
- windows={str(n):window(n) for n in (1,3,7)};quality=assess_daily(rows,as_of,refund)
+ windows={str(n):window(n) for n in (1,3,7)};quality=assess_daily(rows,as_of,refund,estimator=(lambda g,s:D(estimate(g,s,policy)['profit'])) if model else None)
  fresh=False
  try:fresh=s.get('status')=='ok' and s.get('plan_id')==p['plan_id'] and 0<=(now-instant(s['fetched_at'])).total_seconds()<=45*60
  except (KeyError,ValueError,TypeError):pass
@@ -68,7 +70,7 @@ def _analyze(p,s,as_of):
  if observations:
   at,last=observations[-1];spend=number(last.get('spend'));gmv=number(last.get('gmv'));orders=number(last.get('paid_orders'));isfresh=(now-at).total_seconds()<=45*60
   intra.update(at=at.isoformat(),spend=str(spend) if spend is not None else None,gmv=str(gmv) if gmv is not None else None,orders=str(orders) if orders is not None else None,fresh=isfresh,
-   estimated_profit=str(gmv*(1-rate)*D('.5566')-spend) if model and spend is not None and gmv is not None else None,
+   estimated_profit=estimate(gmv,spend,policy)['profit'] if model and spend is not None and gmv is not None else None,
    budget_ratio=str(spend/budget) if isfresh and spend is not None and budget else None)
   if len(observations)>=2 and isfresh:
    before,prev=observations[-2];elapsed=D(str((at-before).total_seconds()))/3600;old=number(prev.get('spend'))
@@ -98,7 +100,7 @@ def _analyze(p,s,as_of):
  return {'plan_id':p['plan_id'],'name':s.get('name'),'as_of':as_of,'windows':windows,'intraday':intra,'quality':quality,
   'current_target_roi':str(target) if target is not None else None,
   'current_budget':str(budget) if budget is not None else None,'cost_context_verified':cost_verified,
-  'payment_roi_break_even':str(1/((1-rate)*D('.5566'))) if model else None,'break_even_scope':'支付GMV/广告消耗的模型盈亏线，不能直接作为乘方目标ROI或实际结算利润',
+  'payment_roi_break_even':str(1/((1-rate)*D('.5565'))) if model else None,'break_even_scope':'支付GMV/广告消耗的模型盈亏线，不能直接作为乘方目标ROI或实际结算利润',
   'advice':advice,'candidate_roi':str(candidate) if candidate is not None else None,'reasons':reasons,'hypotheses':hypotheses,'gaps':gaps,
-  'settings_evidence':s.get('evidence'),'refund_model':refund,'shadow_only':True,'roi_write_enabled':False,'plan_pause_enabled':False,
+  'settings_evidence':s.get('evidence'),'refund_model':refund,'profit_policy':policy,'shadow_only':True,'roi_write_enabled':False,'plan_pause_enabled':False,
   'budget_policy_changed':False,'causal_validation':'未实施ROI调整；不将后续自然涨跌计为建议准确率'}

@@ -33,7 +33,7 @@ class Store:
                 map_pending=mapping is not None and mapping.get(str(row['plan_id']),'pending') in ('pending','unlinked')
                 if not money_pending and not map_pending:continue
                 key=digest(str(report['account'])+':'+report['date']+':'+str(row['plan_id'])+':'+source_hash)
-                original={'row':row,'policy':report['policy'],'money_pending':money_pending,'mapping_pending':map_pending}
+                original={'row':row,'policy':row.get('policy',report['policy']),'money_pending':money_pending,'mapping_pending':map_pending}
                 db.execute('INSERT OR IGNORE INTO cases VALUES(?,?,?,?,?,?,?,?,?,?)',
                     (key,str(report['account']),report['date'],str(row['plan_id']),source_hash,encode(original),now.isoformat(),'pending','尚未复查',None))
     def snapshot(self,account):

@@ -169,8 +169,12 @@ class Engine:
                     else:
                         self.notifier_factory(chat).send_card(rendered, request_uuid=uuid)
                     db.execute('UPDATE jobs SET sent=1,last_error=NULL WHERE account=? AND day=?', (account,end)); db.commit()
+                    from .alert_lifecycle import safe_record
+                    safe_record(self.root,account,'daily_delivery',end,now.isoformat(),'healthy','日报发送')
                     return True
                 except Exception as exc:
+                    from .alert_lifecycle import safe_record
+                    safe_record(self.root,account,'daily_delivery',end,now.isoformat(),'active','日报发送')
                     count = row[3]+1
                     db.execute('UPDATE jobs SET attempts=?,retry_at=?,last_error=? WHERE account=? AND day=?',
                         (count,(now+timedelta(seconds=opts['retry_seconds'])).isoformat(),type(exc).__name__,account,end)); db.commit()

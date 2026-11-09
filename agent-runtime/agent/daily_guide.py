@@ -39,7 +39,7 @@ def previous(root,account,day):
             if len(known)!=report['calculable'] or len(rows)-len(known)!=report['missing_profit']:continue
             from . import plan_profit
             for row in known:
-                if plan_profit.calculate(row['gmv'],row['spend'],report['policy'])['profit']!=row['profit']:raise ValueError('History profit mismatch')
+                if plan_profit.calculate(row['gmv'],row['spend'],row.get('policy',report['policy']))['profit']!=row['profit']:raise ValueError('History profit mismatch')
             for key in ('gmv','spend','profit'):
                 expected=sum((amount(r[key]) for r in known),Decimal(0)) if known else None
                 if amount(report['totals_calculable_only'][key])!=expected:raise ValueError('History totals mismatch')

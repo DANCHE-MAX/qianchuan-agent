@@ -243,10 +243,15 @@ class Engine:
                         self.store.save_snapshot(fetch_snapshot(self.env,kind,now))
                     series=self.store.snapshots(account,kind,now.date().isoformat())
                     collected=True
+                    from .alert_lifecycle import safe_record
+                    safe_record(self.root,account,"collection",kind,stamp,"healthy","千川"+kind+"采集")
                     admission=gate.assess(series,account,kind,now,stale_minutes=gate.stale_minutes(self.root))
                     admissions[kind]=admission
                     gate.record(self.store,admission,now,notify_observation=cfg.get('observation_notices_enabled',True))
-                    for finding in anomalies(series,cfg,config['model'],assessment=admission):
+                    findings=anomalies(series,cfg,config['model'],assessment=admission)
+                    from .alert_lifecycle import rule_observations
+                    rule_observations(self.root,account,kind,stamp,findings,admission)
+                    for finding in findings:
                         key='anomaly26:'+account+':'+kind+':'+finding['id']+':'+stamp
                         if self.store.exists(key):continue
                         # New alert categories can still surface during another category's cooldown.
@@ -264,6 +269,8 @@ class Engine:
                 except Exception as exc:
                     errors.append(type(exc).__name__)
                     if not collected:
+                        from .alert_lifecycle import safe_record
+                        safe_record(self.root,account,"collection",kind,stamp,"active","千川"+kind+"采集")
                         admissions[kind]=gate.failed(account,kind,now)
                         gate.record(self.store,admissions[kind],now,notify_observation=cfg.get('observation_notices_enabled',True))
             # Continuous half-hour samples retain cross-midnight two-hour baselines.
@@ -279,7 +286,9 @@ class Engine:
                     rate=balance_rate(samples,latest)
                     rendered=balance_notice(latest,rate)
                     category='balance_alert' if rendered['header']['template']=='red' else 'balance_check'
-                    from . import balance_comparison
+                    from . import balance_comparison,alert_lifecycle
+                    alert_lifecycle.safe_record(self.root,account,'funds','balance',latest['fetched_at'],'active' if category=='balance_alert' else 'healthy','账户余额')
+                    rendered=alert_lifecycle.decorate(self.root,account,rendered)
                     rendered=balance_comparison.attach(self.root,self.store,account,now,latest,rendered)
                     self.store.enqueue(key,account,now,add_mentions(rendered,config,category,now=now))
                     if rendered['header']['template']=='red':covered_notice=key
@@ -320,6 +329,8 @@ class Engine:
                 else:
                     notifier.send_card(rendered,request_uuid=uuid)
                 self.store.mark_sent(key)
+                from . import alert_lifecycle
+                alert_lifecycle.acknowledge(self.root,rendered)
             if errors:raise RuntimeError('部分监测采集未完成，将重试')
 
     def work(self):

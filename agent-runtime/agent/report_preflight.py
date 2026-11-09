@@ -44,7 +44,9 @@ def inspect_report(report,account,day,errors,warnings,label):
                     and equal(row.get('gmv'),0) and equal(row.get('spend'),0)
                     and row.get('gmv_rule_version')==plan_profit.ZERO_GMV_RULE,'invalid_business_zero_evidence')
             warnings.append(label+':business_rule_imputation')
-        expected=plan_profit.calculate(row.get('gmv'),row.get('spend'),report['policy'])
+        if report['policy'].get('model_version'):
+            require(row.get('policy')==plan_profit.resolve_policy(report['policy'],row['plan_id']),'row_policy_binding')
+        expected=plan_profit.calculate(row.get('gmv'),row.get('spend'),row.get('policy',report['policy']))
         for key,value in expected.items():require(equal(row.get(key),value),'row_'+str(i)+'_'+key)
         if row.get('profit') is None:warnings.append(label+':row_'+str(i)+':profit_pending')
     for key in ('gmv','spend','profit'):
@@ -95,6 +97,8 @@ def inspect_excel(path,main,errors):
             except Exception:require(False,ref+'_type')
     require(main['date'] in detail.get('A2','') and main['date'] in summary.get('A2',''),'date')
     require('账户：'+str(main['account']) in policy.get('A13',''),'account')
+    if main['policy'].get('model_version'):
+        for i,row in enumerate(main['rows']):numeric(detail,'Q'+str(i+7),row['policy']['refund_rate'])
     for cell,key in [('B6','refund_rate'),('B7','purchase_multiplier'),('B8','fee_rate'),('B9','ad_rate')]:numeric(policy,cell,main['policy'][key])
     known=[]
     for i,row in enumerate(main['rows'],7):
@@ -136,7 +140,8 @@ def check(bundle,*,expected_account=None,expected_day=None):
         prior=data['guide/previous.json']
         if prior:
             inspect_report(prior,account,before,errors,warnings,'previous')
-            require(prior['policy']==main['policy'],'previous_policy_conflict')
+            require(prior['policy']==main['policy'] or main['policy'].get('model_version')=='unified-readonly-v1','previous_policy_conflict')
+            if prior['policy']!=main['policy']:warnings.append('policy_transition:previous_comparison_pending')
         else:warnings.append('previous_report_pending')
         coverage_days=data['two_day/collected.json']
         coverage_day=next((d for d in coverage_days if d.get('day')==day),None)
@@ -156,7 +161,8 @@ def check(bundle,*,expected_account=None,expected_day=None):
             require(not any('不一致' in w or '政策不同' in w for w in item.get('warnings',[])),'comparison_conflict')
             warnings.extend('comparison:'+str(w) for w in item.get('warnings',[]))
             if report:
-                require(report['policy']==main['policy'],'comparison_policy')
+                require(report['policy']==main['policy'] or (main['policy'].get('model_version')=='unified-readonly-v1' and item.get('policy_transition') is True and not item['complete']),'comparison_policy')
+                if item.get('profit_policy') is not None:require(item['profit_policy']==report['policy'],'row_policy_source')
                 require(item.get('report_missing')==report['missing_profit'],'comparison_missing_count')
                 by_id={str(r['plan_id']):r for r in report['rows']}
                 for row in item['rows']:

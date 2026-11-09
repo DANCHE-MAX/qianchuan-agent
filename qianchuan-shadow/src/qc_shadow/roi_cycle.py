@@ -31,6 +31,15 @@ def run_cycle(home,source,snapshots):
   for p in plans:
    s=mapped[p['plan_id']];extra=recovery.get('plans',{}).get(p['plan_id'],[]);analysis_plan=apply_recovery(p,extra)
    if snapshot['account_id']==ACCOUNT:analysis_plan['star_cost_excluded']=True
+   from .profit_policy import load_policy,resolve_policy
+   authority=home.parent.parent/'data/model_policy/authority.json'
+   if authority.exists():
+    original_refund=analysis_plan.get('refund',{})
+    if original_refund.get('rate') is not None:
+     policy=load_policy(home.parent.parent,snapshot['account_id'],{'refund_rate':json.loads(authority.read_text())['overall_rate'],'ad_rate':'.15'})
+     resolved=resolve_policy(policy,p['plan_id'])
+     analysis_plan=copy.deepcopy(analysis_plan)
+     analysis_plan['refund'].update(rate=resolved['refund_rate'],band=resolved['refund_band'],model_version=resolved['model_version'],verification_evidence='shared_local_authority:'+policy['authority_version'])
    r=analyze_plan(analysis_plan,s,at);r['account_id']=snapshot['account_id']
    if snapshot['account_id']==ACCOUNT:annotate(r)
    r['data_audit']=audit_plan(p,at,revisions,{'status':recovery['status'],'attempts':extra},collection_start=str(START) if snapshot['account_id']==ACCOUNT else None)
