@@ -91,6 +91,10 @@ def attach(root,env,now,bundle):
             for row in item['rows']:
                 info=by_id.get(row['plan'],{})
                 row['managed']='全店托管' in str(info.get('plan_name') or info.get('name',''))
+    from . import refund_differences
+    confirmations=refund_differences.records(root)
+    for item,report in zip(inputs,reports):
+        if report:refund_differences.annotate(item,report,confirmations)
     p.save(folder/'collected.json',inputs)
     p.save(folder/'reports.json',reports)
     stack=spend.build(inputs);pies=pie_view(inputs,main['policy'])

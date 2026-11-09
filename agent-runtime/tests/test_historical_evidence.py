@@ -27,3 +27,17 @@ class EvidenceTests(unittest.TestCase):
    with patch.object(h,'load') as mock:
     with self.assertRaises(ValueError):d.completed(root,'demo','2026-01-01')
     mock.assert_not_called()
+ def test_blocked_job_explains_missing_without_reading_unsent_report(self):
+  import sqlite3
+  from agent import decision_dashboard as d
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t);(root/'data/qianchuan').mkdir(parents=True)
+   with sqlite3.connect(root/'data/qianchuan/daily_brief.db') as db:
+    db.execute('CREATE TABLE jobs(account TEXT,day TEXT,sent INTEGER,payload TEXT,last_error TEXT)')
+    db.execute('INSERT INTO jobs VALUES(?,?,0,?,?)',('demo','2026-01-01','{}','PreflightBlocked'))
+   with self.assertRaisesRegex(d.HistoryUnavailable,'发送前对账'):
+    d.completed(root,'demo','2026-01-01')
+   result=d.build(root,'demo','2026-01-01')
+   self.assertIsNone(result['trends'][-1]['profit'])
+   self.assertTrue(any('发送前对账' in x for x in result['warnings']))
+   self.assertEqual(d.attachments(root,'demo','2026-01-01'),[])

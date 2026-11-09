@@ -3,7 +3,7 @@ from datetime import date,timedelta,datetime
 from decimal import Decimal
 from pathlib import Path
 import hashlib,json,sqlite3
-from . import profit_policy,decision_brief,historical_evidence
+from . import profit_policy,decision_brief,historical_evidence,local_report_review
 
 class HistoryUnavailable(ValueError):pass
 
@@ -46,7 +46,7 @@ def build_trends(reports,mappings,end_day):
  for i in reversed(range(7)):
   day=str(end-timedelta(days=i));r=byday.get(day)
   if not r:result.append(dict(date=day,gmv=None,spend=None,profit=None,quality='待核验',groups=[],policy=None));continue
-  gs=groups(r,mappings.get(day));entry=dict(date=day,quality='数据齐全',groups=gs,policy=r['policy'])
+  gs=groups(r,mappings.get(day));entry=dict(date=day,quality='数据齐全',groups=gs,policy=r['policy'],review_status=r.get('_review_status'))
   for k in ('gmv','spend','profit'):
    entry[k]=None if not gs or any(g[k] is None for g in gs) else f'{sum(Decimal(g[k]) for g in gs):.2f}'
   entry['known']={k: (f'{sum(Decimal(g[k]) for g in gs if g[k] is not None):.2f}' if any(g[k] is not None for g in gs) else None) for k in ('gmv','spend','profit')}
@@ -64,7 +64,14 @@ def completed(root,account,day):
  root=Path(root);dbpath=root/'data/qianchuan/daily_brief.db'
  if not dbpath.exists():return None,None
  with sqlite3.connect(dbpath.as_uri()+'?mode=ro',uri=True) as db:
-  records=db.execute('SELECT payload FROM jobs WHERE account=? AND day=? AND sent=1',(account,day)).fetchall()
+  records=db.execute('SELECT payload,sent FROM jobs WHERE account=? AND day=?',(account,day)).fetchall()
+  if len(records)==1 and records[0][1]!=1:
+   review=local_report_review.load(root,account,day,json.loads(records[0][0]))
+   if review:return review
+   columns={x[1] for x in db.execute('PRAGMA table_info(jobs)')}
+   error=db.execute('SELECT last_error FROM jobs WHERE account=? AND day=?',(account,day)).fetchone()[0] if 'last_error' in columns else None
+   if error=='PreflightBlocked':raise HistoryUnavailable('发送前对账未通过，日报未完成；不将未发送文件当作历史日报')
+   raise HistoryUnavailable('日报尚未确认发送完成，不能作为已发历史数据展示')
  if len(records)!=1:return None,None
  bundle=json.loads(records[0][0]);expected=bundle.get('input_hashes',{}).get('result.json');retrospective=False
  if expected:
@@ -95,6 +102,7 @@ def build(root,account,end_day,shadow_root=None):
   except (OSError,ValueError,KeyError,sqlite3.Error) as exc:r,m=None,None;warnings.append(day+'：历史报表完整性证据不足，待核验')
   if r:
    reports.append(r)
+   if r.get('_review_status'):warnings.append(day+'：'+r['_review_status']+'；'+r['_review_note'])
    if r.get('_history_evidence'):warnings.append(day+'：已完成历史附件补验证；保留原政策与缺失值，商品映射不足时按计划展示')
   if m:mappings[day]=m
  trends=build_trends(reports,mappings,end_day);current=next((r for r in reports if r['date']==end_day),None)
@@ -125,7 +133,7 @@ def build(root,account,end_day,shadow_root=None):
     if w.get('start')!=end_day or w.get('end')!=end_day:continue
     shadow.append(dict(plan_id=p['plan_id'],name=p.get('name'),profit=w.get('estimated_profit'),gmv=w.get('gmv'),spend=w.get('spend'),policy=p.get('profit_policy'),refund_rate=p.get('refund_model',{}).get('rate')))
   except (OSError,ValueError,KeyError):warnings.append('对应日期影子数据待核验')
- return dict(end_day=end_day,generated_at=datetime.now().astimezone().isoformat(),trends=trends,comparison=comparison,incidents=incidents,shadow=shadow,warnings=warnings,policy=authority,answers={k:decision_brief.answer(q,dict(current,_decision_mapping=mappings.get(end_day))) if current else '对应日期无完整已发日报，待核验' for k,q in [('profit','昨天哪个商品赚得最多'),('loss','昨天哪个亏损最多'),('spend','昨天广告费花在哪里')]},note='历史原值不改写；统一口径为本地预览。数据齐全不等于真实结算利润。反馈暂停，不自动调整预算、ROI或计划状态。')
+ return dict(end_day=end_day,generated_at=datetime.now().astimezone().isoformat(),review_status=current.get('_review_status') if current else None,trends=trends,comparison=comparison,incidents=incidents,shadow=shadow,warnings=warnings,policy=authority,answers={k:(('【已复核未发送】' if current.get('_review_status') else '')+decision_brief.answer(q,dict(current,_decision_mapping=mappings.get(end_day)))) if current else '对应日期无完整已发日报，待核验' for k,q in [('profit','昨天哪个商品赚得最多'),('loss','昨天哪个亏损最多'),('spend','昨天广告费花在哪里')]},note='历史原值不改写；统一口径为本地预览。数据齐全不等于真实结算利润。反馈暂停，不自动调整预算、ROI或计划状态。')
 
 def attachments(root,account,day):
  root=Path(root);dbpath=root/'data/qianchuan/daily_brief.db'

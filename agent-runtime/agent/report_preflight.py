@@ -158,7 +158,12 @@ def check(bundle,*,expected_account=None,expected_day=None):
         for item,report in zip(days,reports):
             require(str(item.get('account'))==account,'comparison_account')
             require(not item.get('conflicts'),'source_conflicts')
-            require(not any('不一致' in w or '政策不同' in w for w in item.get('warnings',[])),'comparison_conflict')
+            from . import refund_differences
+            acknowledged=refund_differences.covered(item,report,refund_differences.records(root)) if report else []
+            if item.get('confirmed_refund_differences'):
+                require(acknowledged==item['confirmed_refund_differences'] and not item['complete'],'refund_confirmation_invalid')
+            require(not any(('不一致' in w or '政策不同' in w) and not (w==refund_differences.CONFLICT and acknowledged and not item['complete']) for w in item.get('warnings',[])),'comparison_conflict')
+            if acknowledged:warnings.append('business_confirmed_refund_basis_difference:original_values_preserved')
             warnings.extend('comparison:'+str(w) for w in item.get('warnings',[]))
             if report:
                 require(report['policy']==main['policy'] or (main['policy'].get('model_version')=='unified-readonly-v1' and item.get('policy_transition') is True and not item['complete']),'comparison_policy')
