@@ -82,3 +82,15 @@ class InventoryIdentityTests(unittest.TestCase):
   self.assertIsNone(p.inventory_record(rec,doc,'2026-01-01'))
   ad['product_info']=[{'product_id':'different','product_name':'Other product'}]
   self.assertIsNone(p.inventory_record(rec,doc,'2026-01-01'))
+
+def test_historical_inventory_scope_and_immutability(tmp_path):
+ d,folder=setup(tmp_path);day='2026-01-02'
+ doc={'request':{'advertiser_id':'a','start_time':day+' 00:00:00','end_time':day+' 23:59:59'},'response':{'code':0,'data':{'ad_list':[{'ad_info':{'id':'p'},'product_info':[{'product_id':'g','product_name':'示例商品'}]}]}}}
+ f=tmp_path/'inventory.json';f.write_text(json.dumps(doc));d['bindings'][day]={'kind':'inventory','path':str(f),'sha256':hashlib.sha256(f.read_bytes()).hexdigest()};(folder/'confirmed.json').write_text(json.dumps([d]))
+ report={'account':'a','date':day,'rows':[{'plan_id':'p','name':'示例计划','profit':'-12.34'}]};original=deepcopy(report)
+ out,m=p.overlay(tmp_path,report,None)
+ assert out['rows'][0]['product_id']=='g' and out['rows'][0]['profit']=='-12.34' and report==original
+ assert p.inventory_record(d,doc,'2026-01-03') is None
+ wrong=deepcopy(doc);wrong['request']['advertiser_id']='other';assert p.inventory_record(d,wrong,day) is None
+ wrong=deepcopy(doc);wrong['response']['data']['ad_list'][0]['product_info'].append({'product_id':'second','product_name':'另一商品'});assert p.inventory_record(d,wrong,day) is None
+ f.write_text('{}');assert p.overlay(tmp_path,report,None)[0]==report

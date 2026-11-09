@@ -41,5 +41,9 @@ vm.runInContext(fs.readFileSync(path.join(__dirname,'../dashboard/app.js'),'utf8
  assert.equal(vm.runInContext("compactProductName('示例品牌条纹半拉链卫衣')",context),'条纹半拉链卫衣');
  assert.equal(vm.runInContext("compactProductName('红色半高领套装')",context),'红色半高领套装');
  data.answers={profit:'数据日期：2026-01-07（北京时间）。预估盈利靠前：1. 演示甲 10元；2. 演示乙 5元。\n粗略估计，2项待核验。'};await vm.runInContext("renderAnswer('profit')",context);assert.equal(get('answer').children.at(-1).textContent,'数据日期：2026-01-07（北京时间）');assert.match(get('answer').children[1].textContent,/1\. 演示甲/);assert.match(get('answer').children[2].textContent,/2\. 演示乙/);
+ const originalTrends=data.trends;
+ data.trends=[{date:'2026-01-01',groups:[{id:'a',profit:'5'}]},{date:'2026-01-02',groups:[{id:'b',profit:'99'}]},{date:'2026-01-03',review_status:'已复核未发送',groups:[{id:'a',profit:'-2'}]},{date:'2026-01-04',groups:[{id:'a',profit:'0',imputed:1}]},{date:'2026-01-05',groups:[{id:'a',profit:null}]}];
+ const series=JSON.parse(vm.runInContext("JSON.stringify(productTrendPoints({id:'a'}))",context));
+ assert.deepEqual(series.map(p=>p.value),[5,null,-2,0,null]);assert.equal(series[2].status,'已复核未发送');assert.equal(series[3].status,'含业务补值');data.trends=originalTrends;
  console.log('PASS: 6 closed help sections, explicit live-goal filter, display-only SKU removal, readable policy basis, immutable data and totals');
 })().catch(e=>{console.error(e);process.exitCode=1});
