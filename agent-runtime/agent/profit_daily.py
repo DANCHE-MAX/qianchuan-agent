@@ -55,11 +55,14 @@ def pages(env,path,params,evidence,tag,request=get):
             return rows,ids
     raise ValueError('Page limit')
 
-def collect(env,day,today,evidence,request=get):
-    if day!=(today-timedelta(days=1)).isoformat():raise ValueError('Only yesterday is allowed')
+def collect(env,day,today,evidence,request=get,*,historical_products=False):
+    if historical_products:
+        from datetime import date
+        if not date(2020,1,1)<=date.fromisoformat(day)<today:raise ValueError('Complete historical date required')
+    elif day!=(today-timedelta(days=1)).isoformat():raise ValueError('Only yesterday is allowed')
     account=hourly.account_id(env);common={'advertiser_id':account,'start_time':day+' 00:00:00','end_time':day+' 23:59:59'}
     inventory={};zeros=[];daily=[];checks=[];warnings=[]
-    for goal in ['VIDEO_PROM_GOODS','LIVE_PROM_GOODS']:
+    for goal in (['VIDEO_PROM_GOODS'] if historical_products else ['VIDEO_PROM_GOODS','LIVE_PROM_GOODS']):
         for scene in ['OVERALL_PROJECT','UNI_PROJECT']:
             args=dict(common,marketing_goal=goal,adlab_scene=scene,filtering={'status':'ALL'})
             rows,_=pages(env,LIST,args,evidence,goal+'-'+scene,request)
@@ -78,7 +81,7 @@ def collect(env,day,today,evidence,request=get):
                         if pid not in scope:raise ValueError('Inventory changed during acquisition')
                         zeros.append({'plan_id':pid,'date':day,'goal':goal,'request_id':','.join(filter(None,rids))})
                 except Exception as exc:warnings.append(scene+'无消耗核验失败：'+type(exc).__name__)
-    for topic,cost,scene in TOPICS:
+    for topic,cost,scene in (TOPICS[:2] if historical_products else TOPICS):
         dims=['anchor_show_id','stat_time_day'] if scene=='LIVE' else ['ad_id','ad_name','stat_time_day'] if scene=='OVERALL_PROJECT' else ['ad_id','stat_time_day']
         params=dict(common,data_topic=topic,dimensions=dims,metrics=[cost,GMV],filters=[],order_by=[])
         try:rows,rids=pages(env,REPORT,params,evidence,topic,request)

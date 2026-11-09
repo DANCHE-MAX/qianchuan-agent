@@ -3,7 +3,7 @@ from datetime import date,timedelta,datetime
 from decimal import Decimal
 from pathlib import Path
 import hashlib,json,sqlite3
-from . import product_breakdown,profit_policy,decision_brief,historical_evidence,local_report_review
+from . import product_breakdown,profit_policy,decision_brief,historical_evidence,local_report_review,dashboard_backfill
 
 class HistoryUnavailable(ValueError):pass
 
@@ -46,7 +46,7 @@ def build_trends(reports,mappings,end_day):
  for i in reversed(range(7)):
   day=str(end-timedelta(days=i));r=byday.get(day)
   if not r:result.append(dict(date=day,gmv=None,spend=None,profit=None,quality='待核验',groups=[],policy=None));continue
-  gs=groups(r,mappings.get(day));entry=dict(date=day,quality='数据齐全',groups=gs,policy=r['policy'],review_status=r.get('_review_status'))
+  gs=groups(r,mappings.get(day));entry=dict(date=day,quality='数据齐全',groups=gs,policy=r['policy'],review_status=r.get('_review_status'),backfill_status=r.get('_backfill_status'),scope=r.get('scope'))
   for k in ('gmv','spend','profit'):
    entry[k]=None if not gs or any(g[k] is None for g in gs) else f'{sum(Decimal(g[k]) for g in gs):.2f}'
   entry['known']={k: (f'{sum(Decimal(g[k]) for g in gs if g[k] is not None):.2f}' if any(g[k] is not None for g in gs) else None) for k in ('gmv','spend','profit')}
@@ -100,6 +100,12 @@ def build(root,account,end_day,shadow_root=None):
   try:r,m=completed(root,account,day)
   except HistoryUnavailable as exc:r,m=None,None;warnings.append(day+'：'+str(exc)+'，待核验')
   except (OSError,ValueError,KeyError,sqlite3.Error) as exc:r,m=None,None;warnings.append(day+'：历史报表完整性证据不足，待核验')
+  if not r:
+   try:r=dashboard_backfill.load(root,account,day)
+   except (OSError,ValueError,KeyError):warnings.append(day+'：补采证据待核验')
+   if r:
+    warnings=[w for w in warnings if not w.startswith(day+'：')]
+    warnings.append(day+'：'+r['_backfill_note'])
   if r:
    from . import product_identity
    r,m=product_identity.overlay(root,r,m)
@@ -135,7 +141,7 @@ def build(root,account,end_day,shadow_root=None):
     if w.get('start')!=end_day or w.get('end')!=end_day:continue
     shadow.append(dict(plan_id=p['plan_id'],name=p.get('name'),profit=w.get('estimated_profit'),gmv=w.get('gmv'),spend=w.get('spend'),policy=p.get('profit_policy'),refund_rate=p.get('refund_model',{}).get('rate')))
   except (OSError,ValueError,KeyError):warnings.append('对应日期影子数据待核验')
- return dict(product_breakdowns=product_breakdown.historical(root,current),product_binding_pending=product_breakdown.binding_pending(root,current),end_day=end_day,generated_at=datetime.now().astimezone().isoformat(),review_status=current.get('_review_status') if current else None,trends=trends,comparison=comparison,incidents=incidents,shadow=shadow,warnings=warnings,policy=authority,answers={k:(('【已复核未发送】' if current.get('_review_status') else '')+decision_brief.answer(q,dict(current,_decision_mapping=mappings.get(end_day)))) if current else '对应日期无完整已发日报，待核验' for k,q in [('profit','昨天哪个商品赚得最多'),('loss','昨天哪个亏损最多'),('spend','昨天广告费花在哪里')]},note='历史原值不改写；统一口径为本地预览。数据齐全不等于真实结算利润。反馈暂停，不自动调整预算、ROI或计划状态。')
+ return dict(product_breakdowns=product_breakdown.historical(root,current),product_binding_pending=product_breakdown.binding_pending(root,current),end_day=end_day,backfill_status=current.get('_backfill_status') if current else None,generated_at=datetime.now().astimezone().isoformat(),review_status=current.get('_review_status') if current else None,trends=trends,comparison=comparison,incidents=incidents,shadow=shadow,warnings=warnings,policy=authority,answers={k:(('【历史补采测算·不含直播·未发送】' if current.get('_backfill_status') else '【已复核未发送】' if current.get('_review_status') else '')+decision_brief.answer(q,dict(current,_decision_mapping=mappings.get(end_day)))) if current else '对应日期无完整已发日报，待核验' for k,q in [('profit','昨天哪个商品赚得最多'),('loss','昨天哪个亏损最多'),('spend','昨天广告费花在哪里')]},note='历史原值不改写；统一口径为本地预览。数据齐全不等于真实结算利润。反馈暂停，不自动调整预算、ROI或计划状态。')
 
 def attachments(root,account,day):
  root=Path(root);dbpath=root/'data/qianchuan/daily_brief.db'
