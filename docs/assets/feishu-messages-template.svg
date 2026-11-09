@@ -1,15 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" aria-label="飞书接收顺序｜整份日报只@一次" width="960" height="3472" viewBox="0 0 960 3472" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" aria-label="飞书接收顺序｜整份日报只@一次" width="960" height="3526" viewBox="0 0 960 3526" role="img">
   <title>飞书接收顺序｜整份日报只@一次</title>
-  <rect x="0" y="0" width="960" height="3472" fill="#f4f7fb" rx="12" />
+  <rect x="0" y="0" width="960" height="3526" fill="#f4f7fb" rx="12" />
   <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
     <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">飞书接收顺序｜整份日报只@一次</text>
     <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
     <text x="30" y="125" font-size="19" fill="#3370ff" text-anchor="start">10:00 · @投手（虚构示意）【每日投放简报】图表与Excel如下，缺失标待核验。</text>
-    <svg aria-label="每日三件事｜昨日结果、变化与核查" width="860" height="752.5" viewBox="0 0 960 840" role="img" x="50" y="155">
-      <title>每日三件事｜昨日结果、变化与核查</title>
-      <rect x="0" y="0" width="960" height="840" fill="#f4f7fb" rx="12" />
+    <svg aria-label="每日三件事｜昨日结果、变化与投放重点" width="860" height="806.25" viewBox="0 0 960 900" role="img" x="50" y="155">
+      <title>每日三件事｜昨日结果、变化与投放重点</title>
+      <rect x="0" y="0" width="960" height="900" fill="#f4f7fb" rx="12" />
       <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
-        <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">每日三件事｜昨日结果、变化与核查</text>
+        <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">每日三件事｜昨日结果、变化与投放重点</text>
         <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
         <rect x="25" y="100" width="910" height="145" fill="white" rx="12" />
         <text x="48" y="135" font-size="24" fill="#203148" text-anchor="start">01 昨日结果</text>
@@ -33,18 +33,19 @@
         <text x="390" y="428" font-size="18" fill="#203148" text-anchor="start">3,000</text>
         <text x="580" y="428" font-size="18" fill="#203148" text-anchor="start">4,000</text>
         <text x="770" y="428" font-size="18" fill="#203148" text-anchor="start">+1,000</text>
-        <rect x="25" y="485" width="910" height="275" fill="white" rx="12" />
-        <text x="48" y="524" font-size="24" fill="#203148" text-anchor="start">03 今天先核查这三件事</text>
-        <text x="48" y="568" font-size="20" fill="#203148" text-anchor="start">1 商品 A：核查利润下降</text>
-        <text x="48" y="597" font-size="17" fill="#64748b" text-anchor="start">利润 1,200 → 1,000元，减少200元；原因待核验。</text>
-        <text x="48" y="637" font-size="20" fill="#203148" text-anchor="start">2 商品 C：核查亏损</text>
-        <text x="48" y="666" font-size="17" fill="#64748b" text-anchor="start">昨天预估亏损300元；核查成交、费用和投放时段。</text>
-        <text x="48" y="706" font-size="20" fill="#203148" text-anchor="start">3 计划 D：补齐GMV</text>
-        <text x="48" y="735" font-size="17" fill="#64748b" text-anchor="start">广告费已核实为0，GMV及利润待核验，不能补0。</text>
-        <text x="30" y="800" font-size="17" fill="#64748b" text-anchor="start">模型利润不代表完整账户财务净利润；不自动调整预算，无需投手反馈。</text>
+        <rect x="25" y="485" width="910" height="330" fill="white" rx="12" />
+        <text x="48" y="524" font-size="24" fill="#203148" text-anchor="start">03 今日投放重点｜每类最多三项</text>
+        <text x="48" y="568" font-size="20" fill="#203148" text-anchor="start">1 优先关注盈利</text>
+        <text x="48" y="598" font-size="18" fill="#64748b" text-anchor="start">商品B +1,500元；商品A +1,000元；未关联计划 +200元。</text>
+        <text x="48" y="651" font-size="20" fill="#203148" text-anchor="start">2 优先查看亏损</text>
+        <text x="48" y="681" font-size="18" fill="#64748b" text-anchor="start">商品C −300元；全店托管 −100元。</text>
+        <text x="48" y="734" font-size="20" fill="#203148" text-anchor="start">3 关注主要消耗</text>
+        <text x="48" y="764" font-size="18" fill="#64748b" text-anchor="start">商品A 1,600元；商品B 1,400元；全店托管 500元。</text>
+        <text x="48" y="797" font-size="17" fill="#986320" text-anchor="start">计划D待核验；本例0个业务补值。排序只供关注，不代表可追加预算。</text>
+        <text x="30" y="859" font-size="17" fill="#64748b" text-anchor="start">模型利润不是最终财务利润；缺失不参与对应排名，不自动调整投放。</text>
       </g>
     </svg>
-    <svg aria-label="昨日利润｜全店托管与未关联计划分开" width="860" height="609.1666666666666" viewBox="0 0 960 680" role="img" x="50" y="927.5">
+    <svg aria-label="昨日利润｜全店托管与未关联计划分开" width="860" height="609.1666666666666" viewBox="0 0 960 680" role="img" x="50" y="981.25">
       <title>昨日利润｜全店托管与未关联计划分开</title>
       <rect x="0" y="0" width="960" height="680" fill="#f4f7fb" rx="12" />
       <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
@@ -81,10 +82,10 @@
         <text x="30" y="638" font-size="17" fill="#986320" text-anchor="start">计划D：已核实广告费0；GMV及利润未知，未画成零利润。</text>
       </g>
     </svg>
-    <rect x="50" y="1556.6666666666665" width="860" height="85" fill="white" rx="12" />
-    <text x="72" y="1589.6666666666665" font-size="22" fill="#203148" text-anchor="start">Excel附件｜昨日计划利润明细_演示.xlsx</text>
-    <text x="72" y="1621.6666666666665" font-size="17" fill="#64748b" text-anchor="start">附件示意：逐计划金额、分类、计算口径与缺失项。</text>
-    <svg aria-label="商品广告消耗｜前天与昨天的12个时段" width="860" height="824.1666666666666" viewBox="0 0 960 920" role="img" x="50" y="1661.6666666666665">
+    <rect x="50" y="1610.4166666666665" width="860" height="85" fill="white" rx="12" />
+    <text x="72" y="1643.4166666666665" font-size="22" fill="#203148" text-anchor="start">Excel附件｜昨日计划利润明细_演示.xlsx</text>
+    <text x="72" y="1675.4166666666665" font-size="17" fill="#64748b" text-anchor="start">附件示意：逐计划金额、分类、计算口径与缺失项。</text>
+    <svg aria-label="商品广告消耗｜前天与昨天的12个时段" width="860" height="824.1666666666666" viewBox="0 0 960 920" role="img" x="50" y="1715.4166666666665">
       <title>商品广告消耗｜前天与昨天的12个时段</title>
       <rect x="0" y="0" width="960" height="920" fill="#f4f7fb" rx="12" />
       <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
@@ -277,7 +278,7 @@
         <text x="30" y="883" font-size="17" fill="#64748b" text-anchor="start">各时段相加等于日报消耗；商品归属未知不等于金额未知，缺失不补0。</text>
       </g>
     </svg>
-    <svg aria-label="两日四宫格｜盈利贡献与广告消耗" width="860" height="886.875" viewBox="0 0 960 990" role="img" x="50" y="2505.833333333333">
+    <svg aria-label="两日四宫格｜盈利贡献与广告消耗" width="860" height="886.875" viewBox="0 0 960 990" role="img" x="50" y="2559.583333333333">
       <title>两日四宫格｜盈利贡献与广告消耗</title>
       <rect x="0" y="0" width="960" height="990" fill="#f4f7fb" rx="12" />
       <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
@@ -336,6 +337,6 @@
         <text x="30" y="967" font-size="17" fill="#64748b" text-anchor="start">盈利饼图只含已关联盈利商品；其余类别单列，相加还原日报可计算利润。</text>
       </g>
     </svg>
-    <text x="30" y="3434.708333333333" font-size="17" fill="#64748b" text-anchor="start">以上为同一个日报包；余额提醒按独立时段发送，未包含在此流程中。</text>
+    <text x="30" y="3488.458333333333" font-size="17" fill="#64748b" text-anchor="start">以上为同一个日报包；余额提醒按独立时段发送，未包含在此流程中。</text>
   </g>
 </svg>

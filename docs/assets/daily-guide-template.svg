@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" aria-label="每日三件事｜昨日结果、变化与核查" width="960" height="840" viewBox="0 0 960 840" role="img">
-  <title>每日三件事｜昨日结果、变化与核查</title>
-  <rect x="0" y="0" width="960" height="840" fill="#f4f7fb" rx="12" />
+<svg xmlns="http://www.w3.org/2000/svg" aria-label="每日三件事｜昨日结果、变化与投放重点" width="960" height="900" viewBox="0 0 960 900" role="img">
+  <title>每日三件事｜昨日结果、变化与投放重点</title>
+  <rect x="0" y="0" width="960" height="900" fill="#f4f7fb" rx="12" />
   <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
-    <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">每日三件事｜昨日结果、变化与核查</text>
+    <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">每日三件事｜昨日结果、变化与投放重点</text>
     <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
     <rect x="25" y="100" width="910" height="145" fill="white" rx="12" />
     <text x="48" y="135" font-size="24" fill="#203148" text-anchor="start">01 昨日结果</text>
@@ -26,14 +26,15 @@
     <text x="390" y="428" font-size="18" fill="#203148" text-anchor="start">3,000</text>
     <text x="580" y="428" font-size="18" fill="#203148" text-anchor="start">4,000</text>
     <text x="770" y="428" font-size="18" fill="#203148" text-anchor="start">+1,000</text>
-    <rect x="25" y="485" width="910" height="275" fill="white" rx="12" />
-    <text x="48" y="524" font-size="24" fill="#203148" text-anchor="start">03 今天先核查这三件事</text>
-    <text x="48" y="568" font-size="20" fill="#203148" text-anchor="start">1 商品 A：核查利润下降</text>
-    <text x="48" y="597" font-size="17" fill="#64748b" text-anchor="start">利润 1,200 → 1,000元，减少200元；原因待核验。</text>
-    <text x="48" y="637" font-size="20" fill="#203148" text-anchor="start">2 商品 C：核查亏损</text>
-    <text x="48" y="666" font-size="17" fill="#64748b" text-anchor="start">昨天预估亏损300元；核查成交、费用和投放时段。</text>
-    <text x="48" y="706" font-size="20" fill="#203148" text-anchor="start">3 计划 D：补齐GMV</text>
-    <text x="48" y="735" font-size="17" fill="#64748b" text-anchor="start">广告费已核实为0，GMV及利润待核验，不能补0。</text>
-    <text x="30" y="800" font-size="17" fill="#64748b" text-anchor="start">模型利润不代表完整账户财务净利润；不自动调整预算，无需投手反馈。</text>
+    <rect x="25" y="485" width="910" height="330" fill="white" rx="12" />
+    <text x="48" y="524" font-size="24" fill="#203148" text-anchor="start">03 今日投放重点｜每类最多三项</text>
+    <text x="48" y="568" font-size="20" fill="#203148" text-anchor="start">1 优先关注盈利</text>
+    <text x="48" y="598" font-size="18" fill="#64748b" text-anchor="start">商品B +1,500元；商品A +1,000元；未关联计划 +200元。</text>
+    <text x="48" y="651" font-size="20" fill="#203148" text-anchor="start">2 优先查看亏损</text>
+    <text x="48" y="681" font-size="18" fill="#64748b" text-anchor="start">商品C −300元；全店托管 −100元。</text>
+    <text x="48" y="734" font-size="20" fill="#203148" text-anchor="start">3 关注主要消耗</text>
+    <text x="48" y="764" font-size="18" fill="#64748b" text-anchor="start">商品A 1,600元；商品B 1,400元；全店托管 500元。</text>
+    <text x="48" y="797" font-size="17" fill="#986320" text-anchor="start">计划D待核验；本例0个业务补值。排序只供关注，不代表可追加预算。</text>
+    <text x="30" y="859" font-size="17" fill="#64748b" text-anchor="start">模型利润不是最终财务利润；缺失不参与对应排名，不自动调整投放。</text>
   </g>
 </svg>
