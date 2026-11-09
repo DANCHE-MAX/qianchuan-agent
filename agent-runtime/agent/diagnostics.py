@@ -8,16 +8,17 @@ import threading
 import time
 from contextlib import contextmanager
 from contextvars import ContextVar
+from .reliability import network_error
 
 CHINA = timezone(timedelta(hours=8))
 _LOCK = threading.Lock()
 _EVENTS = {'task_start', 'task_success', 'task_failure', 'api_success', 'api_failure',
            'scheduler_gap', 'clock_regression', 'connection_interrupted',
-           'connection_restored', 'reaction_ignored'}
+           'connection_restored', 'reaction_ignored', 'request_attempt'}
 _TASKS = {'半小时监测', '小时采集', '小时报表', '状态列表', '授权维护', '重点日报', '消息处理进度'}
 _OPERATIONS = {'qianchuan.request', 'qianchuan.refresh', 'feishu.auth', 'feishu.send', 'feishu.query'}
 # Fixed allowlisted call identifiers; never URLs, params, headers or tokens.
-_APIS = {'qianchuan.hourly_report', 'qianchuan.plan_list'}
+_APIS = {'qianchuan.hourly_report', 'qianchuan.plan_list', 'qianchuan.snapshot', 'qianchuan.daily_report', 'qianchuan.plan_detail'}
 _API = ContextVar('diagnostics_api', default=None)
 
 
@@ -50,7 +51,7 @@ def emit(event, **fields):
     if fields.get('operation') in _OPERATIONS:
         record['operation'] = fields['operation']
     api = fields.get('api', _API.get())
-    if api in _APIS and str(record.get('event', '')).startswith('api_'):
+    if api in _APIS and (str(record.get('event', '')).startswith('api_') or record.get('event')=='request_attempt'):
         record['api'] = api
     for key in ('api_code', 'http_status'):
         value = numeric_code(fields.get(key))
@@ -63,6 +64,10 @@ def emit(event, **fields):
     error_type = fields.get('error_type')
     if isinstance(error_type, str) and re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]{0,79}', error_type):
         record['error_type'] = error_type
+    if fields.get('network_error') in {'dns','timeout','tls','connection_refused','connection','network'}:
+        record['network_error']=fields['network_error']
+    if type(fields.get('attempt')) is int and 1<=fields['attempt']<=10:
+        record['attempt']=fields['attempt']
     previous = fields.get('previous_time')
     if isinstance(previous, datetime) and previous.tzinfo is not None:
         record['previous_time'] = previous.astimezone(CHINA).isoformat(timespec='milliseconds')
@@ -80,7 +85,7 @@ def request(operation, action):
         result = action()
     except Exception as exc:
         emit('api_failure', operation=operation, elapsed_seconds=time.monotonic()-started,
-             error_type=type(exc).__name__, api_code=getattr(exc, 'api_code', None),
+             error_type=type(exc).__name__, network_error=network_error(exc), api_code=getattr(exc, 'api_code', None),
              http_status=getattr(exc, 'http_status', None))
         raise
     code = result.get('code') if isinstance(result, dict) else None

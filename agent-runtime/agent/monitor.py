@@ -71,7 +71,9 @@ def fetch_snapshot(env, kind, now=None, request=None):
     rows, raw, seen, expected = [], [], set(), None
     for page in range(1, 1001):
         params['page'] = page
-        response = qc_auth.call(env, lambda token: (request or q._get)(dict(params), token))
+        from . import diagnostics
+        with diagnostics.api_label('qianchuan.snapshot'):
+            response = qc_auth.call(env, lambda token: (request or q._get)(dict(params), token))
         try:
             data = response['data']; info = data['page_info']; batch = data['rows']
             count, pages = int(info['total_number']), int(info['total_page'])

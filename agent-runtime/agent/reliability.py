@@ -83,3 +83,18 @@ def file_lock(path, timeout=0):
                 import fcntl
                 fcntl.flock(f, fcntl.LOCK_UN)
         f.close()
+
+
+def network_error(exc):
+    """Safe error class only; never log exception text/URLs or local addresses."""
+    import socket
+    import ssl
+    if isinstance(exc, urllib.error.HTTPError):return None
+    reason=getattr(exc,'reason',exc)
+    if isinstance(reason,socket.gaierror):return 'dns'
+    if isinstance(reason,(TimeoutError,socket.timeout)):return 'timeout'
+    if isinstance(reason,ssl.SSLError):return 'tls'
+    if isinstance(reason,ConnectionRefusedError):return 'connection_refused'
+    if isinstance(reason,ConnectionError):return 'connection'
+    if isinstance(exc,urllib.error.URLError):return 'network'
+    return getattr(exc,'network_error',None)

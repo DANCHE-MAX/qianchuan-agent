@@ -14,7 +14,7 @@ import urllib.request
 from contextlib import nullcontext
 from pathlib import Path
 
-from .reliability import ServiceError, file_lock, retry_io
+from .reliability import ServiceError, file_lock, retry_io, network_error
 from . import diagnostics
 
 REFRESH_URL = 'https://ad.oceanengine.com/open_api/oauth2/refresh_token/'
@@ -179,8 +179,19 @@ def call(env, operation):
     token = tokens.token()
 
     def invoke(value):
+        attempt=0
         def once():
-            payload = operation(value)
+            nonlocal attempt
+            attempt+=1
+            from . import request_gate
+            try:
+                payload = request_gate.run(env,lambda: operation(value))
+            except Exception as exc:
+                diagnostics.emit('request_attempt',operation='qianchuan.request',attempt=attempt,
+                                 network_error=network_error(exc),error_type=type(exc).__name__)
+                raise
+            diagnostics.emit('request_attempt',operation='qianchuan.request',attempt=attempt,
+                             api_code=payload.get('code') if isinstance(payload,dict) else None)
             if not isinstance(payload, dict):
                 raise ServiceError('千川接口返回格式异常，请稍后重试。')
             if payload.get('code') in TRANSIENT_CODES:
@@ -193,8 +204,10 @@ def call(env, operation):
         except urllib.error.HTTPError as exc:
             raise ServiceError('千川接口请求失败（HTTP %s），请检查权限或稍后重试。' % exc.code,
                                transient=exc.code == 429 or 500 <= exc.code < 600, http_status=exc.code) from None
-        except (urllib.error.URLError, TimeoutError, ConnectionError):
-            raise ServiceError('千川网络请求超时或中断，请稍后重试。', transient=True) from None
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+            error=ServiceError('千川网络请求超时或中断，请稍后重试。', transient=True)
+            error.network_error=network_error(exc)
+            raise error from None
 
     payload = invoke(token)
     if payload.get('code') == 40102:

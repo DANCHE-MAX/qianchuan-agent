@@ -26,7 +26,9 @@ def get(env,path,params):
         with urllib.request.urlopen(req,timeout=30) as response:return json.load(response)
     for attempt in range(3):
         try:
-            result=qc_auth.call(env,request)
+            from . import diagnostics
+            with diagnostics.api_label({LIST:'qianchuan.plan_list', REPORT:'qianchuan.daily_report', DETAIL:'qianchuan.plan_detail'}[path]):
+                result=qc_auth.call(env,request)
         except ServiceError as exc:
             if getattr(exc,'api_code',None) not in (40100,429) or attempt==2:raise
             time.sleep(6*(attempt+1))

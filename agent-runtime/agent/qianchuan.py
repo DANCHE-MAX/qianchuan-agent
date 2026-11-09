@@ -70,7 +70,9 @@ def fetch_daily(env, end, days=1, today=None, request=None):
     raw_pages, rows, expected = [], [], None
     for page in range(1, 1001):
         params['page'] = page
-        payload = qc_auth.call(env, lambda current: (request or _get)(dict(params), current))
+        from . import diagnostics
+        with diagnostics.api_label('qianchuan.daily_report'):
+            payload = qc_auth.call(env, lambda current: (request or _get)(dict(params), current))
         if payload.get('code') != 0:
             raise ValueError('千川报表接口失败，code=%s；未生成或覆盖日报' % payload.get('code'))
         try:

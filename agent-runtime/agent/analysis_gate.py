@@ -188,7 +188,7 @@ def finding_text(finding):
     money=lambda value:'未核验' if value is None else str(value)+'元'
     orders='未核验' if finding['orders'] is None else finding['orders']
     roi='暂无' if finding['payment_roi'] is None else format(Decimal(str(finding['payment_roi'])), '.2f')
-    return '%s（%s）：%s；区间消耗%s、成交%s、订单%s，整体支付ROI %s。'%(finding['name'],finding['id'],
+    return '%s（%s）：%s；区间消耗%s、成交%s、订单%s，区间观测ROI %s。'%(finding['name'],finding['id'],
         '；'.join(finding['reasons']),money(finding['spend']),money(finding['gmv']),orders,roi)
 
 
@@ -215,6 +215,12 @@ def record(store,result,now,*,notify_observation=True):
         point=result.get('cutoff') or now.replace(minute=now.minute//30*30,second=0,microsecond=0).isoformat()
         db.execute('INSERT OR IGNORE INTO analysis_history VALUES(?,?,?,?,?,?)',
                    (account,kind,point,fingerprint,now.isoformat(),json.dumps(result,ensure_ascii=False,default=str)))
+        from . import revision_notice
+        revision_notice.enqueue(db,result,now)
+        # Save full evidence above; readiness notices must not repeat correction facts.
+        result=dict(result,entities={},reasons=[r for r in result['reasons'] if r!='revision'])
+        if not result['reasons'] and result['state']=='partial':result['state']='ready'
+        fingerprint=result['state']+':'+','.join(sorted(set(result['reasons'])))
         if not notify_observation:
             # Retire queued routine notices only; never replay them after policy changes.
             routine_phrases=('不足3个有效快照','新增、缺失或重新出现的对象不足3次连续观察','本轮规则分析条件已满足','本轮接口返回无报表记录')
