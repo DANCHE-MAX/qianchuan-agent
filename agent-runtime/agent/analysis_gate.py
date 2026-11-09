@@ -187,8 +187,9 @@ def notice_elements(result,now):
 def finding_text(finding):
     money=lambda value:'未核验' if value is None else str(value)+'元'
     orders='未核验' if finding['orders'] is None else finding['orders']
+    roi='暂无' if finding['payment_roi'] is None else format(Decimal(str(finding['payment_roi'])), '.2f')
     return '%s（%s）：%s；区间消耗%s、成交%s、订单%s，整体支付ROI %s。'%(finding['name'],finding['id'],
-        '；'.join(finding['reasons']),money(finding['spend']),money(finding['gmv']),orders,finding['payment_roi'] or '暂无')
+        '；'.join(finding['reasons']),money(finding['spend']),money(finding['gmv']),orders,roi)
 
 
 def safe_answer(text,info):
