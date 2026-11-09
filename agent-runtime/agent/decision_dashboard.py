@@ -101,6 +101,8 @@ def build(root,account,end_day,shadow_root=None):
   except HistoryUnavailable as exc:r,m=None,None;warnings.append(day+'：'+str(exc)+'，待核验')
   except (OSError,ValueError,KeyError,sqlite3.Error) as exc:r,m=None,None;warnings.append(day+'：历史报表完整性证据不足，待核验')
   if r:
+   from . import product_identity
+   r,m=product_identity.overlay(root,r,m)
    reports.append(r)
    if r.get('_review_status'):warnings.append(day+'：'+r['_review_status']+'；'+r['_review_note'])
    if r.get('_history_evidence'):warnings.append(day+'：已完成历史附件补验证；保留原政策与缺失值，商品映射不足时按计划展示')

@@ -91,6 +91,11 @@ def attach(root,env,now,bundle):
             for row in item['rows']:
                 info=by_id.get(row['plan'],{})
                 row['managed']='全店托管' in str(info.get('plan_name') or info.get('name',''))
+    from . import product_identity
+    for item,report in zip(inputs,reports):
+        if report:
+            display,_=product_identity.overlay(root,report,None)
+            product_identity.merge_rows(item,display)
     from . import refund_differences
     confirmations=refund_differences.records(root)
     for item,report in zip(inputs,reports):

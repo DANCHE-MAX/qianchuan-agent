@@ -168,6 +168,8 @@ def prepare(root,env,now,cfg,opts,*,day=None):
     policy=load_policy(root,account,policy)
     result=plan_profit.report(inputs['inventory'],inputs['daily'],inputs['no_spend'],policy,date=day)
     result.update(account=account,policy=policy,checks=inputs['checks'],warnings=inputs['warnings'],as_of=now.isoformat(),policy_version=season['policy_version'])
+    from . import product_identity
+    result=product_identity.capture(root,env,result,out/'source')
     save(out/'result.json',result)
     subprocess.run([config['node'],str(root/'tools/profit_assets.mjs'),str(out/'result.json')],check=True,timeout=180,capture_output=True)
     subprocess.run([config['render_python'],str(root/'tools/profit_chart.py'),str(out/'result.json'),config['font']],check=True,timeout=90,capture_output=True)
