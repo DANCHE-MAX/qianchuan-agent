@@ -3,7 +3,9 @@ from datetime import date,timedelta,datetime
 from decimal import Decimal
 from pathlib import Path
 import hashlib,json,sqlite3
-from . import profit_policy,decision_brief
+from . import profit_policy,decision_brief,historical_evidence
+
+class HistoryUnavailable(ValueError):pass
 
 
 def quality(row):
@@ -64,10 +66,18 @@ def completed(root,account,day):
  with sqlite3.connect(dbpath.as_uri()+'?mode=ro',uri=True) as db:
   records=db.execute('SELECT payload FROM jobs WHERE account=? AND day=? AND sent=1',(account,day)).fetchall()
  if len(records)!=1:return None,None
- bundle=json.loads(records[0][0]);directory=_inside(root,bundle['directory']);path=directory/'result.json'
- expected=bundle.get('input_hashes',{}).get('result.json')
- if not expected or hashlib.sha256(path.read_bytes()).hexdigest()!=expected:raise ValueError('Completed report hash missing or changed')
+ bundle=json.loads(records[0][0]);expected=bundle.get('input_hashes',{}).get('result.json');retrospective=False
+ if expected:
+  directory=_inside(root,bundle['directory']);path=directory/'result.json'
+  if hashlib.sha256(path.read_bytes()).hexdigest()!=expected:raise ValueError('Completed report hash changed')
+ else:
+  proof=historical_evidence.load(root,account,day,bundle)
+  if not proof:
+   reason='仅有旧版文字日报，未找到对应已发逐计划利润报表及政策' if not bundle.get('directory') else '旧版报表未保存冻结哈希，尚未完成附件回读补验证'
+   raise HistoryUnavailable(reason)
+  directory=proof['directory'];path=directory/'result.json';retrospective=True
  report=json.loads(path.read_text())
+ if retrospective:report['_history_evidence']='附件回读与Excel核对通过的历史补验证，非原始冻结记录'
  if report['date']!=day or str(report['account'])!=str(account):raise ValueError('Report scope mismatch')
  mapping=None;mp=directory/'two_day/collected.json'
  if mp.exists():
@@ -81,8 +91,11 @@ def build(root,account,end_day,shadow_root=None):
  for i in range(7):
   day=str(end-timedelta(days=i))
   try:r,m=completed(root,account,day)
+  except HistoryUnavailable as exc:r,m=None,None;warnings.append(day+'：'+str(exc)+'，待核验')
   except (OSError,ValueError,KeyError,sqlite3.Error) as exc:r,m=None,None;warnings.append(day+'：历史报表完整性证据不足，待核验')
-  if r:reports.append(r)
+  if r:
+   reports.append(r)
+   if r.get('_history_evidence'):warnings.append(day+'：已完成历史附件补验证；保留原政策与缺失值，商品映射不足时按计划展示')
   if m:mappings[day]=m
  trends=build_trends(reports,mappings,end_day);current=next((r for r in reports if r['date']==end_day),None)
  authority=None
@@ -120,7 +133,12 @@ def attachments(root,account,day):
  with sqlite3.connect(dbpath.as_uri()+'?mode=ro',uri=True) as db:
   rows=db.execute('SELECT payload FROM jobs WHERE account=? AND day=? AND sent=1',(account,day)).fetchall()
  if len(rows)!=1:return []
- bundle=json.loads(rows[0][0]);directory=_inside(root,bundle['directory']);result=[]
+ bundle=json.loads(rows[0][0])
+ if not bundle.get('input_hashes',{}).get('result.json'):
+  proof=historical_evidence.load(root,account,day,bundle)
+  if proof:return proof['artifacts']
+  return []
+ directory=_inside(root,bundle['directory']);result=[]
  if bundle.get('date')!=day or str(bundle.get('account'))!=str(account):raise ValueError('Attachment scope mismatch')
  for item in bundle.get('files',[]):
   path=_inside(root,item['path'])
