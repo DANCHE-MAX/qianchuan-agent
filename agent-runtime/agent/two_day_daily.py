@@ -32,29 +32,31 @@ def reconcile_main(day,main):
 def pie_view(days,policy):
     result=[];names={};ranking={}
     for day in days:
-        missing=None;groups={}
-        if day['complete']:
+        missing=None;groups={};profit_ok=day.get('profit_verified',day['complete']);spend_ok=day.get('spend_verified',day['complete'])
+        if profit_ok or spend_ok:
             plans=grouped_plans(day)
             if day.get('inventory_complete'):missing=len(set(day.get('inventory',[]))-set(plans))
             for plan_id,plan in plans.items():
                 pid='managed' if plan.get('managed') else plan['product'] or 'unknown';name='全店托管' if pid=='managed' else plan['name'] if plan['product'] else '商品归属待核验'
                 g=groups.setdefault(pid,{'id':pid,'name':name,'spend':Decimal(0),'profit':Decimal(0)})
-                g['spend']+=plan['spend'];g['profit']+=Decimal(plan_profit.calculate(plan['gmv'],plan['spend'],plan_profit.resolve_policy(day.get('profit_policy',policy),plan_id))['profit'])
+                g['spend']+=plan['spend']
+                value=day['daily_profit_by_plan'].get(plan_id) if day.get('profit_basis')=='original_daily_report' else plan_profit.calculate(plan['gmv'],plan['spend'],plan_profit.resolve_policy(day.get('profit_policy',policy),plan_id))['profit']
+                g['profit']=None if value is None or g['profit'] is None else g['profit']+Decimal(value)
             for pid,g in groups.items():names[pid]=g['name'];ranking[pid]=ranking.get(pid,Decimal(0))+g['spend']
         if 'report_missing' in day:missing=day['report_missing']
-        positive=[g for g in groups.values() if g['id'] not in ('unknown','managed') and g['profit']>0]
-        loss=sorted([g for g in groups.values() if g['id'] not in ('unknown','managed') and g['profit']<0],key=lambda g:g['profit'])
+        positive=[g for g in groups.values() if g['id'] not in ('unknown','managed') and g['profit'] is not None and g['profit']>0]
+        loss=sorted([g for g in groups.values() if g['id'] not in ('unknown','managed') and g['profit'] is not None and g['profit']<0],key=lambda g:g['profit'])
         ads=[g for g in groups.values() if g['spend']>0]
         def shares(items,key):
             total=sum((g[key] for g in items),Decimal(0))
             return [dict(id=g['id'],name=g['name'],amount=str(g[key]),share=str(g[key]/total*100)) for g in sorted(items,key=lambda g:-g[key])]
-        result.append({'day':day['day'],'complete':day['complete'],'positive':shares(positive,'profit'),'ads':shares(ads,'spend'),
-            'positive_total':str(sum((g['profit'] for g in positive),Decimal(0))) if day['complete'] else None,
-            'ad_total':str(sum((g['spend'] for g in ads),Decimal(0))) if day['complete'] else None,
-            'loss_total':str(sum((g['profit'] for g in loss),Decimal(0))) if day['complete'] else None,
+        result.append({'day':day['day'],'complete':profit_ok and spend_ok,'positive':shares(positive,'profit'),'ads':shares(ads,'spend'),
+            'positive_total':str(sum((g['profit'] for g in positive),Decimal(0))) if profit_ok else None,
+            'ad_total':str(sum((g['spend'] for g in ads),Decimal(0))) if spend_ok else None,
+            'loss_total':str(sum((g['profit'] for g in loss),Decimal(0))) if profit_ok else None,
             'losses':[{'id':g['id'],'name':g['name'],'amount':str(g['profit'])} for g in loss],
-            'unknown_profit':str(groups['unknown']['profit']) if 'unknown' in groups else None,
-            'managed_profit':str(groups['managed']['profit']) if 'managed' in groups else None,
+            'unknown_profit':str(groups['unknown']['profit']) if 'unknown' in groups and groups['unknown']['profit'] is not None else None,
+            'managed_profit':str(groups['managed']['profit']) if 'managed' in groups and groups['managed']['profit'] is not None else None,
             'managed_present':'managed' in groups,'unknown_present':'unknown' in groups,'missing_plans':missing,'warnings':day.get('warnings',[])})
     colors=['#1769E0','#F2A000','#00A67D','#8357C5','#D85B31','#5D8B38','#AC7224','#36A5AE','#D3639F','#67717A']
     ids=sorted([x for x in ranking if x not in ('unknown','managed')],key=lambda x:(-ranking[x],x))

@@ -76,24 +76,24 @@ def collect(env,days,evidence,*,include_gmv=False):
 def build(days):
     totals=defaultdict(lambda:Decimal(0));names={}
     for day in days:
-        if not day['complete']:continue
+        if not day.get('spend_verified',day['complete']):continue
         for r in day['rows']:
             if r['product'] is not None and not r.get('managed'):totals[r['product']]+=amount(r['amount']);names[r['product']]=r['name']
     top=sorted(totals,key=lambda k:(-totals[k],k))[:3];series=[];unknown=Decimal(0);managed_total=Decimal(0)
     for day in days:
         slots=[]
         for i in range(12):
-            if not day['complete']:slots.append(None);continue
+            if not day.get('spend_verified',day['complete']):slots.append(None);continue
             bins=[Decimal(0) for _ in range(6)]
             for r in day['rows']:
                 if r['slot']!=i:continue
                 idx=5 if r.get('managed') else top.index(r['product']) if r['product'] in top else 4 if r['product'] is None else 3
                 bins[idx]+=amount(r['amount'])
             unknown+=bins[4];managed_total+=bins[5];slots.append(list(map(str,bins)))
-        series.append({'day':day['day'],'slots':slots,'total':str(sum((sum(map(Decimal,b)) for b in slots),Decimal(0))) if day['complete'] else None})
+        series.append({'day':day['day'],'slots':slots,'total':str(sum((sum(map(Decimal,b)) for b in slots),Decimal(0))) if day.get('spend_verified',day['complete']) else None})
     return {'products':[{'name':names[k],'total':str(totals[k])} for k in top], 'series':series,
-            'managed':str(managed_total) if any(d['complete'] for d in days) else None,
-            'unknown':str(unknown) if any(d['complete'] for d in days) else None,'complete':all(d['complete'] for d in days),
+            'managed':str(managed_total) if any(d.get('spend_verified',d['complete']) for d in days) else None,
+            'unknown':str(unknown) if any(d.get('spend_verified',d['complete']) for d in days) else None,'complete':all(d.get('spend_verified',d['complete']) for d in days),
             'warnings':sorted({w for d in days for w in d.get('warnings',[])})}
 
 

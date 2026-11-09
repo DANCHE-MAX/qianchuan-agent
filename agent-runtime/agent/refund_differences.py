@@ -50,9 +50,19 @@ def covered(day,report,confirmations):
 def annotate(day,report,confirmations):
  ids=covered(day,report,confirmations)
  if not ids:return
- day['complete']=False # Never present the inconsistent prior-day profit pie as reconciled.
+ day['complete']=False # Keep raw cross-source mismatch; charts use scoped evidence below.
  day['confirmed_refund_differences']=ids
  day['warnings']=[w for w in day.get('warnings',[]) if w!=CONFLICT]
  amount=sum(abs(new-old) for _,_,old,new in differences(day,report))
  note=f'业务确认退款口径差异{amount:.2f}元；保留原值，不重复扣减利润；该日利润对比待核验'
  if note not in day['warnings']:day['warnings'].append(note)
+ # A confirmed GMV difference must not hide independently verified spend.
+ # Missing acquisition evidence and unrelated conflicts remain blocking.
+ allowed=lambda w: w==CONFLICT or w.startswith('直播') or w.startswith('业务确认退款口径差异')
+ if not day.get('inventory_complete') or day.get('policy_transition') or not all(allowed(w) for w in day.get('warnings',[])):return
+ day['spend_verified']=True
+ day['profit_verified']=True
+ day['daily_profit_by_plan']={str(r['plan_id']):r.get('profit') for r in report['rows']}
+ day['profit_basis']='original_daily_report'
+ day['warnings']=[w for w in day['warnings'] if not w.startswith('业务确认退款口径差异')]
+ day['warnings'].append(f'业务确认退款口径差异{amount:.2f}元；广告消耗独立核验，利润沿用原日报，不重复扣减；缺失单列待核验')

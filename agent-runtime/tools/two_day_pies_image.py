@@ -67,7 +67,7 @@ def render(view,path,font):
         draw.rectangle((48,y+4,68,y+24),fill=item['color']);lines=wrap(item['name'],1250,24)
         for j,line in enumerate(lines):text(85,y+j*28,line,24)
         y+=max(42,len(lines)*28+10)
-    text(45,y+20,'利润为现行退款率/成本口径的情景估算，已扣实际广告费，未扣运费和固定费用。',24,muted)
+    text(45,y+20,('已确认退款差异日：利润沿用原日报，不重复扣减；缺失计划单列待核验。' if any('业务确认退款' in w for d in view['days'] for w in d.get('warnings',[])) else '利润为现行退款率/成本口径的情景估算，已扣实际广告费，未扣运费和固定费用。'),24,muted)
     text(45,y+60,'盈利占比分母仅含已关联且可测算的盈利商品；亏损、全店托管、未关联计划及缺失另列。',24,muted)
     text(45,y+100,'全店托管仅含明确标注的计划；其他未关联计划不混入，直播覆盖待核验。',24,muted)
     image.crop((0,0,width,y+150)).save(path)

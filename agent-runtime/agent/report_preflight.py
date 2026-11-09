@@ -173,6 +173,12 @@ def check(bundle,*,expected_account=None,expected_day=None):
             require(not item.get('conflicts'),'source_conflicts')
             from . import refund_differences
             acknowledged=refund_differences.covered(item,report,refund_differences.records(root)) if report else []
+            if any(k in item for k in ('spend_verified','profit_verified','daily_profit_by_plan','profit_basis')):
+                projection=json.loads(json.dumps(item))
+                for k in ('spend_verified','profit_verified','daily_profit_by_plan','profit_basis'):projection.pop(k,None)
+                if report:refund_differences.annotate(projection,report,refund_differences.records(root))
+                for k in ('spend_verified','profit_verified','daily_profit_by_plan','profit_basis'):
+                    require(item.get(k)==projection.get(k),'scoped_refund_projection_'+k)
             if item.get('confirmed_refund_differences'):
                 require(acknowledged==item['confirmed_refund_differences'] and not item['complete'],'refund_confirmation_invalid')
             require(not any(('不一致' in w or '政策不同' in w) and not (w==refund_differences.CONFLICT and acknowledged and not item['complete']) for w in item.get('warnings',[])),'comparison_conflict')

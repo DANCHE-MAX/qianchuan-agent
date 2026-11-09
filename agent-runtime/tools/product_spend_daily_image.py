@@ -55,7 +55,7 @@ for panel in range(2):
   text(cx,base+49,f'{i*2:02d}—{(i+1)*2:02d}',25,navy,'mt')
 text(45,1840,'全店托管：'+(('两天合计' if v['complete'] else '已核验部分')+' ¥'+v.get('managed','0') if v.get('managed') is not None else '待核验'),30,'#995F5A')
 text(45,1890,'其他未关联计划消耗：'+('¥'+v['unknown'] if v['unknown'] is not None else '待核验')+'；不计入全店托管。',24,muted)
-text(45,1930,'小时明细与两天商品计划汇总一致。' if v['complete'] else '部分明细或对账待核验，不显示为零；暂不比较全天合计。',24,muted)
+text(45,1930,('已确认退款差异仅影响GMV口径；广告消耗已独立核验。' if any('业务确认退款' in w for w in v['warnings']) else '小时明细与两天商品计划汇总一致。') if v['complete'] else '部分明细或对账待核验，不显示为零；暂不比较全天合计。',24,muted)
 text(45,1970,'口径：千川实际广告消耗，不使用余额差；两块图统一零起点及刻度。',24,muted)
 text(45,2010,'直播消耗覆盖待核验，未纳入本图。' if any('直播' in w for w in v['warnings']) else '仅比较商品计划广告消耗。',24,muted)
 text(45,2050,'商品关联采用采集时计划信息 · 不自动调整预算或投放状态',23,muted)
