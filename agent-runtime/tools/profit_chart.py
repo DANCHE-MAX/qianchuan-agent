@@ -32,3 +32,27 @@ for page in range(max(1,math.ceil(len(rows)/12))):
  text(60,1980,'未计运费和固定费用；今日可执行追加额度待核验。',29,'#66758A')
  text(60,2030,'无需投手反馈或机器人交互，不自动调整预算。',29,'#66758A')
  im.save(source.parent/f'profit-{data["date"]}-{page+1:02}.png')
+# Supplementary detail pages are not additional profit bars or additional totals.
+detail_pages=[dict(v,products=v['products'][i:i+8],missing=sum(p['gmv'] is None or p['spend'] is None for p in v['products'][i:i+8])) for v in data.get('product_breakdowns',[]) for i in range(0,max(1,len(v['products'])),8)]
+for offset,v in enumerate(detail_pages,1):
+ im=Image.new('RGB',(1500,2100),'white');d=ImageDraw.Draw(im)
+ text(60,55,'计划内商品明细 · 不重复汇总',48)
+ text(60,130,data['date']+' · GMV与实际广告消耗（元）',30)
+ def wrapped(value,x,y,width,size=28):
+  line='';f=ImageFont.truetype(font,size)
+  for char in value:
+   if d.textlength(line+char,font=f)>width:text(x,y,line,size);y+=size+10;line=''
+   line+=char
+  if line:text(x,y,line,size);y+=size+10
+  return y
+ y=wrapped(v['name'],60,200,1360,30)
+ y=wrapped('以下仅解释该计划去向，不再次计入账户利润或排序。商品款号均待核验。',60,y+15,1360)
+ text(60,y+20,f'已返回 {len(v["products"])-v["missing"]} 个商品日；待核验 {v["missing"]} 个',30);y+=90
+ for p in v['products']:
+  y=wrapped(p['name'],60,y,1360,27)
+  text(60,y,'GMV '+(p['gmv'] or '待核验')+'    广告消耗 '+(p['spend'] or '待核验'),28);y+=40
+  if p['reason']:y=wrapped(p['reason'],60,y,1360,24)
+  d.line((60,y+10,1440,y+10),fill='#E5EAF0');y+=35
+ for pending in data.get('product_binding_pending',[]):y=wrapped(pending['reason'],60,y+10,1360,25)
+ if v.get('reason'):wrapped(v['reason'],60,y+10,1360,25)
+ im.save(source.parent/f'profit-{data["date"]}-{max(1,math.ceil(len(rows)/12))+offset:02}.png')

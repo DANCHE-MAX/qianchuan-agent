@@ -3,7 +3,7 @@ from datetime import date,timedelta,datetime
 from decimal import Decimal
 from pathlib import Path
 import hashlib,json,sqlite3
-from . import profit_policy,decision_brief,historical_evidence,local_report_review
+from . import product_breakdown,profit_policy,decision_brief,historical_evidence,local_report_review
 
 class HistoryUnavailable(ValueError):pass
 
@@ -135,7 +135,7 @@ def build(root,account,end_day,shadow_root=None):
     if w.get('start')!=end_day or w.get('end')!=end_day:continue
     shadow.append(dict(plan_id=p['plan_id'],name=p.get('name'),profit=w.get('estimated_profit'),gmv=w.get('gmv'),spend=w.get('spend'),policy=p.get('profit_policy'),refund_rate=p.get('refund_model',{}).get('rate')))
   except (OSError,ValueError,KeyError):warnings.append('对应日期影子数据待核验')
- return dict(end_day=end_day,generated_at=datetime.now().astimezone().isoformat(),review_status=current.get('_review_status') if current else None,trends=trends,comparison=comparison,incidents=incidents,shadow=shadow,warnings=warnings,policy=authority,answers={k:(('【已复核未发送】' if current.get('_review_status') else '')+decision_brief.answer(q,dict(current,_decision_mapping=mappings.get(end_day)))) if current else '对应日期无完整已发日报，待核验' for k,q in [('profit','昨天哪个商品赚得最多'),('loss','昨天哪个亏损最多'),('spend','昨天广告费花在哪里')]},note='历史原值不改写；统一口径为本地预览。数据齐全不等于真实结算利润。反馈暂停，不自动调整预算、ROI或计划状态。')
+ return dict(product_breakdowns=product_breakdown.historical(root,current),product_binding_pending=product_breakdown.binding_pending(root,current),end_day=end_day,generated_at=datetime.now().astimezone().isoformat(),review_status=current.get('_review_status') if current else None,trends=trends,comparison=comparison,incidents=incidents,shadow=shadow,warnings=warnings,policy=authority,answers={k:(('【已复核未发送】' if current.get('_review_status') else '')+decision_brief.answer(q,dict(current,_decision_mapping=mappings.get(end_day)))) if current else '对应日期无完整已发日报，待核验' for k,q in [('profit','昨天哪个商品赚得最多'),('loss','昨天哪个亏损最多'),('spend','昨天广告费花在哪里')]},note='历史原值不改写；统一口径为本地预览。数据齐全不等于真实结算利润。反馈暂停，不自动调整预算、ROI或计划状态。')
 
 def attachments(root,account,day):
  root=Path(root);dbpath=root/'data/qianchuan/daily_brief.db'

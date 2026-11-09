@@ -34,6 +34,9 @@ def inspect_report(report,account,day,errors,warnings,label):
         if not ok:errors.append(label+':'+code)
     require(str(report['account'])==account and report['date']==day,'account_or_date')
     require(not report.get('execution_enabled',False) and not report.get('feedback_required',False),'readonly_scope')
+    from . import product_breakdown
+    try:product_breakdown.validate(report,report.get('product_breakdowns',[]))
+    except (ValueError,KeyError,TypeError):errors.append(label+':product_breakdown_conflict')
     rows=report['rows'];ids=[str(r['plan_id']) for r in rows]
     require(len(ids)==len(set(ids)),'duplicate_plans')
     known=[r for r in rows if r.get('profit') is not None]
@@ -95,6 +98,16 @@ def inspect_excel(path,main,errors):
         else:
             try:require(equal(got,value),ref+'_amount')
             except Exception:require(False,ref+'_type')
+    if main.get('product_breakdowns') or main.get('product_binding_pending'):
+        extra=sheets.get('商品级补充明细',{});n=2
+        for v in main.get('product_breakdowns',[]):
+            require(extra.get('A'+str(n))==v['name'],'product_parent');n+=1
+            for p in v['products']:
+                require(extra.get('A'+str(n))==p['name'] and extra.get('B'+str(n))==main['date'],'product_name_date')
+                numeric(extra,'C'+str(n),p['gmv']);numeric(extra,'D'+str(n),p['spend'])
+                require('款号待核验' in extra.get('E'+str(n),''),'product_sku');n+=1
+        for p in main.get('product_binding_pending',[]):
+            require(extra.get('E'+str(n))==p['reason'],'binding_reason');n+=1
     require(main['date'] in detail.get('A2','') and main['date'] in summary.get('A2',''),'date')
     require('账户：'+str(main['account']) in policy.get('A13',''),'account')
     if main['policy'].get('model_version'):
