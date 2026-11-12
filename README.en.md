@@ -61,6 +61,29 @@ All times are Beijing time (UTC+8). Local authorization and configuration are re
 
 **How to read the data:** totals include only calculable amounts. Eligible zero-spend product campaigns may use explicitly labeled business-rule estimates for missing values; these are not platform-confirmed sales. Unknown product attribution does not mean the amount is unknown. Store-managed campaigns and other unlinked campaigns are shown separately.
 
+## Forecasting and profit estimation | Sanitized reference
+
+**These two charts use anonymized historical backtest results, not fictional demo data.** Amounts are indexed, products are anonymous, and only formula structure and parameter meanings are disclosed. Coefficients, business rates, and guard thresholds remain private. Image labels are in Chinese.
+
+| August reference | Result |
+| --- | --- |
+| Sample | Two products, ten valid product-weeks |
+| Strategy WAPE | 11.03%, versus 11.14% for the baseline; about 0.11 percentage points better |
+| Individual APE | 0.27%–61.25% |
+| Output path | Nine baseline fallbacks and one enhanced prediction |
+
+Weeks are grouped by their start month, including August 31–September 6. August was selected after comparing available months. This is development-period rolling backtesting, **not a frozen-model independent validation or a future error guarantee**. The 11.03% figure evaluates sales forecasting, not profit estimation.
+
+### Sales trend and forecasting formula
+
+[![Sanitized August forecast trend, formula and parameter guide](docs/assets/august-forecast-formula-sanitized.png)](docs/assets/august-forecast-formula-sanitized.png)
+
+### Forecast error and profit-estimation formula
+
+[![Sanitized August errors, evaluation formulas and separate profit formula](docs/assets/august-error-profit-formula-sanitized.png)](docs/assets/august-error-profit-formula-sanitized.png)
+
+[Full sanitized formulas, parameter definitions and decision rules — Chinese](docs/model-rules-sanitized.md). Insufficient base data or training history causes a skipped backtest prediction; qualifying fallback cases use the previous week’s sales. Profit estimation is a separate calculation and does not authorize advertising changes.
+
 ## Demo gallery
 
 **All figures are fictional. These are not real screenshots, business results, or delivery records.** Images remain directly visible and can be enlarged on mobile. Chart labels are in Chinese, with English reading guides below. The report examples share the same fictional dataset and delivery order; the balance example uses separate illustrative values.
