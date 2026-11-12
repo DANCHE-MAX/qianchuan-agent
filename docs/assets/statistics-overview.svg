@@ -1,0 +1,326 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="3205" viewBox="0 0 2000 3205"><rect width="2000" height="3205" fill="#eef3f8" /><text x="45" y="65" font-size="46" fill="#203b54" font-family="PingFang SC,Microsoft YaHei,sans-serif">千川 Agent｜一张图看经营与模型表现</text><text x="45" y="115" font-size="28" fill="#203b54" font-family="PingFang SC,Microsoft YaHei,sans-serif">上半区：虚构经营演示　｜　下半区：真实历史回测脱敏　｜　两区不是同一组数据</text><rect x="25" y="145" width="1950" height="92" rx="16" fill="#193c58" /><text x="50" y="183" font-size="30" fill="white" font-family="PingFang SC,Microsoft YaHei,sans-serif">A · 经营报表展示｜全部为虚构数据</text><text x="50" y="218" font-size="24" fill="#d6e5ef" font-family="PingFang SC,Microsoft YaHei,sans-serif">利润、两日消耗与贡献占比使用同一演示数据；余额图是独立演示。</text><svg aria-label="昨日利润｜全店托管与未关联计划分开" width="960" height="680.0" viewBox="0 0 960 680" role="img" x="25" y="257">
+  <title>昨日利润｜全店托管与未关联计划分开</title>
+  <rect x="0" y="0" width="960" height="680" fill="#f4f7fb" rx="12" />
+  <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
+    <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">昨日利润｜全店托管与未关联计划分开</text>
+    <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
+    <text x="30" y="125" font-size="20" fill="#203148" text-anchor="start">已知广告费 ¥4,000    可计算部分预估利润 +¥2,300    计划D利润待核验</text>
+    <line x1="80" y1="225.0" x2="925" y2="225.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="230.0" font-size="14" fill="#64748b" text-anchor="end">1500</text>
+    <line x1="80" y1="285.0" x2="925" y2="285.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="290.0" font-size="14" fill="#64748b" text-anchor="end">1000</text>
+    <line x1="80" y1="345.0" x2="925" y2="345.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="350.0" font-size="14" fill="#64748b" text-anchor="end">500</text>
+    <line x1="80" y1="405.0" x2="925" y2="405.0" stroke="#243951" stroke-width="2" />
+    <text x="68" y="410.0" font-size="14" fill="#64748b" text-anchor="end">0</text>
+    <line x1="80" y1="441.0" x2="925" y2="441.0" stroke="#dce4ef" stroke-width="1" />
+    <text x="68" y="446.0" font-size="14" fill="#64748b" text-anchor="end">-300</text>
+    <rect x="105" y="285.0" width="88" height="120.0" fill="#149663" rx="3" />
+    <text x="149" y="273.0" font-size="22" fill="#149663" text-anchor="middle">+1,000</text>
+    <text x="149" y="505" font-size="17" fill="#203148" text-anchor="middle">商品 A</text>
+    <rect x="271" y="225.0" width="88" height="180.0" fill="#149663" rx="3" />
+    <text x="315" y="213.0" font-size="22" fill="#149663" text-anchor="middle">+1,500</text>
+    <text x="315" y="505" font-size="17" fill="#203148" text-anchor="middle">商品 B</text>
+    <rect x="437" y="405" width="88" height="36.0" fill="#d54d55" rx="3" />
+    <text x="481" y="465.0" font-size="22" fill="#d54d55" text-anchor="middle">-300</text>
+    <text x="481" y="505" font-size="17" fill="#203148" text-anchor="middle">商品 C</text>
+    <rect x="603" y="405" width="88" height="12.0" fill="#d54d55" rx="3" />
+    <text x="647" y="441.0" font-size="22" fill="#d54d55" text-anchor="middle">-100</text>
+    <text x="647" y="505" font-size="17" fill="#203148" text-anchor="middle">全店托管</text>
+    <rect x="769" y="381.0" width="88" height="24.0" fill="#149663" rx="3" />
+    <text x="813" y="369.0" font-size="22" fill="#149663" text-anchor="middle">+200</text>
+    <text x="813" y="505" font-size="17" fill="#203148" text-anchor="middle">其他未关联计划</text>
+    <text x="30" y="555" font-size="18" fill="#203148" text-anchor="start">2,500（盈利商品）−300（亏损商品）−100（托管）+200（未关联）= 2,300元</text>
+    <text x="30" y="600" font-size="17" fill="#64748b" text-anchor="start">全店托管是明确标注的计划；未关联计划金额可算，商品归属仍待核验。</text>
+    <text x="30" y="638" font-size="17" fill="#986320" text-anchor="start">计划D：已核实广告费0；GMV及利润未知，未画成零利润。</text>
+  </g>
+</svg><svg width="960" height="520.0" viewBox="0 0 960 520" role="img" aria-labelledby="title desc" x="1015" y="257">
+<title id="title">余额速率对比模板｜全部为虚构演示数据</title><desc id="desc">当前两小时每小时120元，前两小时80元，昨日同段100元。余额净下降不等于广告消耗。</desc>
+<rect width="960" height="520" rx="16" fill="#f4f7fb" />
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif" fill="#182d44">
+<text x="30" y="43" font-size="25" fill="#182d44" font-weight="600">余额提醒｜资金下降是不是变快了？</text>
+<text x="30" y="76" font-size="15" fill="#9b4b16" font-weight="400">模板示意 · 全部为虚构演示数据 · 不是实际余额、充值建议或投放效果</text>
+<rect x="30" y="96" width="280" height="78" rx="4" fill="#ffffff" />
+<text x="46" y="121" font-size="14" fill="#526579" font-weight="400">演示可用余额</text>
+<text x="46" y="155" font-size="23" fill="#182d44" font-weight="600">¥ 1,200</text>
+<rect x="340" y="96" width="280" height="78" rx="4" fill="#ffffff" />
+<text x="356" y="121" font-size="14" fill="#526579" font-weight="400">按本期速率静态估算</text>
+<text x="356" y="155" font-size="23" fill="#182d44" font-weight="600">约 10 小时</text>
+<rect x="650" y="96" width="280" height="78" rx="4" fill="#ffffff" />
+<text x="666" y="121" font-size="14" fill="#526579" font-weight="400">本期速率变化</text>
+<text x="666" y="155" font-size="23" fill="#182d44" font-weight="600">较前期 +50%</text>
+<text x="30" y="225" font-size="18" fill="#182d44" font-weight="600">本两小时</text>
+<text x="30" y="248" font-size="13" fill="#526579" font-weight="400">今天 10:00—12:00</text>
+<rect x="240" y="210" width="480" height="32" rx="4" fill="#3478bb" />
+<text x="735" y="233" font-size="17" fill="#182d44" font-weight="400">120 元/小时</text>
+<text x="30" y="290" font-size="18" fill="#182d44" font-weight="600">前两小时</text>
+<text x="30" y="313" font-size="13" fill="#526579" font-weight="400">今天 08:00—10:00</text>
+<rect x="240" y="275" width="320" height="32" rx="4" fill="#d38b36" />
+<text x="575" y="298" font-size="17" fill="#182d44" font-weight="400">80 元/小时</text>
+<text x="30" y="355" font-size="18" fill="#182d44" font-weight="600">昨日同段</text>
+<text x="30" y="378" font-size="13" fill="#526579" font-weight="400">昨天 10:00—12:00</text>
+<rect x="240" y="340" width="400" height="32" rx="4" fill="#8a6abd" />
+<text x="655" y="363" font-size="17" fill="#182d44" font-weight="400">100 元/小时</text>
+<line x1="240" y1="395" x2="240" y2="401" stroke="#dce4ef" />
+<text x="235" y="423" font-size="14" fill="#526579" font-weight="400">0</text>
+<line x1="400" y1="395" x2="400" y2="401" stroke="#dce4ef" />
+<text x="395" y="423" font-size="14" fill="#526579" font-weight="400">40</text>
+<line x1="560" y1="395" x2="560" y2="401" stroke="#dce4ef" />
+<text x="555" y="423" font-size="14" fill="#526579" font-weight="400">80</text>
+<line x1="720" y1="395" x2="720" y2="401" stroke="#dce4ef" />
+<text x="715" y="423" font-size="14" fill="#526579" font-weight="400">120</text>
+<line x1="240" y1="395" x2="760" y2="395" stroke="#dce4ef" />
+<text x="785" y="423" font-size="14" fill="#526579" font-weight="400">元/小时</text>
+<text x="30" y="464" font-size="16" fill="#182d44" font-weight="400">怎么看：本期下降比前期快50%，比昨日同段快20%，需要结合资金变化核查。</text>
+<text x="30" y="496" font-size="14" fill="#526579" font-weight="400">余额净下降速率 ≠ 广告消耗；充值、冻结变化或缺少样本时显示待核验，不画假零值。</text>
+</g></svg><svg aria-label="商品广告消耗｜前天与昨天的12个时段" width="960" height="920.0" viewBox="0 0 960 920" role="img" x="25" y="959.0">
+  <title>商品广告消耗｜前天与昨天的12个时段</title>
+  <rect x="0" y="0" width="960" height="920" fill="#f4f7fb" rx="12" />
+  <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
+    <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">商品广告消耗｜前天与昨天的12个时段</text>
+    <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
+    <text x="30" y="124" font-size="25" fill="#203148" text-anchor="start">前天 ¥3,000   →   昨天 ¥4,000     变化 +33.3%</text>
+    <rect x="30" y="160" width="14" height="14" fill="#3478bb" rx="2" />
+    <text x="50" y="173" font-size="15" fill="#203148" text-anchor="start">商品 A</text>
+    <rect x="215" y="160" width="14" height="14" fill="#d38b36" rx="2" />
+    <text x="235" y="173" font-size="15" fill="#203148" text-anchor="start">商品 B</text>
+    <rect x="400" y="160" width="14" height="14" fill="#00a67d" rx="2" />
+    <text x="420" y="173" font-size="15" fill="#203148" text-anchor="start">商品 C</text>
+    <rect x="585" y="160" width="14" height="14" fill="#c43d87" rx="2" />
+    <text x="605" y="173" font-size="15" fill="#203148" text-anchor="start">全店托管</text>
+    <rect x="770" y="160" width="14" height="14" fill="#64748b" rx="2" />
+    <text x="790" y="173" font-size="15" fill="#203148" text-anchor="start">商品归属待核验</text>
+    <rect x="25" y="210" width="910" height="280" fill="white" rx="12" />
+    <text x="45" y="240" font-size="22" fill="#203148" text-anchor="start">00:00—12:00</text>
+    <line x1="85" y1="425.0" x2="915" y2="425.0" stroke="#dce4ef" />
+    <text x="74" y="429.0" font-size="13" fill="#64748b" text-anchor="end">0</text>
+    <line x1="85" y1="335.0" x2="915" y2="335.0" stroke="#dce4ef" />
+    <text x="74" y="339.0" font-size="13" fill="#64748b" text-anchor="end">350</text>
+    <line x1="85" y1="245.00000000000003" x2="915" y2="245.00000000000003" stroke="#dce4ef" />
+    <text x="74" y="249.00000000000003" font-size="13" fill="#64748b" text-anchor="end">700</text>
+    <rect x="106" y="420.1142857142857" width="34" height="4.885714285714285" fill="#3478bb" rx="0" />
+    <rect x="106" y="417.2857142857143" width="34" height="2.8285714285714283" fill="#d38b36" rx="0" />
+    <rect x="106" y="416.77142857142854" width="34" height="0.5142857142857142" fill="#00a67d" rx="0" />
+    <rect x="106" y="416.0" width="34" height="0.7714285714285714" fill="#c43d87" rx="0" />
+    <rect x="106" y="415.74285714285713" width="34" height="0.2571428571428571" fill="#64748b" rx="0" />
+    <text x="123" y="444" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="150" y="419.85714285714283" width="34" height="5.142857142857142" fill="#3478bb" rx="0" />
+    <rect x="150" y="415.48571428571427" width="34" height="4.371428571428571" fill="#d38b36" rx="0" />
+    <rect x="150" y="414.7142857142857" width="34" height="0.7714285714285714" fill="#00a67d" rx="0" />
+    <rect x="150" y="413.1714285714286" width="34" height="1.5428571428571427" fill="#c43d87" rx="0" />
+    <rect x="150" y="412.65714285714284" width="34" height="0.5142857142857142" fill="#64748b" rx="0" />
+    <text x="167" y="444" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="145" y="470" font-size="16" fill="#203148" text-anchor="middle">00—02</text>
+    <rect x="244" y="415.22857142857146" width="34" height="9.77142857142857" fill="#3478bb" rx="0" />
+    <rect x="244" y="409.31428571428575" width="34" height="5.914285714285714" fill="#d38b36" rx="0" />
+    <rect x="244" y="408.02857142857147" width="34" height="1.2857142857142856" fill="#00a67d" rx="0" />
+    <rect x="244" y="406.22857142857146" width="34" height="1.7999999999999998" fill="#c43d87" rx="0" />
+    <rect x="244" y="405.7142857142857" width="34" height="0.5142857142857142" fill="#64748b" rx="0" />
+    <text x="261" y="444" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="288" y="414.45714285714286" width="34" height="10.542857142857141" fill="#3478bb" rx="0" />
+    <rect x="288" y="405.45714285714286" width="34" height="9.0" fill="#d38b36" rx="0" />
+    <rect x="288" y="403.65714285714284" width="34" height="1.7999999999999998" fill="#00a67d" rx="0" />
+    <rect x="288" y="400.57142857142856" width="34" height="3.0857142857142854" fill="#c43d87" rx="0" />
+    <rect x="288" y="399.2857142857143" width="34" height="1.2857142857142856" fill="#64748b" rx="0" />
+    <text x="305" y="444" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="283" y="470" font-size="16" fill="#203148" text-anchor="middle">02—04</text>
+    <rect x="382" y="410.34285714285716" width="34" height="14.657142857142855" fill="#3478bb" rx="0" />
+    <rect x="382" y="401.6" width="34" height="8.742857142857142" fill="#d38b36" rx="0" />
+    <rect x="382" y="399.8" width="34" height="1.7999999999999998" fill="#00a67d" rx="0" />
+    <rect x="382" y="396.9714285714286" width="34" height="2.8285714285714283" fill="#c43d87" rx="0" />
+    <rect x="382" y="396.20000000000005" width="34" height="0.7714285714285714" fill="#64748b" rx="0" />
+    <text x="399" y="444" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="426" y="409.3142857142857" width="34" height="15.685714285714283" fill="#3478bb" rx="0" />
+    <rect x="426" y="395.68571428571425" width="34" height="13.628571428571426" fill="#d38b36" rx="0" />
+    <rect x="426" y="392.85714285714283" width="34" height="2.8285714285714283" fill="#00a67d" rx="0" />
+    <rect x="426" y="387.97142857142853" width="34" height="4.885714285714285" fill="#c43d87" rx="0" />
+    <rect x="426" y="386.1714285714285" width="34" height="1.7999999999999998" fill="#64748b" rx="0" />
+    <text x="443" y="444" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="421" y="470" font-size="16" fill="#203148" text-anchor="middle">04—06</text>
+    <rect x="520" y="405.45714285714286" width="34" height="19.54285714285714" fill="#3478bb" rx="0" />
+    <rect x="520" y="393.62857142857143" width="34" height="11.828571428571427" fill="#d38b36" rx="0" />
+    <rect x="520" y="391.0571428571429" width="34" height="2.571428571428571" fill="#00a67d" rx="0" />
+    <rect x="520" y="387.20000000000005" width="34" height="3.8571428571428568" fill="#c43d87" rx="0" />
+    <rect x="520" y="385.91428571428577" width="34" height="1.2857142857142856" fill="#64748b" rx="0" />
+    <text x="537" y="444" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="564" y="403.9142857142857" width="34" height="21.085714285714282" fill="#3478bb" rx="0" />
+    <rect x="564" y="385.65714285714284" width="34" height="18.257142857142856" fill="#d38b36" rx="0" />
+    <rect x="564" y="381.8" width="34" height="3.8571428571428568" fill="#00a67d" rx="0" />
+    <rect x="564" y="375.37142857142857" width="34" height="6.428571428571428" fill="#c43d87" rx="0" />
+    <rect x="564" y="372.8" width="34" height="2.571428571428571" fill="#64748b" rx="0" />
+    <text x="581" y="444" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="559" y="470" font-size="16" fill="#203148" text-anchor="middle">06—08</text>
+    <rect x="658" y="400.3142857142857" width="34" height="24.685714285714283" fill="#3478bb" rx="0" />
+    <rect x="658" y="385.65714285714284" width="34" height="14.657142857142855" fill="#d38b36" rx="0" />
+    <rect x="658" y="382.57142857142856" width="34" height="3.0857142857142854" fill="#00a67d" rx="0" />
+    <rect x="658" y="377.68571428571425" width="34" height="4.885714285714285" fill="#c43d87" rx="0" />
+    <rect x="658" y="376.1428571428571" width="34" height="1.5428571428571427" fill="#64748b" rx="0" />
+    <text x="675" y="444" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="702" y="398.7714285714286" width="34" height="26.228571428571428" fill="#3478bb" rx="0" />
+    <rect x="702" y="375.8857142857143" width="34" height="22.885714285714283" fill="#d38b36" rx="0" />
+    <rect x="702" y="371.0" width="34" height="4.885714285714285" fill="#00a67d" rx="0" />
+    <rect x="702" y="362.7714285714286" width="34" height="8.228571428571428" fill="#c43d87" rx="0" />
+    <rect x="702" y="359.6857142857143" width="34" height="3.0857142857142854" fill="#64748b" rx="0" />
+    <text x="719" y="444" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="697" y="470" font-size="16" fill="#203148" text-anchor="middle">08—10</text>
+    <rect x="796" y="395.42857142857144" width="34" height="29.57142857142857" fill="#3478bb" rx="0" />
+    <rect x="796" y="377.6857142857143" width="34" height="17.74285714285714" fill="#d38b36" rx="0" />
+    <rect x="796" y="373.8285714285715" width="34" height="3.8571428571428568" fill="#00a67d" rx="0" />
+    <rect x="796" y="367.91428571428577" width="34" height="5.914285714285714" fill="#c43d87" rx="0" />
+    <rect x="796" y="366.11428571428576" width="34" height="1.7999999999999998" fill="#64748b" rx="0" />
+    <text x="813" y="444" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="840" y="393.37142857142857" width="34" height="31.628571428571426" fill="#3478bb" rx="0" />
+    <rect x="840" y="365.85714285714283" width="34" height="27.514285714285712" fill="#d38b36" rx="0" />
+    <rect x="840" y="359.9428571428571" width="34" height="5.914285714285714" fill="#00a67d" rx="0" />
+    <rect x="840" y="350.1714285714286" width="34" height="9.77142857142857" fill="#c43d87" rx="0" />
+    <rect x="840" y="346.31428571428575" width="34" height="3.8571428571428568" fill="#64748b" rx="0" />
+    <text x="857" y="444" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="835" y="470" font-size="16" fill="#203148" text-anchor="middle">10—12</text>
+    <rect x="25" y="510" width="910" height="280" fill="white" rx="12" />
+    <text x="45" y="540" font-size="22" fill="#203148" text-anchor="start">12:00—24:00</text>
+    <line x1="85" y1="725.0" x2="915" y2="725.0" stroke="#dce4ef" />
+    <text x="74" y="729.0" font-size="13" fill="#64748b" text-anchor="end">0</text>
+    <line x1="85" y1="635.0" x2="915" y2="635.0" stroke="#dce4ef" />
+    <text x="74" y="639.0" font-size="13" fill="#64748b" text-anchor="end">350</text>
+    <line x1="85" y1="545.0" x2="915" y2="545.0" stroke="#dce4ef" />
+    <text x="74" y="549.0" font-size="13" fill="#64748b" text-anchor="end">700</text>
+    <rect x="106" y="690.5428571428572" width="34" height="34.457142857142856" fill="#3478bb" rx="0" />
+    <rect x="106" y="669.9714285714286" width="34" height="20.57142857142857" fill="#d38b36" rx="0" />
+    <rect x="106" y="665.6" width="34" height="4.371428571428571" fill="#00a67d" rx="0" />
+    <rect x="106" y="658.9142857142857" width="34" height="6.685714285714285" fill="#c43d87" rx="0" />
+    <rect x="106" y="656.8571428571429" width="34" height="2.057142857142857" fill="#64748b" rx="0" />
+    <text x="123" y="744" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="150" y="688.2285714285714" width="34" height="36.771428571428565" fill="#3478bb" rx="0" />
+    <rect x="150" y="656.0857142857143" width="34" height="32.14285714285714" fill="#d38b36" rx="0" />
+    <rect x="150" y="649.4" width="34" height="6.685714285714285" fill="#00a67d" rx="0" />
+    <rect x="150" y="638.0857142857143" width="34" height="11.314285714285713" fill="#c43d87" rx="0" />
+    <rect x="150" y="633.7142857142857" width="34" height="4.371428571428571" fill="#64748b" rx="0" />
+    <text x="167" y="744" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="145" y="770" font-size="16" fill="#203148" text-anchor="middle">12—14</text>
+    <rect x="244" y="685.6571428571428" width="34" height="39.34285714285714" fill="#3478bb" rx="0" />
+    <rect x="244" y="662.0" width="34" height="23.657142857142855" fill="#d38b36" rx="0" />
+    <rect x="244" y="656.8571428571429" width="34" height="5.142857142857142" fill="#00a67d" rx="0" />
+    <rect x="244" y="649.1428571428572" width="34" height="7.7142857142857135" fill="#c43d87" rx="0" />
+    <rect x="244" y="646.5714285714287" width="34" height="2.571428571428571" fill="#64748b" rx="0" />
+    <text x="261" y="744" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="288" y="682.8285714285714" width="34" height="42.171428571428564" fill="#3478bb" rx="0" />
+    <rect x="288" y="646.0571428571428" width="34" height="36.771428571428565" fill="#d38b36" rx="0" />
+    <rect x="288" y="638.3428571428572" width="34" height="7.7142857142857135" fill="#00a67d" rx="0" />
+    <rect x="288" y="625.2285714285714" width="34" height="13.114285714285714" fill="#c43d87" rx="0" />
+    <rect x="288" y="620.0857142857143" width="34" height="5.142857142857142" fill="#64748b" rx="0" />
+    <text x="305" y="744" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="283" y="770" font-size="16" fill="#203148" text-anchor="middle">14—16</text>
+    <rect x="382" y="680.5142857142857" width="34" height="44.48571428571428" fill="#3478bb" rx="0" />
+    <rect x="382" y="654.0285714285715" width="34" height="26.485714285714284" fill="#d38b36" rx="0" />
+    <rect x="382" y="648.1142857142858" width="34" height="5.914285714285714" fill="#00a67d" rx="0" />
+    <rect x="382" y="639.3714285714286" width="34" height="8.742857142857142" fill="#c43d87" rx="0" />
+    <rect x="382" y="636.5428571428572" width="34" height="2.8285714285714283" fill="#64748b" rx="0" />
+    <text x="399" y="744" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="426" y="677.6857142857143" width="34" height="47.31428571428571" fill="#3478bb" rx="0" />
+    <rect x="426" y="636.2857142857143" width="34" height="41.4" fill="#d38b36" rx="0" />
+    <rect x="426" y="627.5428571428572" width="34" height="8.742857142857142" fill="#00a67d" rx="0" />
+    <rect x="426" y="612.8857142857144" width="34" height="14.657142857142855" fill="#c43d87" rx="0" />
+    <rect x="426" y="606.9714285714286" width="34" height="5.914285714285714" fill="#64748b" rx="0" />
+    <text x="443" y="744" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="421" y="770" font-size="16" fill="#203148" text-anchor="middle">16—18</text>
+    <rect x="520" y="675.6285714285714" width="34" height="49.37142857142857" fill="#3478bb" rx="0" />
+    <rect x="520" y="646.0571428571428" width="34" height="29.57142857142857" fill="#d38b36" rx="0" />
+    <rect x="520" y="639.6285714285714" width="34" height="6.428571428571428" fill="#00a67d" rx="0" />
+    <rect x="520" y="629.8571428571428" width="34" height="9.77142857142857" fill="#c43d87" rx="0" />
+    <rect x="520" y="626.7714285714285" width="34" height="3.0857142857142854" fill="#64748b" rx="0" />
+    <text x="537" y="744" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="564" y="672.2857142857143" width="34" height="52.71428571428571" fill="#3478bb" rx="0" />
+    <rect x="564" y="626.2571428571429" width="34" height="46.028571428571425" fill="#d38b36" rx="0" />
+    <rect x="564" y="616.4857142857143" width="34" height="9.77142857142857" fill="#00a67d" rx="0" />
+    <rect x="564" y="600.0285714285715" width="34" height="16.457142857142856" fill="#c43d87" rx="0" />
+    <rect x="564" y="593.6" width="34" height="6.428571428571428" fill="#64748b" rx="0" />
+    <text x="581" y="744" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="559" y="770" font-size="16" fill="#203148" text-anchor="middle">18—20</text>
+    <rect x="658" y="670.7428571428571" width="34" height="54.25714285714285" fill="#3478bb" rx="0" />
+    <rect x="658" y="638.3428571428572" width="34" height="32.4" fill="#d38b36" rx="0" />
+    <rect x="658" y="631.1428571428571" width="34" height="7.199999999999999" fill="#00a67d" rx="0" />
+    <rect x="658" y="620.3428571428572" width="34" height="10.799999999999999" fill="#c43d87" rx="0" />
+    <rect x="658" y="616.7428571428571" width="34" height="3.5999999999999996" fill="#64748b" rx="0" />
+    <text x="675" y="744" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="702" y="667.1428571428571" width="34" height="57.857142857142854" fill="#3478bb" rx="0" />
+    <rect x="702" y="616.4857142857143" width="34" height="50.65714285714285" fill="#d38b36" rx="0" />
+    <rect x="702" y="605.6857142857143" width="34" height="10.799999999999999" fill="#00a67d" rx="0" />
+    <rect x="702" y="587.6857142857143" width="34" height="18.0" fill="#c43d87" rx="0" />
+    <rect x="702" y="580.4857142857143" width="34" height="7.199999999999999" fill="#64748b" rx="0" />
+    <text x="719" y="744" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="697" y="770" font-size="16" fill="#203148" text-anchor="middle">20—22</text>
+    <rect x="796" y="664.3142857142857" width="34" height="60.68571428571428" fill="#3478bb" rx="0" />
+    <rect x="796" y="627.2857142857142" width="34" height="37.028571428571425" fill="#d38b36" rx="0" />
+    <rect x="796" y="618.0285714285714" width="34" height="9.257142857142856" fill="#00a67d" rx="0" />
+    <rect x="796" y="604.6571428571427" width="34" height="13.37142857142857" fill="#c43d87" rx="0" />
+    <rect x="796" y="599.2571428571428" width="34" height="5.3999999999999995" fill="#64748b" rx="0" />
+    <text x="813" y="744" font-size="13" fill="#64748b" text-anchor="middle">前</text>
+    <rect x="840" y="660.7142857142858" width="34" height="64.28571428571428" fill="#3478bb" rx="0" />
+    <rect x="840" y="603.3714285714286" width="34" height="57.342857142857135" fill="#d38b36" rx="0" />
+    <rect x="840" y="590.0" width="34" height="13.37142857142857" fill="#00a67d" rx="0" />
+    <rect x="840" y="568.9142857142857" width="34" height="21.085714285714282" fill="#c43d87" rx="0" />
+    <rect x="840" y="559.6571428571428" width="34" height="9.257142857142856" fill="#64748b" rx="0" />
+    <text x="857" y="744" font-size="13" fill="#64748b" text-anchor="middle">昨</text>
+    <text x="835" y="770" font-size="16" fill="#203148" text-anchor="middle">22—24</text>
+    <text x="30" y="843" font-size="18" fill="#203148" text-anchor="start">全店托管两日消耗 ¥800；其他未关联计划 ¥300。两类分开，不强行分摊。</text>
+    <text x="30" y="883" font-size="17" fill="#64748b" text-anchor="start">各时段相加等于日报消耗；商品归属未知不等于金额未知，缺失不补0。</text>
+  </g>
+</svg><svg aria-label="两日四宫格｜盈利贡献与广告消耗" width="960" height="990.0" viewBox="0 0 960 990" role="img" x="1015" y="959.0">
+  <title>两日四宫格｜盈利贡献与广告消耗</title>
+  <rect x="0" y="0" width="960" height="990" fill="#f4f7fb" rx="12" />
+  <g font-family="PingFang SC,Microsoft YaHei,Arial,sans-serif">
+    <text x="30" y="43" font-size="28" fill="#203148" text-anchor="start">两日四宫格｜盈利贡献与广告消耗</text>
+    <text x="30" y="78" font-size="17" fill="#986320" text-anchor="start">全部为虚构演示数据 · 非真实报表、截图或发送记录</text>
+    <rect x="25" y="105" width="445" height="280" fill="white" rx="12" />
+    <text x="43" y="137" font-size="22" fill="#203148" text-anchor="start">前天 · 盈利商品贡献</text>
+    <path d="M 127 247 L 127.0 177.0 A 70 70 0 1 1 85.85503233952689 303.6311896062463 Z" fill="#3478bb" stroke="white" stroke-width="2" />
+    <path d="M 127 247 L 85.85503233952689 303.6311896062463 A 70 70 0 0 1 126.99999999999999 177.0 Z" fill="#d38b36" stroke="white" stroke-width="2" />
+    <text x="220" y="175" font-size="16" fill="#203148" text-anchor="start">商品 A 60.0%</text>
+    <text x="220" y="205" font-size="16" fill="#203148" text-anchor="start">商品 B 40.0%</text>
+    <text x="43" y="358" font-size="19" fill="#203148" text-anchor="start">盈利商品合计 ¥2,000</text>
+    <rect x="490" y="105" width="445" height="280" fill="white" rx="12" />
+    <text x="508" y="137" font-size="22" fill="#203148" text-anchor="start">前天 · 广告消耗占比</text>
+    <path d="M 592 247 L 592.0 177.0 A 70 70 0 0 1 592.0 317.0 Z" fill="#3478bb" stroke="white" stroke-width="2" />
+    <path d="M 592 247 L 592.0 317.0 A 70 70 0 0 1 525.4260438593392 225.36881039375368 Z" fill="#d38b36" stroke="white" stroke-width="2" />
+    <path d="M 592 247 L 525.4260438593392 225.36881039375368 A 70 70 0 0 1 539.9798622165824 200.16085755487993 Z" fill="#00a67d" stroke="white" stroke-width="2" />
+    <path d="M 592 247 L 539.9798622165824 200.16085755487993 A 70 70 0 0 1 577.4461816427569 178.5296679486336 Z" fill="#c43d87" stroke="white" stroke-width="2" />
+    <path d="M 592 247 L 577.4461816427569 178.5296679486336 A 70 70 0 0 1 592.0 177.0 Z" fill="#64748b" stroke="white" stroke-width="2" />
+    <text x="685" y="175" font-size="16" fill="#203148" text-anchor="start">商品 A 50.0%</text>
+    <text x="685" y="205" font-size="16" fill="#203148" text-anchor="start">商品 B 30.0%</text>
+    <text x="685" y="235" font-size="16" fill="#203148" text-anchor="start">商品 C 6.7%</text>
+    <text x="685" y="265" font-size="16" fill="#203148" text-anchor="start">全店托管 10.0%</text>
+    <text x="685" y="295" font-size="16" fill="#203148" text-anchor="start">商品归属待核验 3.3%</text>
+    <text x="508" y="358" font-size="19" fill="#203148" text-anchor="start">已知消耗合计 ¥3,000</text>
+    <rect x="25" y="405" width="445" height="280" fill="white" rx="12" />
+    <text x="43" y="437" font-size="22" fill="#203148" text-anchor="start">昨天 · 盈利商品贡献</text>
+    <path d="M 127 547 L 127.0 477.0 A 70 70 0 0 1 168.14496766047313 603.6311896062464 Z" fill="#3478bb" stroke="white" stroke-width="2" />
+    <path d="M 127 547 L 168.14496766047313 603.6311896062464 A 70 70 0 1 1 126.99999999999999 477.0 Z" fill="#d38b36" stroke="white" stroke-width="2" />
+    <text x="220" y="475" font-size="16" fill="#203148" text-anchor="start">商品 A 40.0%</text>
+    <text x="220" y="505" font-size="16" fill="#203148" text-anchor="start">商品 B 60.0%</text>
+    <text x="43" y="658" font-size="19" fill="#203148" text-anchor="start">盈利商品合计 ¥2,500</text>
+    <rect x="490" y="405" width="445" height="280" fill="white" rx="12" />
+    <text x="508" y="437" font-size="22" fill="#203148" text-anchor="start">昨天 · 广告消耗占比</text>
+    <path d="M 592 547 L 592.0 477.0 A 70 70 0 0 1 633.1449676604731 603.6311896062464 Z" fill="#3478bb" stroke="white" stroke-width="2" />
+    <path d="M 592 547 L 633.1449676604731 603.6311896062464 A 70 70 0 0 1 522.0 547.0 Z" fill="#d38b36" stroke="white" stroke-width="2" />
+    <path d="M 592 547 L 522.0 547.0 A 70 70 0 0 1 529.6295433068143 515.2206650182318 Z" fill="#00a67d" stroke="white" stroke-width="2" />
+    <path d="M 592 547 L 529.6295433068143 515.2206650182318 A 70 70 0 0 1 570.3688103937536 480.42604385933925 Z" fill="#c43d87" stroke="white" stroke-width="2" />
+    <path d="M 592 547 L 570.3688103937536 480.42604385933925 A 70 70 0 0 1 592.0 477.0 Z" fill="#64748b" stroke="white" stroke-width="2" />
+    <text x="685" y="475" font-size="16" fill="#203148" text-anchor="start">商品 A 40.0%</text>
+    <text x="685" y="505" font-size="16" fill="#203148" text-anchor="start">商品 B 35.0%</text>
+    <text x="685" y="535" font-size="16" fill="#203148" text-anchor="start">商品 C 7.5%</text>
+    <text x="685" y="565" font-size="16" fill="#203148" text-anchor="start">全店托管 12.5%</text>
+    <text x="685" y="595" font-size="16" fill="#203148" text-anchor="start">商品归属待核验 5.0%</text>
+    <text x="508" y="658" font-size="19" fill="#203148" text-anchor="start">已知消耗合计 ¥4,000</text>
+    <rect x="25" y="724" width="910" height="205" fill="white" rx="12" />
+    <text x="45" y="760" font-size="23" fill="#203148" text-anchor="start">利润单列，不计入盈利商品饼图</text>
+    <text x="45" y="797" font-size="18" fill="#203148" text-anchor="start">前天：商品C -200元</text>
+    <text x="45" y="832" font-size="18" fill="#203148" text-anchor="start">全店托管 +100元；其他未关联 -50元</text>
+    <text x="45" y="867" font-size="18" fill="#203148" text-anchor="start">可计算利润合计 +1,850元</text>
+    <text x="45" y="901" font-size="16" fill="#986320" text-anchor="start">计划D：GMV及利润待核验，未按0计算。</text>
+    <text x="495" y="797" font-size="18" fill="#203148" text-anchor="start">昨天：商品C -300元</text>
+    <text x="495" y="832" font-size="18" fill="#203148" text-anchor="start">全店托管 -100元；其他未关联 +200元</text>
+    <text x="495" y="867" font-size="18" fill="#203148" text-anchor="start">可计算利润合计 +2,300元</text>
+    <text x="495" y="901" font-size="16" fill="#986320" text-anchor="start">计划D：GMV及利润待核验，未按0计算。</text>
+    <text x="30" y="967" font-size="17" fill="#64748b" text-anchor="start">盈利饼图只含已关联盈利商品；其余类别单列，相加还原日报可计算利润。</text>
+  </g>
+</svg><rect x="25" y="1974.0" width="1950" height="92" rx="16" fill="#193c58" /><text x="50" y="2012.0" font-size="30" fill="white" font-family="PingFang SC,Microsoft YaHei,sans-serif">B · 成交预测回测｜真实历史数据已脱敏</text><text x="50" y="2047.0" font-size="24" fill="#d6e5ef" font-family="PingFang SC,Microsoft YaHei,sans-serif">商品匿名、金额指数化；与上方虚构商品无对应关系。开发期回测，不是利润准确率。</text><svg width="960" height="1021.0909090909091" viewBox="0 0 1100 1170" x="25" y="2089.0"><style>text{font-family:"PingFang SC","Microsoft YaHei",sans-serif}</style><rect x="0" y="0" width="1100" height="1170" rx="16" fill="#f3f6fa" /><text x="45" y="60" font-size="34" fill="#183b55" text-anchor="start" font-weight="700">① 八月成交预测｜历史回测趋势</text><text x="45" y="103" font-size="22" fill="#53677b" text-anchor="start" font-weight="400">八月开发期滚动回测 · 2个匿名商品 · 10个有效商品周（不重复计样本）</text><rect x="40" y="127" width="1020" height="77" rx="16" fill="#fff0d5" /><text x="60" y="157" font-size="22" fill="#885a16" text-anchor="start" font-weight="400">真实历史验证 · 金额指数化 · 商品匿名 · 模型参数不公开</text><text x="60" y="188" font-size="20" fill="#885a16" text-anchor="start" font-weight="400">9次保护回退、1次增强预测；非冻结后独立验证，不与十月混算。</text><rect x="40" y="228" width="1020" height="340" rx="16" fill="white" /><text x="65" y="270" font-size="26" fill="#183b55" text-anchor="start" font-weight="700">商品A｜5个有效周</text><line x1="390" y1="263" x2="418" y2="263" stroke="#277cb8" stroke-width="4" /><text x="428" y="271" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">真实成交指数</text><line x1="730" y1="263" x2="758" y2="263" stroke="#cf8b24" stroke-width="4" /><text x="768" y="271" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">策略输出指数</text><line x1="135" y1="496" x2="1000" y2="496" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="502" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">0</text><line x1="135" y1="446" x2="1000" y2="446" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="452" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">50</text><line x1="135" y1="396" x2="1000" y2="396" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="402" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">100</text><line x1="135" y1="346" x2="1000" y2="346" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="352" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">150</text><line x1="135" y1="296" x2="1000" y2="296" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="302" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">200</text><text x="180" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-03 周</text><circle cx="180" cy="396.0" r="5" fill="#277cb8" /><text x="180" y="423.0" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">100.0</text><circle cx="180" cy="389.803054832551" r="5" fill="#cf8b24" /><text x="180" y="374.803054832551" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">106.2</text><text x="370" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-10 周</text><line x1="180" y1="396.0" x2="370" y2="390.1285190892105" stroke="#277cb8" stroke-width="4" /><circle cx="370" cy="390.1285190892105" r="5" fill="#277cb8" /><text x="370" y="375.1285190892105" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">105.9</text><line x1="180" y1="389.803054832551" x2="370" y2="396.0" stroke="#cf8b24" stroke-width="4" /><circle cx="370" cy="396.0" r="5" fill="#cf8b24" /><text x="370" y="423.0" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">100.0</text><text x="560" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-17 周</text><line x1="370" y1="390.1285190892105" x2="560" y2="393.0020124753396" stroke="#277cb8" stroke-width="4" /><circle cx="560" cy="393.0020124753396" r="5" fill="#277cb8" /><text x="560" y="378.0020124753396" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">103.0</text><line x1="370" y1="396.0" x2="560" y2="393.2769574561819" stroke="#cf8b24" stroke-width="4" /><circle cx="560" cy="393.2769574561819" r="5" fill="#cf8b24" /><text x="560" y="420.2769574561819" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">102.7</text><text x="750" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-24 周</text><line x1="560" y1="393.0020124753396" x2="750" y2="398.72568118575396" stroke="#277cb8" stroke-width="4" /><circle cx="750" cy="398.72568118575396" r="5" fill="#277cb8" /><text x="750" y="425.72568118575396" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">97.3</text><line x1="560" y1="393.2769574561819" x2="750" y2="393.0020124753396" stroke="#cf8b24" stroke-width="4" /><circle cx="750" cy="393.0020124753396" r="5" fill="#cf8b24" /><text x="750" y="378.0020124753396" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">103.0</text><text x="940" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-31 周</text><line x1="750" y1="398.72568118575396" x2="940" y2="421.4848711779223" stroke="#277cb8" stroke-width="4" /><circle cx="940" cy="421.4848711779223" r="5" fill="#277cb8" /><text x="940" y="448.4848711779223" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">74.5</text><line x1="750" y1="393.0020124753396" x2="940" y2="398.72568118575396" stroke="#cf8b24" stroke-width="4" /><circle cx="940" cy="398.72568118575396" r="5" fill="#cf8b24" /><text x="940" y="383.72568118575396" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">97.3</text><rect x="40" y="591" width="1020" height="340" rx="16" fill="white" /><text x="65" y="633" font-size="26" fill="#183b55" text-anchor="start" font-weight="700">商品B｜5个有效周</text><line x1="390" y1="626" x2="418" y2="626" stroke="#277cb8" stroke-width="4" /><text x="428" y="634" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">真实成交指数</text><line x1="730" y1="626" x2="758" y2="626" stroke="#cf8b24" stroke-width="4" /><text x="768" y="634" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">策略输出指数</text><line x1="135" y1="859" x2="1000" y2="859" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="865" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">0</text><line x1="135" y1="809" x2="1000" y2="809" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="815" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">50</text><line x1="135" y1="759" x2="1000" y2="759" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="765" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">100</text><line x1="135" y1="709" x2="1000" y2="709" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="715" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">150</text><line x1="135" y1="659" x2="1000" y2="659" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="665" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">200</text><text x="180" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-03 周</text><circle cx="180" cy="759.0" r="5" fill="#277cb8" /><text x="180" y="744.0" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">100.0</text><circle cx="180" cy="762.5166450106278" r="5" fill="#cf8b24" /><text x="180" y="789.5166450106278" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">96.5</text><text x="370" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-10 周</text><line x1="180" y1="759.0" x2="370" y2="755.3587858223707" stroke="#277cb8" stroke-width="4" /><circle cx="370" cy="755.3587858223707" r="5" fill="#277cb8" /><text x="370" y="740.3587858223707" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">103.6</text><line x1="180" y1="762.5166450106278" x2="370" y2="759.0" stroke="#cf8b24" stroke-width="4" /><circle cx="370" cy="759.0" r="5" fill="#cf8b24" /><text x="370" y="786.0" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">100.0</text><text x="560" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-17 周</text><line x1="370" y1="755.3587858223707" x2="560" y2="752.2075077310228" stroke="#277cb8" stroke-width="4" /><circle cx="560" cy="752.2075077310228" r="5" fill="#277cb8" /><text x="560" y="737.2075077310228" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">106.8</text><line x1="370" y1="759.0" x2="560" y2="755.3587858223707" stroke="#cf8b24" stroke-width="4" /><circle cx="560" cy="755.3587858223707" r="5" fill="#cf8b24" /><text x="560" y="782.3587858223707" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">103.6</text><text x="750" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-24 周</text><line x1="560" y1="752.2075077310228" x2="750" y2="792.7726138746111" stroke="#277cb8" stroke-width="4" /><circle cx="750" cy="792.7726138746111" r="5" fill="#277cb8" /><text x="750" y="819.7726138746111" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">66.2</text><line x1="560" y1="755.3587858223707" x2="750" y2="752.2075077310228" stroke="#cf8b24" stroke-width="4" /><circle cx="750" cy="752.2075077310228" r="5" fill="#cf8b24" /><text x="750" y="737.2075077310228" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">106.8</text><text x="940" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-31 周</text><line x1="750" y1="792.7726138746111" x2="940" y2="791.8455245826583" stroke="#277cb8" stroke-width="4" /><circle cx="940" cy="791.8455245826583" r="5" fill="#277cb8" /><text x="940" y="776.8455245826583" font-size="20" fill="#277cb8" text-anchor="middle" font-weight="400">67.2</text><line x1="750" y1="752.2075077310228" x2="940" y2="792.7726138746111" stroke="#cf8b24" stroke-width="4" /><circle cx="940" cy="792.7726138746111" r="5" fill="#cf8b24" /><text x="940" y="819.7726138746111" font-size="20" fill="#cf8b24" text-anchor="middle" font-weight="400">66.2</text><text x="55" y="1005" font-size="22" fill="#183b55" text-anchor="start" font-weight="700">每个商品以自身八月首个有效周真实成交＝100，两条线共用基准。</text><text x="55" y="1047" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">每个商品5个有效周；回退周使用上周成交，未将回退结果视作增强预测。</text><text x="55" y="1089" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">三个预热设置的重叠预测一致，本图每个商品周只计一次。</text><text x="55" y="1131" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">按目标周起始月归组，08-31周截至09-06；属于开发期回测，非独立验证。</text></svg><svg width="960" height="1021.0909090909091" viewBox="0 0 1100 1170" x="1015" y="2089.0"><style>text{font-family:"PingFang SC","Microsoft YaHei",sans-serif}</style><rect x="0" y="0" width="1100" height="1170" rx="16" fill="#f3f6fa" /><text x="45" y="60" font-size="34" fill="#183b55" text-anchor="start" font-weight="700">② 八月成交预测｜历史回测误差</text><text x="45" y="103" font-size="22" fill="#53677b" text-anchor="start" font-weight="400">八月开发期滚动回测 · 2个匿名商品 · 10个有效商品周（不重复计样本）</text><rect x="40" y="127" width="1020" height="77" rx="16" fill="#fff0d5" /><text x="60" y="157" font-size="22" fill="#885a16" text-anchor="start" font-weight="400">真实历史验证 · 金额指数化 · 商品匿名 · 模型参数不公开</text><text x="60" y="188" font-size="20" fill="#885a16" text-anchor="start" font-weight="400">9次保护回退、1次增强预测；非冻结后独立验证，不与十月混算。</text><rect x="40" y="228" width="1020" height="340" rx="16" fill="white" /><text x="65" y="270" font-size="26" fill="#183b55" text-anchor="start" font-weight="700">商品A｜5个有效周</text><line x1="135" y1="496.0" x2="1000" y2="496.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="502.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">0%</text><line x1="135" y1="442.0" x2="1000" y2="442.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="448.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">20%</text><line x1="135" y1="388.0" x2="1000" y2="388.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="394.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">40%</text><line x1="135" y1="334.0" x2="1000" y2="334.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="340.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">60%</text><line x1="135" y1="280.0" x2="1000" y2="280.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="286.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">80%</text><text x="180" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-03 周</text><rect x="150" y="479.26824804788777" width="60" height="16.73175195211221" rx="16" fill="#cf8b24" /><text x="180" y="466.26824804788777" font-size="23" fill="#cf8b24" text-anchor="middle" font-weight="700">6.20%</text><text x="370" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-10 周</text><rect x="340" y="481.02618616198464" width="60" height="14.973813838015369" rx="16" fill="#277cb8" /><text x="370" y="468.02618616198464" font-size="23" fill="#277cb8" text-anchor="middle" font-weight="700">5.55%</text><text x="560" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-17 周</text><rect x="530" y="495.2792563562502" width="60" height="0.7207436437498194" rx="16" fill="#277cb8" /><text x="560" y="482.2792563562502" font-size="23" fill="#277cb8" text-anchor="middle" font-weight="700">0.27%</text><text x="750" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-24 周</text><rect x="720" y="480.1130673475809" width="60" height="15.886932652419093" rx="16" fill="#cf8b24" /><text x="750" y="467.1130673475809" font-size="23" fill="#cf8b24" text-anchor="middle" font-weight="700">5.88%</text><text x="940" y="538" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-31 周</text><rect x="910" y="413.5337760932009" width="60" height="82.46622390679907" rx="16" fill="#cf8b24" /><text x="940" y="400.5337760932009" font-size="23" fill="#cf8b24" text-anchor="middle" font-weight="700">30.54%</text><text x="555" y="270" font-size="19" fill="#53677b" text-anchor="start" font-weight="400">绝对误差：橙色高估，蓝色低估</text><rect x="40" y="591" width="1020" height="340" rx="16" fill="white" /><text x="65" y="633" font-size="26" fill="#183b55" text-anchor="start" font-weight="700">商品B｜5个有效周</text><line x1="135" y1="859.0" x2="1000" y2="859.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="865.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">0%</text><line x1="135" y1="805.0" x2="1000" y2="805.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="811.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">20%</text><line x1="135" y1="751.0" x2="1000" y2="751.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="757.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">40%</text><line x1="135" y1="697.0" x2="1000" y2="697.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="703.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">60%</text><line x1="135" y1="643.0" x2="1000" y2="643.0" stroke="#dfe7ee" stroke-width="1" /><text x="118" y="649.0" font-size="17" fill="#53677b" text-anchor="end" font-weight="400">80%</text><text x="180" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-03 周</text><rect x="150" y="849.5050584713047" width="60" height="9.494941528695296" rx="16" fill="#277cb8" /><text x="180" y="836.5050584713047" font-size="23" fill="#277cb8" text-anchor="middle" font-weight="700">3.52%</text><text x="370" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-10 周</text><rect x="340" y="849.5141228249705" width="60" height="9.48587717502952" rx="16" fill="#277cb8" /><text x="370" y="836.5141228249705" font-size="23" fill="#277cb8" text-anchor="middle" font-weight="700">3.51%</text><text x="560" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-17 周</text><rect x="530" y="851.0327256477833" width="60" height="7.967274352216678" rx="16" fill="#277cb8" /><text x="560" y="838.0327256477833" font-size="23" fill="#277cb8" text-anchor="middle" font-weight="700">2.95%</text><text x="750" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-24 周</text><rect x="720" y="693.6216074716847" width="60" height="165.37839252831537" rx="16" fill="#cf8b24" /><text x="750" y="680.6216074716847" font-size="23" fill="#cf8b24" text-anchor="middle" font-weight="700">61.25%</text><text x="940" y="901" font-size="19" fill="#53677b" text-anchor="middle" font-weight="400">08-31 周</text><rect x="910" y="855.2725625169187" width="60" height="3.72743748308136" rx="16" fill="#277cb8" /><text x="940" y="842.2725625169187" font-size="23" fill="#277cb8" text-anchor="middle" font-weight="700">1.38%</text><text x="555" y="633" font-size="19" fill="#53677b" text-anchor="start" font-weight="400">绝对误差：橙色高估，蓝色低估</text><text x="55" y="1005" font-size="22" fill="#183b55" text-anchor="start" font-weight="700">策略 WAPE 11.03%｜简单基准 11.14%｜本次改善 0.11 个百分点。</text><text x="55" y="1047" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">单样本绝对误差：0.27%—61.25%；整体WAPE不代表每次误差上限。</text><text x="55" y="1089" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">WAPE按原始成交金额加权计算，不是样本百分比或匿名指数的平均。</text><text x="55" y="1131" font-size="20" fill="#53677b" text-anchor="start" font-weight="400">按周起始月归组（含08-31至09-06）；未为展示重拟合或择优更换分支。</text></svg><text x="45" y="3165.090909090909" font-size="27" fill="#203b54" font-family="PingFang SC,Microsoft YaHei,sans-serif">公式、参数含义与保护规则见独立文档；不公开真实金额、商品身份、模型系数或业务费率。</text></svg>
